@@ -8,13 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static db.DbConstants.*;
+
 public class TariffDAOImplementation implements TariffDAO {
-    private static final String INSERT_INTO_TARIFF = "INSERT INTO tariff (id, tariff_name, tariff_price, tariff_info) VALUES (DEFAULT, ?, ?, ?)";
-    private static final String GET_ALL_TARIFFS = "SELECT id, tariff_name, tariff_price, tariff_info FROM tariff ORDER BY tariff.id";
-    private static final String GET_TARIFF_BY_ID = "SELECT id, tariff_name, tariff_price, tariff_info FROM tariff WHERE tariff.id=? ORDER BY tariff.id";
-    private static final String GET_TARIFF_BY_NAME = "SELECT id, tariff_name, tariff_price, tariff_info FROM tariff WHERE tariff.tariff_name=? ORDER BY tariff.id";
-    private static final String UPDATE_TARIFF = "UPDATE tariff SET tariff_name=?, tariff_price=?, tariff_info=? WHERE id=?";
-    private static final String DELETE_TARIFF = "DELETE FROM tariff WHERE id=?";
 
     @Override
     public void add(Tariff tariff) throws SQLException {
@@ -122,14 +118,14 @@ public class TariffDAOImplementation implements TariffDAO {
     @Override
     public Tariff getById(Long id) throws SQLException {
         Connection conn = null;
-        List<Tariff> tariffs = null;
+        List<Tariff> tariffs;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            tariffs = getTariffById(id, conn, GET_TARIFF_BY_ID);
+            tariffs = getTariffById(id, conn);
             conn.commit();
 
             return tariffs.get(0);
@@ -144,12 +140,12 @@ public class TariffDAOImplementation implements TariffDAO {
         }
     }
 
-    private List<Tariff> getTariffById(Long id, Connection conn, String sql) throws SQLException {
+    private List<Tariff> getTariffById(Long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Tariff> tariffList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_TARIFF_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -166,14 +162,14 @@ public class TariffDAOImplementation implements TariffDAO {
     @Override
     public List<Tariff> getByName(String pattern) throws SQLException {
         Connection conn = null;
-        List<Tariff> tariffs = null;
+        List<Tariff> tariffs;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            tariffs = getTariffsByName(pattern, conn, GET_TARIFF_BY_NAME);
+            tariffs = getTariffsByName(pattern, conn);
             conn.commit();
 
             return tariffs;
@@ -188,12 +184,12 @@ public class TariffDAOImplementation implements TariffDAO {
         }
     }
 
-    private List<Tariff> getTariffsByName(String pattern, Connection conn, String sql) throws SQLException {
+    private List<Tariff> getTariffsByName(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Tariff> tariffList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_TARIFF_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
             while (rs.next()) {

@@ -1,6 +1,6 @@
 package com.example.finalproject;
 
-import dao.implementation.DeliveryDAOImplementation;
+import dao.implementation.DeliveryOrderDAOImplementation;
 
 import java.io.*;
 import javax.servlet.http.*;
@@ -160,7 +160,7 @@ public class HelloServlet extends HttpServlet {
 //            service.remove(receipt);
 //            System.out.println(service.getAll());
 
-            DeliveryDAOImplementation service = new DeliveryDAOImplementation();
+            DeliveryOrderDAOImplementation service = new DeliveryOrderDAOImplementation();
 //            DeliveryOrder deliveryOrder = new DeliveryOrder();
 //            deliveryOrder.setId(4);
 //            deliveryOrder.setLocationFromID(2);

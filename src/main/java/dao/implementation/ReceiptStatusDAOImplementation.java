@@ -8,13 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static db.DbConstants.*;
+
 public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
-    private static final String INSERT_INTO_RECEIPT_STATUS = "INSERT INTO receipt_status (id, status_name) VALUES (DEFAULT, ?)";
-    private static final String GET_ALL_RECEIPT_STATUSES = "SELECT id, status_name FROM receipt_status ORDER BY receipt_status.id";
-    private static final String GET_RECEIPT_STATUS_BY_ID = "SELECT id, status_name FROM receipt_status WHERE receipt_status.id=? ORDER BY receipt_status.id";
-    private static final String GET_RECEIPT_STATUS_BY_NAME = "SELECT id, status_name FROM receipt_status WHERE receipt_status.status_name=? ORDER BY receipt_status.id";
-    private static final String UPDATE_RECEIPT_STATUS = "UPDATE receipt_status SET status_name=? WHERE id=?";
-    private static final String DELETE_RECEIPT_STATUS = "DELETE FROM receipt_status WHERE id=?";
 
     @Override
     public void add(ReceiptStatus receiptStatus) throws SQLException {
@@ -118,14 +114,14 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     @Override
     public ReceiptStatus getById(Long id) throws SQLException {
         Connection conn = null;
-        List<ReceiptStatus> receiptStatuses = null;
+        List<ReceiptStatus> receiptStatuses;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            receiptStatuses = getReceiptStatusById(id, conn, GET_RECEIPT_STATUS_BY_ID);
+            receiptStatuses = getReceiptStatusById(id, conn);
             conn.commit();
 
             return receiptStatuses.get(0);
@@ -140,12 +136,12 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
         }
     }
 
-    private List<ReceiptStatus> getReceiptStatusById(Long id, Connection conn, String sql) throws SQLException {
+    private List<ReceiptStatus> getReceiptStatusById(Long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<ReceiptStatus> receiptStatusesList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_RECEIPT_STATUS_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -162,14 +158,14 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     @Override
     public List<ReceiptStatus> getByName(String pattern) throws SQLException {
         Connection conn = null;
-        List<ReceiptStatus> receiptStatuses = null;
+        List<ReceiptStatus> receiptStatuses;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            receiptStatuses = getReceiptStatusByName(pattern, conn, GET_RECEIPT_STATUS_BY_NAME);
+            receiptStatuses = getReceiptStatusByName(pattern, conn);
             conn.commit();
 
             return receiptStatuses;
@@ -184,12 +180,12 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
         }
     }
 
-    private List<ReceiptStatus> getReceiptStatusByName(String pattern, Connection conn, String sql) throws SQLException {
+    private List<ReceiptStatus> getReceiptStatusByName(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<ReceiptStatus> receiptStatusesList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_RECEIPT_STATUS_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
             while (rs.next()) {

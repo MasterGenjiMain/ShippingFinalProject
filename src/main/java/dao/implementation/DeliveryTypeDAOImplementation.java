@@ -8,13 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static db.DbConstants.*;
+
 public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
-    private static final String INSERT_INTO_DELIVERY_TYPE = "INSERT INTO delivery_type (id, type_name) VALUES (DEFAULT, ?)";
-    private static final String GET_ALL_DELIVERY_TYPES = "SELECT id, type_name FROM delivery_type ORDER BY delivery_type.id";
-    private static final String GET_DELIVERY_TYPE_BY_ID = "SELECT id, type_name FROM delivery_type where delivery_type.id=? ORDER BY delivery_type.id";
-    private static final String GET_DELIVERY_TYPE_BY_NAME = "SELECT id, type_name FROM delivery_type where delivery_type.type_name=? ORDER BY delivery_type.id";
-    private static final String UPDATE_DELIVERY_TYPE = "UPDATE delivery_type SET type_name=? WHERE id=?";
-    private static final String DELETE_DELIVERY_TYPE = "DELETE FROM delivery_type WHERE id=?";
+
 
     @Override
     public void add(DeliveryType deliveryType) throws SQLException {
@@ -118,14 +115,14 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
     @Override
     public DeliveryType getById(Long id) throws SQLException {
         Connection conn = null;
-        List<DeliveryType> deliveryTypes = null;
+        List<DeliveryType> deliveryTypes;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            deliveryTypes = getDeliveryTypeById(id, conn, GET_DELIVERY_TYPE_BY_ID);
+            deliveryTypes = getDeliveryTypeById(id, conn);
             conn.commit();
 
             return deliveryTypes.get(0);
@@ -140,12 +137,12 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
         }
     }
 
-    private List<DeliveryType> getDeliveryTypeById(Long id, Connection conn, String sql) throws SQLException {
+    private List<DeliveryType> getDeliveryTypeById(Long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<DeliveryType> deliveryTypesList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_DELIVERY_TYPE_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -162,14 +159,14 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
     @Override
     public List<DeliveryType> getByName(String pattern) throws SQLException {
         Connection conn = null;
-        List<DeliveryType> deliveryTypes = null;
+        List<DeliveryType> deliveryTypes;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            deliveryTypes = getDeliveryTypeByName(pattern, conn, GET_DELIVERY_TYPE_BY_NAME);
+            deliveryTypes = getDeliveryTypeByName(pattern, conn);
             conn.commit();
 
             return deliveryTypes;
@@ -184,12 +181,12 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
         }
     }
 
-    private List<DeliveryType> getDeliveryTypeByName(String pattern, Connection conn, String sql) throws SQLException {
+    private List<DeliveryType> getDeliveryTypeByName(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<DeliveryType> deliveryTypesList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_DELIVERY_TYPE_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
             while (rs.next()) {

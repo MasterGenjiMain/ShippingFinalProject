@@ -8,14 +8,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static db.DbConstants.*;
+
 public class CityDAOImplementation implements CityDAO {
 
-    private static final String INSERT_INTO_CITY = "INSERT INTO city (id, city_name) VALUES (DEFAULT, ?)";
-    private static final String GET_ALL_CARGOS = "SELECT id, city_name FROM city ORDER BY city.id";
-    private static final String GET_CITY_BY_ID = "SELECT id, city_name FROM city where city.id=? ORDER BY city.id";
-    private static final String GET_CITY_BY_NAME = "SELECT id, city_name FROM city where city.city_name=? ORDER BY city.id";
-    private static final String UPDATE_CARGO = "UPDATE city SET city_name=? WHERE id=?";
-    private static final String DELETE_CITY = "DELETE FROM city WHERE id=?";
+
 
     @Override
     public void add(City city) throws SQLException {
@@ -95,7 +92,7 @@ public class CityDAOImplementation implements CityDAO {
             System.out.println("SELECT * cargo");
 
             stmt = conn.createStatement();
-            rs = stmt.executeQuery(GET_ALL_CARGOS);
+            rs = stmt.executeQuery(GET_ALL_CITIES);
 
             while(rs.next()) {
                 cityList.add(cityMap(rs));
@@ -111,14 +108,14 @@ public class CityDAOImplementation implements CityDAO {
     @Override
     public City getById(Long id) throws SQLException {
         Connection conn = null;
-        List<City> cities = null;
+        List<City> cities;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            cities = getCityById(id, conn, GET_CITY_BY_ID);
+            cities = getCityById(id, conn);
             conn.commit();
 
             return cities.get(0);
@@ -133,12 +130,12 @@ public class CityDAOImplementation implements CityDAO {
         }
     }
 
-    private List<City> getCityById(Long id, Connection conn, String sql) throws SQLException {
+    private List<City> getCityById(Long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<City> cityList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_CITY_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -156,14 +153,14 @@ public class CityDAOImplementation implements CityDAO {
     @Override
     public List<City> getByName(String pattern) throws SQLException {
         Connection conn = null;
-        List<City> cities = null;
+        List<City> cities;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            cities = getCityByName(pattern, conn, GET_CITY_BY_NAME);
+            cities = getCityByName(pattern, conn);
             conn.commit();
 
             return cities;
@@ -178,12 +175,12 @@ public class CityDAOImplementation implements CityDAO {
         }
     }
 
-    private List<City> getCityByName(String pattern, Connection conn, String sql) throws SQLException {
+    private List<City> getCityByName(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<City> cargoList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_CITY_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -209,7 +206,7 @@ public class CityDAOImplementation implements CityDAO {
             System.out.println("Connected.");
             conn.setAutoCommit(false);
 
-            pstmt = conn.prepareStatement(UPDATE_CARGO);
+            pstmt = conn.prepareStatement(UPDATE_CITY);
 
             pstmt.setString(1, city.getCityName());
             pstmt.setLong(2, city.getId());

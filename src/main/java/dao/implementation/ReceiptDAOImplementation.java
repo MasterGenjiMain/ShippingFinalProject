@@ -10,13 +10,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static db.DbConstants.*;
+
 public class ReceiptDAOImplementation implements ReceiptDAO {
-    private static final String INSERT_INTO_RECEIPT = "INSERT INTO receipt (id, user_id, manager_id, price, receipt_status_id) VALUES (DEFAULT, ?, ?, ?, ?)";
-    private static final String GET_ALL_RECEIPTS = "SELECT id, user_id, manager_id, price, receipt_status_id FROM receipt ORDER BY receipt.id";
-    private static final String GET_RECEIPT_BY_USER_ID = "SELECT id, user_id, manager_id, price, receipt_status_id FROM receipt WHERE receipt.user_id=? ORDER BY receipt.id";
-    private static final String GET_RECEIPT_BY_MANAGER_ID = "SELECT id, user_id, manager_id, price, receipt_status_id FROM receipt WHERE receipt.manager_id=? ORDER BY receipt.id";
-    private static final String UPDATE_RECEIPT = "UPDATE receipt SET manager_id=?, price=?, receipt_status_id=? WHERE id=?";
-    private static final String DELETE_RECEIPT = "DELETE FROM receipt WHERE id=?";
 
     @Override
     public void add(Receipt receipt, User user, User manager, ReceiptStatus receiptStatus) throws SQLException {
@@ -135,7 +131,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
 
     private List<Receipt> getReceipts(Long id, String sql) throws SQLException {
         Connection conn = null;
-        List<Receipt> receipts = null;
+        List<Receipt> receipts;
 
         try {
             System.out.println("Connecting...");

@@ -9,14 +9,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static db.DbConstants.*;
+
 public class CargoDAOImplementation implements CargoDAO {
 
-    private static final String INSERT_INTO_CARGO = "INSERT INTO cargo (id, name, description, delivery_order_id) VALUES (DEFAULT, ?, ?, ?)";
-    private static final String GET_ALL_CARGOS = "SELECT id, name, description, delivery_order_id FROM cargo";
-    private static final String GET_CARGO_BY_ID = "SELECT id, name, description, delivery_order_id FROM cargo WHERE cargo.id=? ORDER BY cargo.id";
-    private static final String GET_CARGO_BY_NAME = "SELECT id, name, description, delivery_order_id FROM cargo WHERE cargo.name=? ORDER BY cargo.id";
-    private static final String UPDATE_CARGO = "UPDATE cargo SET name=?, description=?, delivery_order_id=? WHERE id=?";
-    private static final String DELETE_CARGO = "DELETE FROM cargo WHERE id=?";
+
 
     @Override
     public void add(Cargo cargo, DeliveryOrder deliveryOrder) throws SQLException {
@@ -114,41 +111,16 @@ public class CargoDAOImplementation implements CargoDAO {
     }
 
     @Override
-    public Cargo getById(Long id) throws SQLException {
-        Connection conn = null;
-        List<Cargo> cargos = null;
-
-        try {
-            System.out.println("Connecting...");
-            conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
-            conn.setAutoCommit(false);
-            cargos = getCargoById(id, conn, GET_CARGO_BY_ID);
-            conn.commit();
-
-            return cargos.get(0);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getById() cargo error: " + e.getMessage());
-            rollback(conn);
-            throw e;
-        } finally {
-            close(conn);
-        }
-    }
-
-    @Override
     public List<Cargo> getByName(String pattern) throws SQLException {
         Connection conn = null;
-        List<Cargo> cargos = null;
+        List<Cargo> cargos;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            cargos = getCargoByName(pattern, conn, GET_CARGO_BY_NAME);
+            cargos = getCargoByName(pattern, conn);
             conn.commit();
 
             return cargos;
@@ -163,12 +135,12 @@ public class CargoDAOImplementation implements CargoDAO {
         }
     }
 
-    private List<Cargo> getCargoByName(String pattern, Connection conn, String sql) throws SQLException {
+    private List<Cargo> getCargoByName(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Cargo> cargoList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_CARGO_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -182,12 +154,37 @@ public class CargoDAOImplementation implements CargoDAO {
         return cargoList;
     }
 
-    private List<Cargo> getCargoById(Long id, Connection conn, String sql) throws SQLException {
+    @Override
+    public Cargo getById(Long id) throws SQLException {
+        Connection conn = null;
+        List<Cargo> cargos;
+
+        try {
+            System.out.println("Connecting...");
+            conn = DbManager.getInstance().getConnection();
+            System.out.println("Connected.");
+            conn.setAutoCommit(false);
+            cargos = getCargoById(id, conn);
+            conn.commit();
+
+            return cargos.get(0);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("getById() cargo error: " + e.getMessage());
+            rollback(conn);
+            throw e;
+        } finally {
+            close(conn);
+        }
+    }
+
+    private List<Cargo> getCargoById(Long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Cargo> cargoList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_CARGO_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {

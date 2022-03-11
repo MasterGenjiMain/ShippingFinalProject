@@ -9,13 +9,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static db.DbConstants.*;
+
 public class UserDAOImplementation implements UserDAO {
-    private static final String INSERT_INTO_TARIFF = "INSERT INTO user (id, username, email, password, create_time, role_id) VALUES (DEFAULT, ?, ?, ?, DEFAULT, ?)";
-    private static final String GET_ALL_USERS = "SELECT id, username, email, password, create_time, role_id FROM user ORDER BY user.id";
-    private static final String GET_USER_BY_ID = "SELECT id, username, email, password, create_time, role_id FROM user WHERE user.id=? ORDER BY user.id";
-    private static final String GET_USER_BY_USERNAME = "SELECT id, username, email, password, create_time, role_id FROM user WHERE user.username=? ORDER BY user.id";
-    private static final String UPDATE_USER = "UPDATE user SET username=?, email=?, password=?, role_id=? WHERE id=?";
-    private static final String DELETE_USER = "DELETE FROM user WHERE id=?";
+
 
     @Override
     public void add(User user, Role role) throws SQLException {
@@ -44,7 +41,7 @@ public class UserDAOImplementation implements UserDAO {
         try {
             System.out.println("-------------------");
             System.out.println("INSERT INTO user");
-            pstmt = conn.prepareStatement(INSERT_INTO_TARIFF, Statement.RETURN_GENERATED_KEYS);
+            pstmt = conn.prepareStatement(INSERT_INTO_USER, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user.getUsername());
             pstmt.setString(2, user.getEmail());
             pstmt.setString(3, user.getUsername());
@@ -126,14 +123,14 @@ public class UserDAOImplementation implements UserDAO {
     @Override
     public User getById(Long id) throws SQLException {
         Connection conn = null;
-        List<User> users = null;
+        List<User> users;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            users = getUserById(id, conn, GET_USER_BY_ID);
+            users = getUserById(id, conn);
             conn.commit();
 
             return users.get(0);
@@ -148,12 +145,12 @@ public class UserDAOImplementation implements UserDAO {
         }
     }
 
-    private List<User> getUserById(Long id, Connection conn, String sql) throws SQLException {
+    private List<User> getUserById(Long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<User> userList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_USER_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -170,14 +167,14 @@ public class UserDAOImplementation implements UserDAO {
     @Override
     public List<User> getByUsername(String pattern) throws SQLException {
         Connection conn = null;
-        List<User> users = null;
+        List<User> users;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            users = getUsersByUsername(pattern, conn, GET_USER_BY_USERNAME);
+            users = getUsersByUsername(pattern, conn);
             conn.commit();
 
             return users;
@@ -192,12 +189,12 @@ public class UserDAOImplementation implements UserDAO {
         }
     }
 
-    private List<User> getUsersByUsername(String pattern, Connection conn, String sql) throws SQLException {
+    private List<User> getUsersByUsername(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<User> userList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_USER_BY_USERNAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
             while (rs.next()) {

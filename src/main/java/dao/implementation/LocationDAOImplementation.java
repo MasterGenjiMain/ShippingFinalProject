@@ -9,13 +9,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static db.DbConstants.*;
+
 public class LocationDAOImplementation implements LocationDAO {
-    private static final String INSERT_INTO_LOCATION = "INSERT INTO location (id, location_name, city_id, is_active) VALUES (DEFAULT, ?, ?, ?)";
-    private static final String GET_ALL_LOCATIONS = "SELECT id, location_name, city_id, is_active FROM location ORDER BY location.id";
-    private static final String GET_LOCATION_BY_ID = "SELECT id, location_name, city_id, is_active FROM location WHERE location.id=? ORDER BY location.id";
-    private static final String GET_LOCATION_BY_NAME = "SELECT id, location_name, city_id, is_active FROM location WHERE location.location_name=? ORDER BY location.id";
-    private static final String UPDATE_LOCATION = "UPDATE location SET location_name=?, city_id=?, is_active=? WHERE id=?";
-    private static final String DELETE_LOCATION = "DELETE FROM location WHERE id=?";
 
     @Override
     public void add(Location location, City city) throws SQLException {
@@ -124,14 +120,14 @@ public class LocationDAOImplementation implements LocationDAO {
     @Override
     public Location getById(Long id) throws SQLException {
         Connection conn = null;
-        List<Location> locations = null;
+        List<Location> locations;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            locations = getLocationById(id, conn, GET_LOCATION_BY_ID);
+            locations = getLocationById(id, conn);
             conn.commit();
 
             return locations.get(0);
@@ -146,12 +142,12 @@ public class LocationDAOImplementation implements LocationDAO {
         }
     }
 
-    private List<Location> getLocationById(Long id, Connection conn, String sql) throws SQLException {
+    private List<Location> getLocationById(Long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Location> locationList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_LOCATION_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -168,14 +164,14 @@ public class LocationDAOImplementation implements LocationDAO {
     @Override
     public List<Location> getByName(String pattern) throws SQLException {
         Connection conn = null;
-        List<Location> locations = null;
+        List<Location> locations;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            locations = getLocationByName(pattern, conn, GET_LOCATION_BY_NAME);
+            locations = getLocationByName(pattern, conn);
             conn.commit();
 
             return locations;
@@ -190,12 +186,12 @@ public class LocationDAOImplementation implements LocationDAO {
         }
     }
 
-    private List<Location> getLocationByName(String pattern, Connection conn, String sql) throws SQLException {
+    private List<Location> getLocationByName(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Location> locationList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_LOCATION_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
             while (rs.next()) {

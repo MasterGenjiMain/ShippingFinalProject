@@ -8,22 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeliveryDAOImplementation implements DeliveryOrderDAO {
-    private static final String INSERT_INTO_DELIVERY_ORDER = "INSERT INTO delivery_order (id, location_from_id," +
-            " location_to_id, address, delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id)" +
-            " VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String GET_ALL_DELIVERY_ORDERS = "SELECT id, location_from_id, location_to_id, address," +
-            " delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id FROM delivery_order ORDER BY delivery_order.id";
-    private static final String GET_DELIVERY_ORDER_BY_LOCATION_FROM_ID = "SELECT id, location_from_id, location_to_id," +
-            " address,  delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id FROM delivery_order" +
-            " WHERE delivery_order.location_from_id=? ORDER BY delivery_order.id";
-    private static final String GER_DELIVERY_ORDER_BY_LOCATION_TO_ID = "SELECT id, location_from_id, location_to_id," +
-            " address,  delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id" +
-            " FROM delivery_order WHERE delivery_order.location_to_id=? ORDER BY delivery_order.id";
-    private static final String UPDATE_DELIVERY_ORDER = "UPDATE delivery_order SET location_from_id=?," +
-            " location_to_id=?, address=?, delivery_type_id=?, weight=?, volume=?, receiving_date=?, tariff_id=?, receipt_id=? WHERE id=?";
-    private static final String DELETE_DELIVERY_ORDER = "DELETE FROM delivery_order WHERE id=?";
+import static db.DbConstants.*;
 
+public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
 
     @Override
     public void add(DeliveryOrder deliveryOrder) throws SQLException {
@@ -145,7 +132,7 @@ public class DeliveryDAOImplementation implements DeliveryOrderDAO {
 
     private List<DeliveryOrder> getDeliveryOrders(Long id, String sql) throws SQLException {
         Connection conn = null;
-        List<DeliveryOrder> deliveryOrders = null;
+        List<DeliveryOrder> deliveryOrders;
 
         try {
             System.out.println("Connecting...");

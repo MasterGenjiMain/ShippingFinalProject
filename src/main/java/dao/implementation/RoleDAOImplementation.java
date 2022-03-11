@@ -8,13 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static db.DbConstants.*;
+
 public class RoleDAOImplementation implements RoleDAO {
-    private static final String INSERT_INTO_ROLE = "INSERT INTO role (id, role_name) VALUES (DEFAULT, ?)";
-    private static final String GET_ALL_ROLES = "SELECT id, role_name FROM role ORDER BY role.id";
-    private static final String GET_ROLE_BY_ID = "SELECT id, role_name FROM role WHERE role.id=? ORDER BY role.id";
-    private static final String GET_ROLE_BY_NAME = "SELECT id, role_name FROM role WHERE role.role_name=? ORDER BY role.id";
-    private static final String UPDATE_ROLE = "UPDATE role SET role_name=? WHERE id=?";
-    private static final String DELETE_ROLE = "DELETE FROM role WHERE id=?";
 
     @Override
     public void add(Role role) throws SQLException {
@@ -118,14 +114,14 @@ public class RoleDAOImplementation implements RoleDAO {
     @Override
     public Role getById(Long id) throws SQLException {
         Connection conn = null;
-        List<Role> roles = null;
+        List<Role> roles;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            roles = getRoleById(id, conn, GET_ROLE_BY_ID);
+            roles = getRoleById(id, conn);
             conn.commit();
 
             return roles.get(0);
@@ -140,12 +136,12 @@ public class RoleDAOImplementation implements RoleDAO {
         }
     }
 
-    private List<Role> getRoleById(Long id, Connection conn, String sql) throws SQLException {
+    private List<Role> getRoleById(Long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Role> rolesList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_ROLE_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -162,14 +158,14 @@ public class RoleDAOImplementation implements RoleDAO {
     @Override
     public List<Role> getByName(String pattern) throws SQLException {
         Connection conn = null;
-        List<Role> roles = null;
+        List<Role> roles;
 
         try {
             System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
             System.out.println("Connected.");
             conn.setAutoCommit(false);
-            roles = getRoleByName(pattern, conn, GET_ROLE_BY_NAME);
+            roles = getRoleByName(pattern, conn);
             conn.commit();
 
             return roles;
@@ -184,12 +180,12 @@ public class RoleDAOImplementation implements RoleDAO {
         }
     }
 
-    private List<Role> getRoleByName(String pattern, Connection conn, String sql) throws SQLException {
+    private List<Role> getRoleByName(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Role> rolesList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_ROLE_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
             while (rs.next()) {
