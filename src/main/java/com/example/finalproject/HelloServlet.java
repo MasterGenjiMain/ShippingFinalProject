@@ -1,6 +1,7 @@
 package com.example.finalproject;
 
 import com.my.deliverysystem.dao.implementation.DeliveryOrderDAOImplementation;
+import com.my.deliverysystem.dao.implementation.ReceiptStatusDAOImplementation;
 import com.my.deliverysystem.dao.implementation.RoleDAOImplementation;
 import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
 
@@ -180,9 +181,12 @@ public class HelloServlet extends HttpServlet {
 //            System.out.println(service.remove(deliveryOrder));
 //            System.out.println(service.getAll());
 
-            UserDAOImplementation service = new UserDAOImplementation();
-////            System.out.println(service.getAll());
-            System.out.println(service.getByUsername("name"));
+//            UserDAOImplementation service = new UserDAOImplementation();
+//////            System.out.println(service.getAll());
+//            System.out.println(service.getByUsername("name"));
+
+            ReceiptStatusDAOImplementation service = new ReceiptStatusDAOImplementation();
+            System.out.println(service.getByName("Delivering"));
 
 /*            RoleDAOImplementation service = new RoleDAOImplementation();
             System.out.println(service.getByName("manager"));*/

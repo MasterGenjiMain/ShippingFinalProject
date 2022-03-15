@@ -1,9 +1,10 @@
 package com.my.deliverysystem.dao.implementation;
 
-import com.my.deliverysystem.dao.RoleDAO;
+import com.my.deliverysystem.dao.daoInterface.RoleDAO;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.db.entity.Role;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,20 +12,21 @@ import java.util.List;
 
 public class RoleDAOImplementation implements RoleDAO {
 
+    private final Logger logger = Logger.getLogger(RoleDAOImplementation.class);
+
     @Override
     public void add(Role role) throws SQLException {
+        logger.debug("Entered add() roleImpl");
         Connection conn = null;
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
             insertNewRole(role, conn);
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Add() role: " + e.getMessage());
+            logger.error("Add() roleImpl: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -33,11 +35,10 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private void insertNewRole(Role role, Connection conn) throws SQLException {
+        logger.debug("Entered insertNewRole() roleImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            System.out.println("-------------------");
-            System.out.println("INSERT INTO role");
             pstmt = conn.prepareStatement(DbConstants.INSERT_INTO_ROLE, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, role.getRoleName());
             if (pstmt.executeUpdate() > 0) {
@@ -54,13 +55,13 @@ public class RoleDAOImplementation implements RoleDAO {
 
     @Override
     public List<Role> getAll() throws SQLException {
+        logger.debug("Entered getAll() roleImpl");
         Connection conn = null;
         List<Role> allRoles;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
             allRoles = getAllRoles(conn);
@@ -68,8 +69,7 @@ public class RoleDAOImplementation implements RoleDAO {
 
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getAll() role error: " + e.getMessage());
+            logger.error("getAll() roleImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -80,14 +80,12 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private List<Role> getAllRoles(Connection conn) throws SQLException {
+        logger.debug("Entered getAllRoles() roleImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<Role> roleList = new ArrayList<>();
 
         try {
-            System.out.println("-------------------");
-            System.out.println("SELECT * role");
-
             stmt = conn.createStatement();
             rs = stmt.executeQuery(DbConstants.GET_ALL_ROLES);
 
@@ -103,6 +101,7 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private Role roleMap(ResultSet rs) throws SQLException {
+        logger.debug("Entered roleMap() roleImpl");
         Role role = new Role();
         role.setId(rs.getLong("id"));
         role.setRoleName(rs.getString("role_name"));
@@ -112,22 +111,21 @@ public class RoleDAOImplementation implements RoleDAO {
 
     @Override
     public Role getById(Long id) throws SQLException {
+        logger.debug("Entered getById() roleImpl");
         Connection conn = null;
-        List<Role> roles;
+        Role role;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
-            roles = getRoleById(id, conn);
+            role = getRoleById(id, conn);
             conn.commit();
 
-            return roles.get(0);
+            return role;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getById() role error: " + e.getMessage());
+            logger.error("getById() roleImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -135,43 +133,43 @@ public class RoleDAOImplementation implements RoleDAO {
         }
     }
 
-    private List<Role> getRoleById(Long id, Connection conn) throws SQLException {
+    private Role getRoleById(Long id, Connection conn) throws SQLException {
+        logger.debug("Entered getRoleById() roleImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<Role> rolesList = new ArrayList<>();
+        Role role = null;
         try {
             pstmt = conn.prepareStatement(DbConstants.GET_ROLE_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                rolesList.add(roleMap(rs));
+            if (rs.next()) {
+                role = roleMap(rs);
             }
 
         } finally {
             close(rs);
             close(pstmt);
         }
-        return rolesList;
+        return role;
     }
 
     @Override
-    public List<Role> getByName(String pattern) throws SQLException {
+    public Role getByName(String pattern) throws SQLException {
+        logger.debug("Entered getByName() roleImpl");
         Connection conn = null;
-        List<Role> roles;
+        Role role;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
-            roles = getRoleByName(pattern, conn);
+            role = getRoleByName(pattern, conn);
             conn.commit();
 
-            return roles;
+            return role;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getById() role error: " + e.getMessage());
+            logger.error("getByName() roleImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -179,35 +177,36 @@ public class RoleDAOImplementation implements RoleDAO {
         }
     }
 
-    private List<Role> getRoleByName(String pattern, Connection conn) throws SQLException {
+    private Role getRoleByName(String pattern, Connection conn) throws SQLException {
+        logger.debug("Entered getRoleByName() roleImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<Role> rolesList = new ArrayList<>();
+        Role role = null;
         try {
             pstmt = conn.prepareStatement(DbConstants.GET_ROLE_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                rolesList.add(roleMap(rs));
+            if (rs.next()) {
+                role = roleMap(rs);
             }
 
         } finally {
             close(rs);
             close(pstmt);
         }
-        return rolesList;
+        return role;
     }
 
     @Override
     public boolean update(Role role) {
+        logger.debug("Entered update() roleImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(DbConstants.UPDATE_ROLE);
@@ -222,7 +221,7 @@ public class RoleDAOImplementation implements RoleDAO {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception at update() roleImpl" + e);
         } finally {
             close(pstmt);
             close(conn);
@@ -232,13 +231,13 @@ public class RoleDAOImplementation implements RoleDAO {
 
     @Override
     public boolean remove(Role role) {
+        logger.debug("Entered remove() roleImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(DbConstants.DELETE_ROLE);
@@ -251,7 +250,7 @@ public class RoleDAOImplementation implements RoleDAO {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception at remove() roleImpl" + e);
         } finally {
             close(pstmt);
             close(conn);
@@ -260,12 +259,13 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private void close(AutoCloseable autoCloseable) {
+        logger.debug("Entered close() roleImpl");
         if (autoCloseable != null) {
             try {
                 autoCloseable.close();
                 autoCloseable = null;
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception at close() roleImpl" + e);
             }
         }
     }
@@ -275,7 +275,7 @@ public class RoleDAOImplementation implements RoleDAO {
             try {
                 conn.rollback();
             } catch (SQLException e) {
-                System.out.println("rollback() error: " + e.getMessage());
+                logger.error("Exception at rollback() roleImpl" + e);
             }
         }
     }

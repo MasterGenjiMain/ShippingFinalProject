@@ -1,8 +1,9 @@
 package com.my.deliverysystem.dao.implementation;
 
 import com.my.deliverysystem.db.DbManager;
-import com.my.deliverysystem.dao.TariffDAO;
+import com.my.deliverysystem.dao.daoInterface.TariffDAO;
 import com.my.deliverysystem.db.entity.Tariff;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,20 +13,21 @@ import static com.my.deliverysystem.db.DbConstants.*;
 
 public class TariffDAOImplementation implements TariffDAO {
 
+    private final Logger logger = Logger.getLogger(TariffDAOImplementation.class);
+
     @Override
     public void add(Tariff tariff) throws SQLException {
+        logger.debug("Entered add() tariffImpl");
         Connection conn = null;
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
             insertNewTariff(tariff, conn);
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Add() tariff error: " + e.getMessage());
+            logger.error("Add() tariffImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -34,11 +36,10 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private void insertNewTariff(Tariff tariff, Connection conn) throws SQLException {
+        logger.debug("Entered insertNewTariff() tariffImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            System.out.println("-------------------");
-            System.out.println("INSERT INTO tariff");
             pstmt = conn.prepareStatement(INSERT_INTO_TARIFF, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, tariff.getTariffName());
             pstmt.setDouble(2, tariff.getTariffPrice());
@@ -57,13 +58,13 @@ public class TariffDAOImplementation implements TariffDAO {
 
     @Override
     public List<Tariff> getAll() throws SQLException {
+        logger.debug("Entered getAll() tariffImpl");
         Connection conn = null;
         List<Tariff> allTariffs;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
             allTariffs = getAllTariffs(conn);
@@ -71,8 +72,7 @@ public class TariffDAOImplementation implements TariffDAO {
 
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getAll() tariff error: " + e.getMessage());
+            logger.error("getAll() tariffImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -83,13 +83,12 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private List<Tariff> getAllTariffs(Connection conn) throws SQLException {
+        logger.debug("Entered getAllTariffs() tariffImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<Tariff> tariffs = new ArrayList<>();
 
         try {
-            System.out.println("-------------------");
-            System.out.println("SELECT * tariff");
 
             stmt = conn.createStatement();
             rs = stmt.executeQuery(GET_ALL_TARIFFS);
@@ -106,6 +105,7 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private Tariff tariffMap(ResultSet rs) throws SQLException {
+        logger.debug("Entered tariffMap() tariffImpl");
         Tariff tariff = new Tariff();
         tariff.setId(rs.getLong("id"));
         tariff.setTariffName(rs.getString("tariff_name"));
@@ -117,22 +117,21 @@ public class TariffDAOImplementation implements TariffDAO {
 
     @Override
     public Tariff getById(Long id) throws SQLException {
+        logger.debug("Entered getById() tariffImpl");
         Connection conn = null;
-        List<Tariff> tariffs;
+        Tariff tariff;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
-            tariffs = getTariffById(id, conn);
+            tariff = getTariffById(id, conn);
             conn.commit();
 
-            return tariffs.get(0);
+            return tariff;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getById() tariff error: " + e.getMessage());
+            logger.error("getById() tariffImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -140,43 +139,43 @@ public class TariffDAOImplementation implements TariffDAO {
         }
     }
 
-    private List<Tariff> getTariffById(Long id, Connection conn) throws SQLException {
+    private Tariff getTariffById(Long id, Connection conn) throws SQLException {
+        logger.debug("Entered getTariffById() tariffImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<Tariff> tariffList = new ArrayList<>();
+        Tariff tariff = null;
         try {
             pstmt = conn.prepareStatement(GET_TARIFF_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                tariffList.add(tariffMap(rs));
+            if (rs.next()) {
+                tariff = tariffMap(rs);
             }
 
         } finally {
             close(rs);
             close(pstmt);
         }
-        return tariffList;
+        return tariff;
     }
 
     @Override
-    public List<Tariff> getByName(String pattern) throws SQLException {
+    public Tariff getByName(String pattern) throws SQLException {
+        logger.debug("Entered getByName() tariffImpl");
         Connection conn = null;
-        List<Tariff> tariffs;
+        Tariff tariff;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
-            tariffs = getTariffsByName(pattern, conn);
+            tariff = getTariffByName(pattern, conn);
             conn.commit();
 
-            return tariffs;
+            return tariff;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getById() tariff error: " + e.getMessage());
+            logger.error("getByName() tariff error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -184,35 +183,36 @@ public class TariffDAOImplementation implements TariffDAO {
         }
     }
 
-    private List<Tariff> getTariffsByName(String pattern, Connection conn) throws SQLException {
+    private Tariff getTariffByName(String pattern, Connection conn) throws SQLException {
+        logger.debug("Entered getTariffByName() tariffImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<Tariff> tariffList = new ArrayList<>();
+        Tariff tariff = null;
         try {
             pstmt = conn.prepareStatement(GET_TARIFF_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                tariffList.add(tariffMap(rs));
+                tariff = tariffMap(rs);
             }
 
         } finally {
             close(rs);
             close(pstmt);
         }
-        return tariffList;
+        return tariff;
     }
 
     @Override
     public boolean update(Tariff tariff) {
+        logger.debug("Entered update() tariffImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(UPDATE_TARIFF);
@@ -229,6 +229,7 @@ public class TariffDAOImplementation implements TariffDAO {
             conn.commit();
 
         } catch (SQLException e) {
+            logger.error("Exception at update() userImpl" + e);
             e.printStackTrace();
         } finally {
             close(pstmt);
@@ -239,6 +240,7 @@ public class TariffDAOImplementation implements TariffDAO {
 
     @Override
     public boolean remove(Tariff tariff) {
+        logger.debug("Entered remove() tariffImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
@@ -258,7 +260,7 @@ public class TariffDAOImplementation implements TariffDAO {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception at remove() userImpl" + e);
         } finally {
             close(pstmt);
             close(conn);
@@ -267,22 +269,24 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private void close(AutoCloseable autoCloseable) {
+        logger.debug("Entered close() tariffImpl");
         if (autoCloseable != null) {
             try {
                 autoCloseable.close();
                 autoCloseable = null;
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception at close() userImpl" + e);
             }
         }
     }
 
     private void rollback(Connection conn) {
+        logger.debug("Entered rollback() tariffImpl");
         if (conn != null) {
             try {
                 conn.rollback();
             } catch (SQLException e) {
-                System.out.println("rollback() error: " + e.getMessage());
+                logger.error("Exception at rollback() userImpl" + e);
             }
         }
     }

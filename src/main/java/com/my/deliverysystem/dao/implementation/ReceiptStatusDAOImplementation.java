@@ -1,8 +1,9 @@
 package com.my.deliverysystem.dao.implementation;
 
 import com.my.deliverysystem.db.DbManager;
-import com.my.deliverysystem.dao.ReceiptStatusDAO;
+import com.my.deliverysystem.dao.daoInterface.ReceiptStatusDAO;
 import com.my.deliverysystem.db.entity.ReceiptStatus;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,20 +13,21 @@ import static com.my.deliverysystem.db.DbConstants.*;
 
 public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
 
+    private final Logger logger = Logger.getLogger(ReceiptStatusDAOImplementation.class);
+
     @Override
     public void add(ReceiptStatus receiptStatus) throws SQLException {
+        logger.debug("Entered add() receiptStatusImpl");
         Connection conn = null;
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
             insertNewReceiptStatus(receiptStatus, conn);
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Add() receipt_status error: " + e.getMessage());
+            logger.error("Add() receiptStatusImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -34,11 +36,10 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     }
 
     private void insertNewReceiptStatus(ReceiptStatus receiptStatus, Connection conn) throws SQLException {
+        logger.debug("Entered insertNewReceiptStatus() receiptStatusImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            System.out.println("-------------------");
-            System.out.println("INSERT INTO receipt_status");
             pstmt = conn.prepareStatement(INSERT_INTO_RECEIPT_STATUS, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, receiptStatus.getStatusName());
             if (pstmt.executeUpdate() > 0) {
@@ -55,22 +56,20 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
 
     @Override
     public List<ReceiptStatus> getAll() throws SQLException {
+        logger.debug("Entered getAll() receiptStatusImpl");
         Connection conn = null;
         List<ReceiptStatus> allReceiptStatuses;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
             allReceiptStatuses = getAllReceiptStatuses(conn);
             conn.commit();
 
-
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getAll() receipt_status error: " + e.getMessage());
+            logger.error("getAll() receiptStatusImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -81,13 +80,12 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     }
 
     private List<ReceiptStatus> getAllReceiptStatuses(Connection conn) throws SQLException {
+        logger.debug("Entered getAllReceiptStatuses() receiptStatusImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<ReceiptStatus> receiptStatuses = new ArrayList<>();
 
         try {
-            System.out.println("-------------------");
-            System.out.println("SELECT * receipt_status");
 
             stmt = conn.createStatement();
             rs = stmt.executeQuery(GET_ALL_RECEIPT_STATUSES);
@@ -104,6 +102,7 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     }
 
     private ReceiptStatus receiptStatusMap(ResultSet rs) throws SQLException {
+        logger.debug("Entered receiptStatusMap() receiptStatusImpl");
         ReceiptStatus receiptStatus = new ReceiptStatus();
         receiptStatus.setId(rs.getLong("id"));
         receiptStatus.setStatusName(rs.getString("status_name"));
@@ -113,22 +112,22 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
 
     @Override
     public ReceiptStatus getById(Long id) throws SQLException {
+        logger.debug("Entered getById() receiptStatusImpl");
         Connection conn = null;
-        List<ReceiptStatus> receiptStatuses;
+        ReceiptStatus receiptStatus;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
+
             conn.setAutoCommit(false);
-            receiptStatuses = getReceiptStatusById(id, conn);
+            receiptStatus = getReceiptStatusById(id, conn);
             conn.commit();
 
-            return receiptStatuses.get(0);
+            return receiptStatus;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getById() role error: " + e.getMessage());
+            logger.error("getById() receiptStatusImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -136,43 +135,43 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
         }
     }
 
-    private List<ReceiptStatus> getReceiptStatusById(Long id, Connection conn) throws SQLException {
+    private ReceiptStatus getReceiptStatusById(Long id, Connection conn) throws SQLException {
+        logger.debug("Entered getReceiptStatusById() receiptStatusImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<ReceiptStatus> receiptStatusesList = new ArrayList<>();
+        ReceiptStatus receiptStatus = null;
         try {
             pstmt = conn.prepareStatement(GET_RECEIPT_STATUS_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                receiptStatusesList.add(receiptStatusMap(rs));
+            if (rs.next()) {
+                receiptStatus = receiptStatusMap(rs);
             }
 
         } finally {
             close(rs);
             close(pstmt);
         }
-        return receiptStatusesList;
+        return receiptStatus;
     }
 
     @Override
-    public List<ReceiptStatus> getByName(String pattern) throws SQLException {
+    public ReceiptStatus getByName(String pattern) throws SQLException {
+        logger.debug("Entered getByName() receiptStatusImpl");
         Connection conn = null;
-        List<ReceiptStatus> receiptStatuses;
+        ReceiptStatus receiptStatus;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
-            receiptStatuses = getReceiptStatusByName(pattern, conn);
+            receiptStatus = getReceiptStatusByName(pattern, conn);
             conn.commit();
 
-            return receiptStatuses;
+            return receiptStatus;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getById() receipt_status error: " + e.getMessage());
+            logger.error("getById() receiptStatusImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -180,35 +179,36 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
         }
     }
 
-    private List<ReceiptStatus> getReceiptStatusByName(String pattern, Connection conn) throws SQLException {
+    private ReceiptStatus getReceiptStatusByName(String pattern, Connection conn) throws SQLException {
+        logger.debug("Entered getReceiptStatusByName() receiptStatusImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<ReceiptStatus> receiptStatusesList = new ArrayList<>();
+        ReceiptStatus receiptStatus = null;
         try {
             pstmt = conn.prepareStatement(GET_RECEIPT_STATUS_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                receiptStatusesList.add(receiptStatusMap(rs));
+            if (rs.next()) {
+                receiptStatus = receiptStatusMap(rs);
             }
 
         } finally {
             close(rs);
             close(pstmt);
         }
-        return receiptStatusesList;
+        return receiptStatus;
     }
 
     @Override
     public boolean update(ReceiptStatus receiptStatus) {
+        logger.debug("Entered update() receiptStatusImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(UPDATE_RECEIPT_STATUS);
@@ -223,7 +223,7 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception at update() receiptStatusImpl" + e);
         } finally {
             close(pstmt);
             close(conn);
@@ -233,13 +233,13 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
 
     @Override
     public boolean remove(ReceiptStatus receiptStatus) {
+        logger.debug("Entered remove() receiptStatusImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(DELETE_RECEIPT_STATUS);
@@ -252,7 +252,7 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception at remove() receiptStatusImpl" + e);
         } finally {
             close(pstmt);
             close(conn);
@@ -266,7 +266,7 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
                 autoCloseable.close();
                 autoCloseable = null;
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception at close() receiptStatusImpl" + e);
             }
         }
     }
@@ -276,7 +276,7 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
             try {
                 conn.rollback();
             } catch (SQLException e) {
-                System.out.println("rollback() error: " + e.getMessage());
+                logger.error("Exception at rollback() receiptStatusImpl" + e);
             }
         }
     }

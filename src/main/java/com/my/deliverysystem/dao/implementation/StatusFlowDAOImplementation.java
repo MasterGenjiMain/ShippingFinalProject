@@ -1,6 +1,6 @@
 package com.my.deliverysystem.dao.implementation;
 
-import com.my.deliverysystem.dao.StatusFlowDAO;
+import com.my.deliverysystem.dao.daoInterface.StatusFlowDAO;
 import com.my.deliverysystem.db.entity.StatusFlow;
 
 import java.util.List;

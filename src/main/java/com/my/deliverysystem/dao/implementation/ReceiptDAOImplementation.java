@@ -2,10 +2,9 @@ package com.my.deliverysystem.dao.implementation;
 
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
-import com.my.deliverysystem.dao.ReceiptDAO;
+import com.my.deliverysystem.dao.daoInterface.ReceiptDAO;
 import com.my.deliverysystem.db.entity.Receipt;
-import com.my.deliverysystem.db.entity.ReceiptStatus;
-import com.my.deliverysystem.db.entity.User;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,20 +12,21 @@ import java.util.List;
 
 public class ReceiptDAOImplementation implements ReceiptDAO {
 
+    private final Logger logger = Logger.getLogger(ReceiptDAOImplementation.class);
+
     @Override
-    public void add(Receipt receipt, User user, User manager, ReceiptStatus receiptStatus) throws SQLException {
+    public void add(Receipt receipt) throws SQLException {
+        logger.debug("Entered add() receiptImpl");
         Connection conn = null;
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
-            insertNewReceipt(receipt, user, manager, receiptStatus, conn);
+            insertNewReceipt(receipt, conn);
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Add() receipt error: " + e.getMessage());
+            logger.error("Add() receiptImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -34,21 +34,20 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
         }
     }
 
-    private void insertNewReceipt(Receipt receipt, User user, User manager, ReceiptStatus receiptStatus, Connection conn) throws SQLException {
+    private void insertNewReceipt(Receipt receipt, Connection conn) throws SQLException {
+        logger.debug("Entered insertNewReceipt() receiptImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            System.out.println("-------------------");
-            System.out.println("INSERT INTO receipt");
             pstmt = conn.prepareStatement(DbConstants.INSERT_INTO_RECEIPT, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setLong(1, user.getId());
-            pstmt.setLong(2, manager.getId());
+            pstmt.setLong(1, receipt.getUserId());
+            pstmt.setLong(2, receipt.getManagerId());
             pstmt.setDouble(3, receipt.getPrice());
-            pstmt.setLong(4, receiptStatus.getId());
+            pstmt.setLong(4, receipt.getReceiptStatusId());
             if (pstmt.executeUpdate() > 0) {
                 rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
-                    user.setId(rs.getLong(1));
+                    receipt.setId(rs.getLong(1));
                 }
             }
         } finally {
@@ -59,13 +58,13 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
 
     @Override
     public List<Receipt> getAll() throws SQLException {
+        logger.debug("Entered getAll() receiptImpl");
         Connection conn = null;
         List<Receipt> allReceipts;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
             allReceipts = getAllReceipts(conn);
@@ -73,8 +72,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
 
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getAll() receipt error: " + e.getMessage());
+            logger.error("getAll() receiptImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -85,13 +83,12 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private List<Receipt> getAllReceipts(Connection conn) throws SQLException {
+        logger.debug("Entered getAllReceipts() receiptImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<Receipt> receipts = new ArrayList<>();
 
         try {
-            System.out.println("-------------------");
-            System.out.println("SELECT * receipt");
 
             stmt = conn.createStatement();
             rs = stmt.executeQuery(DbConstants.GET_ALL_RECEIPTS);
@@ -108,6 +105,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private Receipt receiptMap(ResultSet rs) throws SQLException {
+        logger.debug("Entered receiptMap() receiptImpl");
         Receipt receipt = new Receipt();
         receipt.setId(rs.getLong("id"));
         receipt.setUserId(rs.getLong("user_id"));
@@ -120,22 +118,24 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
 
     @Override
     public List<Receipt> getByUserId(Long id) throws SQLException {
+        logger.debug("Entered getByUserId() receiptImpl");
         return getReceipts(id, DbConstants.GET_RECEIPT_BY_USER_ID);
     }
 
     @Override
     public List<Receipt> getByManagerId(Long id) throws SQLException {
+        logger.debug("Entered getByManagerId() receiptImpl");
         return getReceipts(id, DbConstants.GET_RECEIPT_BY_MANAGER_ID);
     }
 
     private List<Receipt> getReceipts(Long id, String sql) throws SQLException {
+        logger.debug("Entered getReceipts() receiptImpl");
         Connection conn = null;
         List<Receipt> receipts;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
             receipts = getReceiptsById(id, conn, sql);
             conn.commit();
@@ -143,8 +143,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
             return receipts;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getByUserId() receipt error: " + e.getMessage());
+            logger.error("getByUserId() receiptImpl error: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -153,6 +152,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private List<Receipt> getReceiptsById(Long id, Connection conn, String sql) throws SQLException {
+        logger.debug("Entered getReceiptsById() receiptImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Receipt> receiptList = new ArrayList<>();
@@ -173,14 +173,14 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
 
     @Override
     public boolean update(Receipt receipt) {
+        logger.debug("Entered update() receiptImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(DbConstants.UPDATE_RECEIPT);
@@ -197,7 +197,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception at update() receiptImpl" + e);
         } finally {
             close(pstmt);
             close(conn);
@@ -207,13 +207,13 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
 
     @Override
     public boolean remove(Receipt receipt) {
+        logger.debug("Entered remove() receiptImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(DbConstants.DELETE_RECEIPT);
@@ -226,7 +226,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception at remove() receiptImpl" + e);
         } finally {
             close(pstmt);
             close(conn);
@@ -235,22 +235,24 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private void close(AutoCloseable autoCloseable) {
+        logger.debug("Entered close() receiptImpl");
         if (autoCloseable != null) {
             try {
                 autoCloseable.close();
                 autoCloseable = null;
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception at close() receiptImpl" + e);
             }
         }
     }
 
     private void rollback(Connection conn) {
+        logger.debug("Entered rollback() receiptImpl");
         if (conn != null) {
             try {
                 conn.rollback();
             } catch (SQLException e) {
-                System.out.println("rollback() error: " + e.getMessage());
+                logger.error("Exception at rollback() ReceiptImpl" + e);
             }
         }
     }

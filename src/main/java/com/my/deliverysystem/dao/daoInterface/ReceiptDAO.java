@@ -1,15 +1,13 @@
-package com.my.deliverysystem.dao;
+package com.my.deliverysystem.dao.daoInterface;
 
 import com.my.deliverysystem.db.entity.Receipt;
-import com.my.deliverysystem.db.entity.ReceiptStatus;
-import com.my.deliverysystem.db.entity.User;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public interface ReceiptDAO {
     //create
-    void add(Receipt receipt, User user, User manager, ReceiptStatus receiptStatus) throws SQLException;
+    void add(Receipt receipt) throws SQLException;
 
     //read
     List<Receipt> getAll() throws SQLException;

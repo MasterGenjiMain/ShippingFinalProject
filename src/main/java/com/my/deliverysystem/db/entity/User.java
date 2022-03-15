@@ -83,7 +83,6 @@ public class User {
                 "id=" + id +
                 ", name='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", createTime=" + createTime +
                 ", roleId=" + roleId +
                 '}';

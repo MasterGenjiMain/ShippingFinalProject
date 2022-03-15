@@ -1,6 +1,6 @@
 package com.my.deliverysystem.dao.implementation;
 
-import com.my.deliverysystem.dao.DeliveryOrderDAO;
+import com.my.deliverysystem.dao.daoInterface.DeliveryOrderDAO;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.db.entity.DeliveryOrder;

@@ -3,8 +3,8 @@ package com.my.deliverysystem.dao.implementation;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.db.entity.Location;
-import com.my.deliverysystem.dao.LocationDAO;
-import com.my.deliverysystem.db.entity.City;
+import com.my.deliverysystem.dao.daoInterface.LocationDAO;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,21 +12,22 @@ import java.util.List;
 
 public class LocationDAOImplementation implements LocationDAO {
 
+    private final Logger logger = Logger.getLogger(LocationDAOImplementation.class);
+
     @Override
-    public void add(Location location, City city) throws SQLException {
+    public void add(Location location) throws SQLException {
+        logger.debug("Entered add() locationImpl");
         Connection conn = null;
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
-            insertNewLocation(location, city, conn);
+            insertNewLocation(location, conn);
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Add() location: " + e.getMessage());
+            logger.error("Add() locationImpl: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -34,16 +35,15 @@ public class LocationDAOImplementation implements LocationDAO {
         }
     }
 
-    private void insertNewLocation(Location location, City city, Connection conn) throws SQLException {
+    private void insertNewLocation(Location location, Connection conn) throws SQLException {
+        logger.debug("Entered insertNewLocation() locationImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
-            System.out.println("-------------------");
-            System.out.println("INSERT INTO location");
             pstmt = conn.prepareStatement(DbConstants.INSERT_INTO_LOCATION, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, location.getLocationName());
-            pstmt.setLong(2, city.getId());
+            pstmt.setLong(2, location.getCityId());
             pstmt.setInt(3, location.getIsActive());
             if (pstmt.executeUpdate() > 0) {
                 rs = pstmt.getGeneratedKeys();
@@ -59,21 +59,20 @@ public class LocationDAOImplementation implements LocationDAO {
 
     @Override
     public List<Location> getAll() throws SQLException {
+        logger.debug("Entered getAll() locationImpl");
         Connection conn = null;
         List<Location> allLocations;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
 
             conn.setAutoCommit(false);
             allLocations = getAllLocations(conn);
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getAll() location: " + e.getMessage());
+            logger.error("getAll() locationImpl: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -84,13 +83,12 @@ public class LocationDAOImplementation implements LocationDAO {
     }
 
     private List<Location> getAllLocations(Connection conn) throws SQLException {
+        logger.debug("Entered getAllLocations() locationImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<Location> locationList = new ArrayList<>();
 
         try {
-            System.out.println("-------------------");
-            System.out.println("SELECT * location");
 
             stmt = conn.createStatement();
             rs = stmt.executeQuery(DbConstants.GET_ALL_LOCATIONS);
@@ -107,6 +105,7 @@ public class LocationDAOImplementation implements LocationDAO {
     }
 
     private Location locationMap(ResultSet rs) throws SQLException {
+        logger.debug("Entered locationMap() locationImpl");
         Location location = new Location();
         location.setId(rs.getLong("id"));
         location.setLocationName(rs.getString("location_name"));
@@ -118,22 +117,21 @@ public class LocationDAOImplementation implements LocationDAO {
 
     @Override
     public Location getById(Long id) throws SQLException {
+        logger.debug("Entered getById() locationImpl");
         Connection conn = null;
-        List<Location> locations;
+        Location location;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
-            locations = getLocationById(id, conn);
+            location = getLocationById(id, conn);
             conn.commit();
 
-            return locations.get(0);
+            return location;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getById() location: " + e.getMessage());
+            logger.error("getById() locationImpl: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -141,43 +139,43 @@ public class LocationDAOImplementation implements LocationDAO {
         }
     }
 
-    private List<Location> getLocationById(Long id, Connection conn) throws SQLException {
+    private Location getLocationById(Long id, Connection conn) throws SQLException {
+        logger.debug("Entered getLocationById() locationImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<Location> locationList = new ArrayList<>();
+        Location location = null;
         try {
             pstmt = conn.prepareStatement(DbConstants.GET_LOCATION_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                locationList.add(locationMap(rs));
+            if (rs.next()) {
+                location = locationMap(rs);
             }
 
         } finally {
             close(rs);
             close(pstmt);
         }
-        return locationList;
+        return location;
     }
 
     @Override
-    public List<Location> getByName(String pattern) throws SQLException {
+    public Location getByName(String pattern) throws SQLException {
+        logger.debug("Entered getByName() locationImpl");
         Connection conn = null;
-        List<Location> locations;
+        Location location;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
-            locations = getLocationByName(pattern, conn);
+            location = getLocationByName(pattern, conn);
             conn.commit();
 
-            return locations;
+            return location;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("getById() location: " + e.getMessage());
+            logger.error("getById() locationImpl: " + e);
             rollback(conn);
             throw e;
         } finally {
@@ -185,35 +183,36 @@ public class LocationDAOImplementation implements LocationDAO {
         }
     }
 
-    private List<Location> getLocationByName(String pattern, Connection conn) throws SQLException {
+    private Location getLocationByName(String pattern, Connection conn) throws SQLException {
+        logger.debug("Entered getLocationByName() locationImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<Location> locationList = new ArrayList<>();
+        Location location = null;
         try {
             pstmt = conn.prepareStatement(DbConstants.GET_LOCATION_BY_NAME);
             pstmt.setString(1, pattern);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                locationList.add(locationMap(rs));
+            if (rs.next()) {
+                location = locationMap(rs);
             }
 
         } finally {
             close(rs);
             close(pstmt);
         }
-        return locationList;
+        return location;
     }
 
     @Override
     public boolean update(Location location) {
+        logger.debug("Entered update() locationImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
 
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(DbConstants.UPDATE_LOCATION);
@@ -230,7 +229,7 @@ public class LocationDAOImplementation implements LocationDAO {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception at update() locationImpl" + e);
         } finally {
             close(pstmt);
             close(conn);
@@ -240,13 +239,13 @@ public class LocationDAOImplementation implements LocationDAO {
 
     @Override
     public boolean remove(Location location) {
+        logger.debug("Entered remove() locationImpl");
         Connection conn = null;
         PreparedStatement pstmt = null;
         boolean result = false;
         try {
-            System.out.println("Connecting...");
             conn = DbManager.getInstance().getConnection();
-            System.out.println("Connected.");
+            logger.debug("Connected!");
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(DbConstants.DELETE_LOCATION);
@@ -259,7 +258,7 @@ public class LocationDAOImplementation implements LocationDAO {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception at remove() locationImpl" + e);
         } finally {
             close(pstmt);
             close(conn);
@@ -273,7 +272,7 @@ public class LocationDAOImplementation implements LocationDAO {
                 autoCloseable.close();
                 autoCloseable = null;
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception at close() locationImpl" + e);
             }
         }
     }
@@ -283,7 +282,7 @@ public class LocationDAOImplementation implements LocationDAO {
             try {
                 conn.rollback();
             } catch (SQLException e) {
-                System.out.println("rollback() error: " + e.getMessage());
+                logger.error("Exception at rollback() locationImpl" + e);
             }
         }
     }

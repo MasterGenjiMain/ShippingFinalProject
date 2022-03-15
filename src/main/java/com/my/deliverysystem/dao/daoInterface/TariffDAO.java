@@ -1,4 +1,4 @@
-package com.my.deliverysystem.dao;
+package com.my.deliverysystem.dao.daoInterface;
 
 import com.my.deliverysystem.db.entity.Tariff;
 
@@ -12,7 +12,7 @@ public interface TariffDAO {
     //read
     List<Tariff> getAll() throws SQLException;
     Tariff getById(Long id) throws SQLException;
-    List<Tariff> getByName(String pattern) throws SQLException;
+    Tariff getByName(String pattern) throws SQLException;
 
     //update
     boolean update(Tariff tariff);

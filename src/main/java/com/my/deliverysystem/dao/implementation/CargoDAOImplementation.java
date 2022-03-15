@@ -2,7 +2,7 @@ package com.my.deliverysystem.dao.implementation;
 
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.db.entity.Cargo;
-import com.my.deliverysystem.dao.CargoDAO;
+import com.my.deliverysystem.dao.daoInterface.CargoDAO;
 import org.apache.log4j.Logger;
 
 import java.sql.*;

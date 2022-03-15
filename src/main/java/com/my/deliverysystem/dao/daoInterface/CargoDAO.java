@@ -1,4 +1,4 @@
-package com.my.deliverysystem.dao;
+package com.my.deliverysystem.dao.daoInterface;
 
 import com.my.deliverysystem.db.entity.Cargo;
 import com.my.deliverysystem.db.entity.DeliveryOrder;

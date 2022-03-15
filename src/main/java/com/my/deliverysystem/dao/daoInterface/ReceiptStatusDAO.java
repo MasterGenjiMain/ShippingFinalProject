@@ -1,4 +1,4 @@
-package com.my.deliverysystem.dao;
+package com.my.deliverysystem.dao.daoInterface;
 
 import com.my.deliverysystem.db.entity.ReceiptStatus;
 
@@ -12,7 +12,7 @@ public interface ReceiptStatusDAO {
     //read
     List<ReceiptStatus> getAll() throws SQLException;
     ReceiptStatus getById(Long id) throws SQLException;
-    List<ReceiptStatus> getByName(String pattern) throws SQLException;
+    ReceiptStatus getByName(String pattern) throws SQLException;
 
     //update
     boolean update(ReceiptStatus receiptStatus);

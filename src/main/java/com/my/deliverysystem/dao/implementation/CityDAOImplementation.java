@@ -2,7 +2,7 @@ package com.my.deliverysystem.dao.implementation;
 
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
-import com.my.deliverysystem.dao.CityDAO;
+import com.my.deliverysystem.dao.daoInterface.CityDAO;
 import com.my.deliverysystem.db.entity.City;
 import org.apache.log4j.Logger;
 

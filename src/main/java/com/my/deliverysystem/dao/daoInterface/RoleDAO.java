@@ -1,4 +1,4 @@
-package com.my.deliverysystem.dao;
+package com.my.deliverysystem.dao.daoInterface;
 
 import com.my.deliverysystem.db.entity.Role;
 
@@ -12,7 +12,7 @@ public interface RoleDAO {
     //read
     List<Role> getAll() throws SQLException;
     Role getById(Long id) throws SQLException;
-    List<Role> getByName(String pattern) throws SQLException;
+    Role getByName(String pattern) throws SQLException;
 
     //update
     boolean update(Role role);
