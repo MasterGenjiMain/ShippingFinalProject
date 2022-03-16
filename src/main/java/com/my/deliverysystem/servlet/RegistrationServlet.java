@@ -10,25 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
-import static com.my.deliverysystem.service.loginService.userLogin;
+import static com.my.deliverysystem.service.RegistrationService.userRegistration;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
-
-    final Logger logger = Logger.getLogger(LoginServlet.class.getName());
+@WebServlet("/registration")
+public class RegistrationServlet extends HttpServlet {
+    private final Logger logger = Logger.getLogger(RegistrationServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("Entered login doGet --> redirecting...");
-        resp.sendRedirect("login.html");
+        logger.debug("Entered registration doGet --> redirecting...");
+        resp.sendRedirect("registration.html");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("Entered doPost");
-
-        userLogin(req, resp);
+        logger.debug("Entered registration doPost");
+        userRegistration(req,resp);
     }
-
 }

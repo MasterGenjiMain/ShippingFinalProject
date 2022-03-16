@@ -43,8 +43,7 @@ public class UserDAOImplementation implements UserDAO {
             pstmt = conn.prepareStatement(DbConstants.INSERT_INTO_USER, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user.getUsername());
             pstmt.setString(2, user.getEmail());
-            pstmt.setString(3, user.getUsername());
-            pstmt.setLong(4, user.getRoleId());
+            pstmt.setString(3, user.getPassword());
             if (pstmt.executeUpdate() > 0) {
                 rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {

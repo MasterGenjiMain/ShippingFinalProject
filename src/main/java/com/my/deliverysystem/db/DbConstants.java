@@ -73,7 +73,7 @@ public abstract class DbConstants {
     public static final String UPDATE_TARIFF = "UPDATE tariff SET tariff_name=?, tariff_price=?, tariff_info=? WHERE id=?";
     public static final String DELETE_TARIFF = "DELETE FROM tariff WHERE id=?";
 
-    public static final String INSERT_INTO_USER = "INSERT INTO user (id, username, email, password, create_time, role_id) VALUES (DEFAULT, ?, ?, ?, DEFAULT, ?)";
+    public static final String INSERT_INTO_USER = "INSERT INTO user (id, username, email, password, create_time, role_id) VALUES (DEFAULT, ?, ?, ?, DEFAULT, 1)";
     public static final String GET_ALL_USERS = "SELECT id, username, email, password, create_time, role_id FROM user ORDER BY user.id";
     public static final String GET_USER_BY_ID = "SELECT id, username, email, password, create_time, role_id FROM user WHERE user.id=? ORDER BY user.id";
     public static final String GET_USER_BY_USERNAME = "SELECT id, username, email, password, create_time, role_id FROM user WHERE user.username=? ORDER BY user.id";

@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>CDS</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
+<h1><%= "Cargo Delivery System" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<a href="login">login</a>
+<a href="registration">registration</a>
 </body>
 </html>

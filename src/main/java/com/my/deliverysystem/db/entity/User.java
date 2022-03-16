@@ -13,13 +13,10 @@ public class User {
     public User() {
     }
 
-    public User(long id, String username, String email, String password, Date createTime, long roleId) {
-        this.id = id;
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.createTime = createTime;
-        this.roleId = roleId;
     }
 
     public User(long id, String username, String password, long roleId) {
