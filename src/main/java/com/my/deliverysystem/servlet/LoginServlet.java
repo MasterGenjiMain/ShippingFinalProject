@@ -1,7 +1,5 @@
 package com.my.deliverysystem.servlet;
 
-import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
-import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
