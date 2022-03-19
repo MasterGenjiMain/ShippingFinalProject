@@ -32,15 +32,18 @@ public class loginService {
                 logger.info("Logging successful!");
                 req.getSession().setAttribute("user", userFromDb);
                 resp.sendRedirect("index.jsp");
-                return;
             } else {
                 logger.info("Incorrect password");
                 req.getSession().setAttribute("message", "Incorrect password!");
+                resp.sendRedirect(req.getRequestURI());
+                return;
             }
         } else {
             logger.info("Login failed. User not found");
             req.getSession().setAttribute("message", "User not found");
+            resp.sendRedirect(req.getRequestURI());
+            return;
         }
-        resp.sendRedirect("login.html");
+        req.getSession().removeAttribute("message");
     }
 }

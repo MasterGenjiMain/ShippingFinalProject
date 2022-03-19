@@ -18,7 +18,7 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered registration doGet --> redirecting...");
-        resp.sendRedirect("registration.html");
+        getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
     }
 
     @Override

@@ -24,18 +24,32 @@ public class RegistrationService {
         logger.debug("password --> " + password);
 
         User newUser = new User(login, email, password);
-
         UserDAOImplementation service = new UserDAOImplementation();
+
+        if (login.equals("") || email.equals("") || password.equals("")) {
+            if (login.equals("")) {
+                req.getSession().setAttribute("message", "Login can't be empty!");
+            } else if (email.equals("")) {
+                req.getSession().setAttribute("message", "Email can't be empty!");
+            } else {
+                req.getSession().setAttribute("message", "Password can't be empty!");
+            }
+            resp.sendRedirect(req.getRequestURI());
+            return;
+        }
+
+        logger.debug(newUser);
         try {
             service.add(newUser);
         } catch (SQLException e) {
-            req.getSession().setAttribute("message", "Username or email already taken");
+            req.getSession().setAttribute("message", "Username or email is already taken");
             logger.error("Exception at registration: " + e);
-            resp.sendRedirect("registration.html");
+            resp.sendRedirect(req.getRequestURI()); //redirecting -> doGet RegistrationServlet -> registration.jsp
             return;
         }
         logger.info("Registration successful!");
-        resp.sendRedirect("login.html");
+        req.getSession().removeAttribute("message");
+        resp.sendRedirect("login.jsp");
     }
 
 }
