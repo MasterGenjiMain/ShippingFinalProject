@@ -1,0 +1,53 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Nazar
+  Date: 20.03.2022
+  Time: 2:53
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">CDSystem</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link " aria-current="page" href="index.jsp">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " aria-current="page" href="rotes">Delivery Rotes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " aria-current="page" href="#">Tariffs</a>
+                </li>
+                <c:if test="${sessionScope.user.roleId >= 1}">
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="#">Delivery Request</a>
+                    </li>
+                </c:if>
+                <c:if test="${sessionScope.user.roleId >= 2}">
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="#">Approving</a>
+                    </li>
+                </c:if>
+                <c:if test="${sessionScope.user == null}">
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="login.jsp">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="registration.jsp">Registration</a>
+                    </li>
+                </c:if>
+            </ul>
+        </div>
+        <div class="navbar-text">${sessionScope.user.username}</div>
+    </div>
+</nav>
+
+</body>
+</html>

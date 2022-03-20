@@ -10,22 +10,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <%@include file="parts/style.jspf"%>
     <title>Login</title>
 </head>
 <body>
+<%@include file="parts/navigation.jspf"%>
+<div class="container mt-5">
+    <form action="login" method="post">
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Login:</label>
+            <div class="col-sm-3">
+                <input type="text" name="login" class="form-control" placeholder="Login">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-3">
+                <input type="password" name="password" class="form-control" placeholder="Password">
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Sign In</button>
+        <a class="btn btn-primary" href="registration.jsp" role="button">Registration</a>
+        <a class="btn btn-primary" href="index.jsp" role="button">Back</a>
+        <c:out value="${sessionScope.message}"/>
+    </form>
+</div>
 
-<form action="login" method="post">
-    <label> Login
-        <input type="text" name="login">
-    </label> <br>
-    <label> Password
-        <input type="password" name="password">
-    </label> <br>
 
-    <input type="submit" value="Login">
-    <a href="index.jsp">Back</a>
-
-    <c:out value="${sessionScope.message}"/>
-</form>
 </body>
 </html>

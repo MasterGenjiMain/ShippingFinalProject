@@ -10,25 +10,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <%@include file="parts/style.jspf"%>
     <title>Registration</title>
 </head>
 <body>
-
-<form action="registration" method="post">
-    <label> Username
-        <input type="text" name="username"> <br>
-    </label>
-    <label> Email
-        <input type="text" name="email"> <br>
-    </label>
-    <label> Password
-        <input type="password" name="password"> <br>
-    </label>
-
-    <input type="submit" value="Registration">
-    <a href="index.jsp">Back</a>
-
-    <c:out value="${sessionScope.message}"/>
-</form>
+<%@include file="parts/navigation.jspf"%>
+<div class="container mt-5">
+    <form action="registration" method="post">
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Username:</label>
+            <div class="col-sm-3">
+                <input type="text" name="username" class="form-control" placeholder="Username">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Email:</label>
+            <div class="col-sm-3">
+                <input type="text" name="email" class="form-control" placeholder="Email">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-3">
+                <input type="password" name="password" class="form-control" placeholder="Password">
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+        <a class="btn btn-primary" href="index.jsp" role="button">Back</a>
+        <c:out value="${sessionScope.message}"/>
+    </form>
+</div>
 </body>
 </html>

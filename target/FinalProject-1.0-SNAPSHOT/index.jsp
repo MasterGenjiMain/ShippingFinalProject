@@ -3,17 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <%@include file="parts/style.jspf"%>
     <title>CDS</title>
 </head>
 <body>
-<h1><%= "Cargo Delivery System" %>
-</h1>
-<br/>
-<a href="login">login</a>
-<a href="registration">registration</a>
 
-<p>
-    Logged user -> <c:out value="${sessionScope.user.username}"/>
-</p>
+<%@include file="parts/navigation.jspf"%>
+<div class="container mt-5">
+
+</div>
+
+
 </body>
 </html>
