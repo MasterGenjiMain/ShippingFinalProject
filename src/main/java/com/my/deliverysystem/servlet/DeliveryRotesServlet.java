@@ -1,5 +1,8 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.LocationDAOImplementation;
+import com.my.deliverysystem.db.entity.Location;
+import com.my.deliverysystem.service.LocationTableService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 @WebServlet("/rotes")
 public class DeliveryRotesServlet extends HttpServlet {
 
@@ -17,12 +21,8 @@ public class DeliveryRotesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet DeliveryRotesServlet");
-        resp.getWriter().append("Rotes WIP");
-//        getServletContext().getRequestDispatcher("").forward(req, resp);
+
+        LocationTableService.showTable(req,resp);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
-    }
 }
