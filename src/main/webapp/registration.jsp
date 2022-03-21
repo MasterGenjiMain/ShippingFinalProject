@@ -37,7 +37,7 @@
         </div>
         <button class="btn btn-primary" type="submit">Register</button>
         <a class="btn btn-primary" href="index.jsp" role="button">Back</a>
-        <c:out value="${sessionScope.message}"/>
+        <c:out value="${requestScope.message}"/>
     </form>
 </div>
 </body>

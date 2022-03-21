@@ -4,6 +4,7 @@ import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
 import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 public class loginService {
     final static Logger logger = Logger.getLogger(loginService.class.getName());
 
-    public static void userLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public static void userLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         logger.debug("Entered userLogin() loginService");
         String login = req.getParameter("login");
         String userPassword = req.getParameter("password");
@@ -32,18 +33,15 @@ public class loginService {
                 logger.info("Logging successful!");
                 req.getSession().setAttribute("user", userFromDb);
                 resp.sendRedirect("index.jsp");
+                return;
             } else {
                 logger.info("Incorrect password");
-                req.getSession().setAttribute("message", "Incorrect password!");
-                resp.sendRedirect(req.getRequestURI());
-                return;
+                req.setAttribute("message", "Incorrect password!");
             }
         } else {
             logger.info("Login failed. User not found");
-            req.getSession().setAttribute("message", "User not found");
-            resp.sendRedirect(req.getRequestURI());
-            return;
+            req.setAttribute("message", "User not found");
         }
-        req.getSession().removeAttribute("message");
+        req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 }
