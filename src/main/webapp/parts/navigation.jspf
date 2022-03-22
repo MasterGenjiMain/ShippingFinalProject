@@ -20,10 +20,10 @@
                     <a class="nav-link " aria-current="page" href="index.jsp">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="rotes">Delivery Rotes</a>
+                    <a class="nav-link " aria-current="page" href="general-info">General Delivery Info</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="#">Tariffs</a>
+                    <a class="nav-link " aria-current="page" href="tariffs">Tariff Calculator</a>
                 </li>
 
                 <c:if test="${sessionScope.user.roleId >= 1}">

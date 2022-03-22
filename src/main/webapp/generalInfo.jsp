@@ -45,5 +45,30 @@
 
     </table>
 </div>
+<div class="container mt-5">
+    <table class="table table-bordered table-responsive table-hover caption-top table-striped">
+        <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0px 0px;"><span
+                style="padding-left: 25px">Available tariffs</span></caption>
+
+        <thead>
+        <tr>
+            <th>Tariff Name</th>
+            <th>Tariff Price</th>
+            <td>Tariff Info</td>
+        </tr>
+        </thead>
+
+        <tbody>
+        <c:forEach items="${requestScope.tariffs}" var="tariff">
+            <tr>
+                <td>${tariff.tariffName}</td>
+                <td>${tariff.tariffPrice}</td>
+                <td>${tariff.tariffInfo}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+
+    </table>
+</div>
 </body>
 </html>

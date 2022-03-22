@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.service.TariffCalcutatorService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -9,21 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.my.deliverysystem.service.RegistrationService.userRegistration;
-
-@WebServlet("/registration")
-public class RegistrationServlet extends HttpServlet {
-    private final Logger logger = Logger.getLogger(RegistrationServlet.class);
+@WebServlet("/tariffs")
+public class TariffsServlet extends HttpServlet {
+    private final Logger logger = Logger.getLogger(TariffsServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("Entered registration doGet --> redirecting...");
-        resp.sendRedirect("registration.jsp");
+        logger.debug("Entered doGet() TariffsServlet");
+
+        resp.sendRedirect("tariff.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("Entered registration doPost");
-        userRegistration(req,resp);
+
+        TariffCalcutatorService.calculate(req, resp);
     }
 }
