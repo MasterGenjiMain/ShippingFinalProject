@@ -1,6 +1,6 @@
 package com.my.deliverysystem.servlet;
 
-import com.my.deliverysystem.service.TariffCalcutatorService;
+import com.my.deliverysystem.service.TariffCalculatorService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -17,13 +17,11 @@ public class TariffsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet() TariffsServlet");
-
-        resp.sendRedirect("tariff.jsp");
+        req.getRequestDispatcher("/tariff.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        TariffCalcutatorService.calculate(req, resp);
+        TariffCalculatorService.calculate(req, resp);
     }
 }

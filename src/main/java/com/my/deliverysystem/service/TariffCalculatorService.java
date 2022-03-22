@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class TariffCalcutatorService {
-    private static final Logger logger = Logger.getLogger(TariffCalcutatorService.class);
+public class TariffCalculatorService {
+    private static final Logger logger = Logger.getLogger(TariffCalculatorService.class);
 
     private static final int MINIMAL_PRICE = 75;
     private static final int VOLUME_DIVIDER = 1000;
@@ -36,6 +36,7 @@ public class TariffCalcutatorService {
             weight = Double.parseDouble(req.getParameter("weight"));
         } catch (NumberFormatException e) {
             logger.error(e);
+            req.getSession().removeAttribute("price");
             req.setAttribute("message", "All fields must be filled");
             req.getRequestDispatcher("/tariff.jsp").forward(req, resp);
             return;
@@ -50,16 +51,22 @@ public class TariffCalcutatorService {
         volume = height * width * length;
         logger.debug("volume -> " + volume);
 
-        if (distance <= 100) {
-            DISTANCE_MULTIPLAYER = 1;
-        } else if (distance <= 500) {
-            DISTANCE_MULTIPLAYER = 1.2;
-        } else if (distance <= 1000) {
-            DISTANCE_MULTIPLAYER = 1.5;
-        } else {
-            DISTANCE_MULTIPLAYER = 2;
-        }
+        DISTANCE_MULTIPLAYER = getDistanceMultiplayer(distance);
+        WEIGHT_MULTIPLAYER = getWeightMultiplayer(weight);
 
+        logger.debug("DISTANCE_MULTIPLAYER -> " + DISTANCE_MULTIPLAYER);
+        logger.debug("WEIGHT_MULTIPLAYER -> " + WEIGHT_MULTIPLAYER);
+
+        price = (MINIMAL_PRICE + ((volume / VOLUME_DIVIDER) * BASIC_PRICE)) * DISTANCE_MULTIPLAYER * WEIGHT_MULTIPLAYER;
+        logger.debug(price);
+
+        req.getSession().setAttribute("price", price);
+
+        resp.sendRedirect("tariff.jsp");
+    }
+
+    private static double getWeightMultiplayer(double weight) {
+        double WEIGHT_MULTIPLAYER;
         if (weight <= 5) {
             WEIGHT_MULTIPLAYER = 1;
         } else if (weight <= 20) {
@@ -69,15 +76,20 @@ public class TariffCalcutatorService {
         } else {
             WEIGHT_MULTIPLAYER = 2;
         }
+        return WEIGHT_MULTIPLAYER;
+    }
 
-        logger.debug("DISTANCE_MULTIPLAYER -> " + DISTANCE_MULTIPLAYER);
-        logger.debug("WEIGHT_MULTIPLAYER -> " + WEIGHT_MULTIPLAYER);
-
-        price = (MINIMAL_PRICE + ((volume / VOLUME_DIVIDER) * BASIC_PRICE)) * DISTANCE_MULTIPLAYER * WEIGHT_MULTIPLAYER;
-        logger.debug(price);
-
-        req.setAttribute("price", price);
-
-        req.getRequestDispatcher("/tariff.jsp").forward(req, resp);
+    private static double getDistanceMultiplayer(double distance) {
+        double DISTANCE_MULTIPLAYER;
+        if (distance <= 100) {
+            DISTANCE_MULTIPLAYER = 1;
+        } else if (distance <= 500) {
+            DISTANCE_MULTIPLAYER = 1.2;
+        } else if (distance <= 1000) {
+            DISTANCE_MULTIPLAYER = 1.5;
+        } else {
+            DISTANCE_MULTIPLAYER = 2;
+        }
+        return DISTANCE_MULTIPLAYER;
     }
 }

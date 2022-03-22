@@ -49,8 +49,8 @@
         <button class="btn btn-primary" type="submit">Calculate</button>
         <a class="btn btn-primary" href="index.jsp" role="button">Back</a>
         <c:out value="${requestScope.message}"/>
-        <c:if test="${requestScope.price != null}">
-            <c:out value="${requestScope.price} UAH"/>
+        <c:if test="${sessionScope.price != null}">
+            <c:out value="${sessionScope.price} UAH"/>
         </c:if>
     </form>
 </div>

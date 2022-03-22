@@ -1,6 +1,3 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.my.deliverysystem.db.entity.Location" %>
-<%@ page import="com.my.deliverysystem.dao.implementation.LocationDAOImplementation" %>
 <%--
   Created by IntelliJ IDEA.
   User: Nazar
