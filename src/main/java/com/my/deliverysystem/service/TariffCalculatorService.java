@@ -57,7 +57,6 @@ public class TariffCalculatorService {
         logger.debug("volumePrice -> " + volumePrice);
         logger.debug("weightPrice -> " + weightPrice);
 
-
         price = Math.max(volumePrice, weightPrice);
 
         logger.debug("before min -> " + price);
