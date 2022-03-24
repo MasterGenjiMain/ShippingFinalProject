@@ -19,31 +19,31 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label">Height:</label>
             <div class="col-sm-3">
-                <input type="number" name="height" class="form-control" placeholder="Height">
+                <input type="number" name="height" class="form-control" placeholder="Height (cm)">
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label">Width:</label>
             <div class="col-sm-3">
-                <input type="number" name="width" class="form-control" placeholder="Width">
+                <input type="number" name="width" class="form-control" placeholder="Width (cm)">
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label">Length:</label>
             <div class="col-sm-3">
-                <input type="number" name="length" class="form-control" placeholder="Length">
+                <input type="number" name="length" class="form-control" placeholder="Length (cm)">
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label">Distance:</label>
             <div class="col-sm-3">
-                <input type="number" name="distance" class="form-control" placeholder="Distance">
+                <input type="number" name="distance" class="form-control" placeholder="Distance (km)">
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label">Weight:</label>
             <div class="col-sm-3">
-                <input type="number" name="weight" class="form-control" placeholder="Weight">
+                <input type="number" name="weight" class="form-control" placeholder="Weight (kg)">
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Calculate</button>
