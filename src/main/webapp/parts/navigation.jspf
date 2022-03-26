@@ -21,18 +21,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="index.jsp">Home</a>
+                    <a class="nav-link " aria-current="page" href="/FinalProject_war_exploded/index.jsp">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="general-info">General Delivery Info</a>
+                    <a class="nav-link " aria-current="page" href="/FinalProject_war_exploded/general-info">General Delivery Info</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="tariffs">Tariff Calculator</a>
+                    <a class="nav-link " aria-current="page" href="/FinalProject_war_exploded/tariffs">Tariff Calculator</a>
                 </li>
 
                 <c:if test="${sessionScope.user.roleId >= 1}">
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="user/delivery-request">Delivery Request</a>
+                        <a class="nav-link " aria-current="page" href="/FinalProject_war_exploded/user/delivery-request">Delivery Request</a>
                     </li>
                 </c:if>
 
@@ -54,7 +54,7 @@
                                     ${sessionScope.user.username}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="user/account">Account</a></li>
+                                <li><a class="dropdown-item" href="/FinalProject_war_exploded/user/account">Account</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/FinalProject_war_exploded/logout">Logout</a></li>
                             </ul>

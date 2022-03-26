@@ -3,7 +3,6 @@ package com.my.deliverysystem.service;
 import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
 import com.my.deliverysystem.db.entity.Receipt;
 import com.my.deliverysystem.db.entity.User;
-import com.my.deliverysystem.servlet.AccountServlet;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -31,6 +30,7 @@ public class AccountService {
         }
         req.setAttribute("receipts", receipts);
 
+//        resp.sendRedirect("/FinalProject_war_exploded/account.jsp");
         req.getRequestDispatcher("/account.jsp").forward(req, resp);
     }
 }
