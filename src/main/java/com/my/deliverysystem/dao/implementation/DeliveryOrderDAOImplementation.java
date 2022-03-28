@@ -41,7 +41,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
         try {
             pstmt = conn.prepareStatement(DbConstants.INSERT_INTO_DELIVERY_ORDER, Statement.RETURN_GENERATED_KEYS);
             setDeliveryOrder(deliveryOrder, pstmt);
-            pstmt.setLong(8, deliveryOrder.getReceiptId());
             if (pstmt.executeUpdate() > 0) {
                 rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
@@ -217,6 +216,7 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
         pstmt.setDouble(6, deliveryOrder.getVolume());
         pstmt.setDate(7, (Date) deliveryOrder.getReceivingDate());
         pstmt.setLong(8, deliveryOrder.getTariffId());
+        pstmt.setLong(9, deliveryOrder.getReceiptId());
     }
 
     @Override

@@ -1,8 +1,7 @@
 package com.my.deliverysystem.servlet;
 
-import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
-import com.my.deliverysystem.db.entity.Receipt;
-import com.my.deliverysystem.db.entity.User;
+import com.my.deliverysystem.dao.implementation.*;
+import com.my.deliverysystem.db.entity.*;
 import com.my.deliverysystem.service.DeliveryRequestService;
 import com.my.deliverysystem.service.TariffCalculatorService;
 import org.apache.log4j.Logger;
@@ -14,8 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
-@WebServlet("/delivery-request")
+@WebServlet("/user/delivery-request")
 public class DeliveryRequestServlet extends HttpServlet {
     Logger logger = Logger.getLogger(DeliveryRequestServlet.class);
 
@@ -63,15 +63,101 @@ public class DeliveryRequestServlet extends HttpServlet {
         try {
             logger.debug(receipt);
             receiptService.add(receipt);
+            logger.debug(receipt);
             logger.debug("receipt added!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-
         //--------------------------------delivery order-----------------------------------------//
+        DeliveryOrder deliveryOrder = new DeliveryOrder();
+        DeliveryOrderDAOImplementation deliveryOrderService = new DeliveryOrderDAOImplementation();
+        long locationFromId = 0;
+        long locationToId = 0;
 
-        super.doPost(req, resp);
+        LocationDAOImplementation locationService = new LocationDAOImplementation();
+
+        List<Location> locations = null;
+        try {
+            locations = locationService.getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for (Location location : locations) {
+            if (location.getLocationName().equals(req.getParameter("locationFrom"))) {
+                locationFromId = location.getId();
+            }
+        }
+        deliveryOrder.setLocationFromID(locationFromId); //1
+
+        for (Location location : locations) {
+            if (location.getLocationName().equals(req.getParameter("locationTo"))) {
+                locationToId = location.getId();
+            }
+        }
+        deliveryOrder.setLocationToId(locationToId); //2
+
+        deliveryOrder.setAddress(req.getParameter("address")); //3
+
+        DeliveryTypeDAOImplementation deliveryTypeService = new DeliveryTypeDAOImplementation();
+        List<DeliveryType> deliveryTypes = null;
+        long deliveryTypeId = 0;
+        try {
+            deliveryTypes = deliveryTypeService.getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for (DeliveryType deliveryType : deliveryTypes) {
+            if (deliveryType.getTypeName().equals(req.getParameter("deliveryType"))) {
+                deliveryTypeId = deliveryType.getId();
+            }
+        }
+        deliveryOrder.setDeliveryTypeId(deliveryTypeId); //4
+
+        deliveryOrder.setWeight(Double.parseDouble(req.getParameter("weight"))); //5
+        deliveryOrder.setVolume(Double.parseDouble(req.getParameter("volume"))); //6
+        deliveryOrder.setReceivingDate(null); //7
+
+        TariffDAOImplementation tariffService = new TariffDAOImplementation();
+        List<Tariff> tariffs = null;
+        long tariffId = 0;
+        try {
+            tariffs = tariffService.getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for (Tariff tariff : tariffs) {
+            if (tariff.getTariffName().equals(req.getParameter("tariff"))) {
+                tariffId = tariff.getId();
+            }
+        }
+        deliveryOrder.setTariffId(tariffId); //8
+        deliveryOrder.setReceiptId(receipt.getId()); //9
+
+        try {
+            logger.debug(deliveryOrder);
+            deliveryOrderService.add(deliveryOrder);
+            logger.debug("Delivery order added!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //--------------------------cargo------------------------------
+
+        CargoDAOImplementation cargoService = new CargoDAOImplementation();
+        Cargo cargo = new Cargo();
+        cargo.setName(req.getParameter("cargoName"));
+        cargo.setDescription(req.getParameter("cargoDescription"));
+        cargo.setDeliveryOrderId(deliveryOrder.getId());
+        try {
+            cargoService.add(cargo);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        req.getSession().setAttribute("message", "Created successfully!");
+        resp.sendRedirect("/FinalProject_war_exploded/user/delivery-request");
     }
 }

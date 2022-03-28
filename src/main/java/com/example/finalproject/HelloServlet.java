@@ -4,8 +4,10 @@ import com.my.deliverysystem.dao.implementation.DeliveryOrderDAOImplementation;
 import com.my.deliverysystem.dao.implementation.ReceiptStatusDAOImplementation;
 import com.my.deliverysystem.dao.implementation.RoleDAOImplementation;
 import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
+import com.my.deliverysystem.db.entity.DeliveryOrder;
 
 import java.io.*;
+import java.util.Date;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
@@ -174,7 +176,7 @@ public class HelloServlet extends HttpServlet {
 //            deliveryOrder.setVolume(1115);
 //            deliveryOrder.setTariffId(1);
 //            deliveryOrder.setReceiptId(1);
-////            service.add(deliveryOrder);
+//            service.add(deliveryOrder);
 ////            System.out.println(service.getAll());
 ////            System.out.println(service.getByLocationFromId(1L));
 ////            System.out.println(service.getByLocationToId(1L));
@@ -185,11 +187,26 @@ public class HelloServlet extends HttpServlet {
 //////            System.out.println(service.getAll());
 //            System.out.println(service.getByUsername("name"));
 
-            ReceiptStatusDAOImplementation service = new ReceiptStatusDAOImplementation();
-            System.out.println(service.getByName("Delivering"));
+//            ReceiptStatusDAOImplementation service = new ReceiptStatusDAOImplementation();
+//            System.out.println(service.getByName("Delivering"));
 
 /*            RoleDAOImplementation service = new RoleDAOImplementation();
             System.out.println(service.getByName("manager"));*/
+
+//            DeliveryOrderDAOImplementation deliveryOrderDAOImplementation = new DeliveryOrderDAOImplementation();
+//            DeliveryOrder deliveryOrder = new DeliveryOrder();
+//            deliveryOrder.setLocationFromID(1); //1
+//            deliveryOrder.setLocationToId(2); //2
+//            deliveryOrder.setAddress("dsds"); //3
+//            deliveryOrder.setDeliveryTypeId(1); //4
+//            deliveryOrder.setWeight(45); //5
+//            deliveryOrder.setVolume(4545); //6
+//            deliveryOrder.setReceivingDate(null); //7
+//            deliveryOrder.setTariffId(1); //8
+//            deliveryOrder.setReceiptId(1); //9
+//            System.out.println(deliveryOrder);
+
+//            deliveryOrderDAOImplementation.add(deliveryOrder);
         } catch (Exception e) {
             e.printStackTrace();
         }

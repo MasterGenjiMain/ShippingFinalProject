@@ -16,7 +16,7 @@
 <body>
 <%@include file="parts/navigation.jspf" %>
 <div class="container mt-5">
-    <form action="delivery-request" method="post">
+    <form action="user/delivery-request" method="post">
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label">Cargo name:</label>
             <div class="col-sm-3">
@@ -93,7 +93,7 @@
         </div>
         <button class="btn btn-primary" type="submit">Create</button>
         <a class="btn btn-primary" href="/FinalProject_war_exploded/index.jsp" role="button">Back</a>
-        <c:out value="${requestScope.message}"/>
+        <c:out value="${sessionScope.message}"/>
     </form>
 </div>
 
