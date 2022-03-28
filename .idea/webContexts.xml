@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/hi2.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/parts/navigation.jspf" value="file://$PROJECT_DIR$/src/main/webapp/parts" />
       </map>
     </option>
   </component>

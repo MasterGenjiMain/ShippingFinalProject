@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class loginService {
-    final static Logger logger = Logger.getLogger(loginService.class.getName());
+public class LoginService {
+    final static Logger logger = Logger.getLogger(LoginService.class.getName());
 
     public static void userLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         logger.debug("Entered userLogin() loginService");

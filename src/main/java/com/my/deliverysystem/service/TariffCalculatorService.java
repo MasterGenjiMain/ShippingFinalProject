@@ -20,10 +20,9 @@ public class TariffCalculatorService {
         int height, width, length;
         double distance ,weight;
 
-        double volume, volumePrice, weightPrice, price;
+        double volume, price;
         String finalPrice;
 
-        double DISTANCE_MULTIPLAYER;
         try {
             height = Integer.parseInt(req.getParameter("height"));
             width = Integer.parseInt(req.getParameter("width"));
@@ -48,16 +47,7 @@ public class TariffCalculatorService {
         volume = height * width * length;
         logger.debug("volume -> " + volume);
 
-        DISTANCE_MULTIPLAYER = getDistanceMultiplayer(distance);
-
-        logger.debug("DISTANCE_MULTIPLAYER -> " + DISTANCE_MULTIPLAYER);
-
-        volumePrice = ((volume / VOLUME_DIVIDER) * VOLUME_PRICE) * DISTANCE_MULTIPLAYER;
-        weightPrice = ((weight) * WEIGHT_PRICE) * DISTANCE_MULTIPLAYER;
-        logger.debug("volumePrice -> " + volumePrice);
-        logger.debug("weightPrice -> " + weightPrice);
-
-        price = Math.max(volumePrice, weightPrice);
+        price = getPrice(distance, weight, volume);
 
         logger.debug("before min -> " + price);
         if (price < MINIMAL_PRICE) {
@@ -70,6 +60,24 @@ public class TariffCalculatorService {
         req.getSession().setAttribute("price", finalPrice);
 
         resp.sendRedirect("tariff.jsp");
+    }
+
+    public static double getPrice(double distance, double weight, double volume) {
+        double volumePrice;
+        double weightPrice;
+        double DISTANCE_MULTIPLAYER;
+        double price;
+        DISTANCE_MULTIPLAYER = getDistanceMultiplayer(distance);
+
+        logger.debug("DISTANCE_MULTIPLAYER -> " + DISTANCE_MULTIPLAYER);
+
+        volumePrice = ((volume / VOLUME_DIVIDER) * VOLUME_PRICE) * DISTANCE_MULTIPLAYER;
+        weightPrice = (weight * WEIGHT_PRICE) * DISTANCE_MULTIPLAYER;
+        logger.debug("volumePrice -> " + volumePrice);
+        logger.debug("weightPrice -> " + weightPrice);
+
+        price = Math.max(volumePrice, weightPrice);
+        return price;
     }
 
     private static double getDistanceMultiplayer(double distance) {

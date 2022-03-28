@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.service.LocationTableService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -8,9 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static com.my.deliverysystem.service.LocationTableService.showGeneralInfo;
-
 
 @WebServlet("/general-info")
 public class GeneralInfoServlet extends HttpServlet {
@@ -21,7 +19,7 @@ public class GeneralInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet DeliveryRotesServlet");
 
-        showGeneralInfo(req,resp);
+        LocationTableService.showGeneralInfo(req,resp);
     }
 
 }

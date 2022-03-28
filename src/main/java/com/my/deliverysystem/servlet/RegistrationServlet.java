@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.service.RegistrationService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -9,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.my.deliverysystem.service.RegistrationService.userRegistration;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -24,6 +24,7 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered registration doPost");
-        userRegistration(req,resp);
+
+        RegistrationService.userRegistration(req,resp);
     }
 }
