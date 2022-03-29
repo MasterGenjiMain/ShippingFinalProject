@@ -87,7 +87,7 @@ public class DeliveryRequestService {
         try {
             locations = locationService.getAll();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
 
         if (locations != null) {
@@ -116,7 +116,7 @@ public class DeliveryRequestService {
         try {
             deliveryTypes = deliveryTypeService.getAll();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         if (deliveryTypes != null) {
             for (DeliveryType deliveryType : deliveryTypes) {
@@ -137,7 +137,7 @@ public class DeliveryRequestService {
         try {
             tariffs = tariffService.getAll();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         if (tariffs != null) {
             for (Tariff tariff : tariffs) {
@@ -154,7 +154,7 @@ public class DeliveryRequestService {
             deliveryOrderService.add(deliveryOrder);
             logger.debug("Delivery order added!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         return deliveryOrder;
     }
@@ -181,7 +181,7 @@ public class DeliveryRequestService {
             logger.debug(receipt);
             logger.debug("receipt added!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         return receipt;
     }

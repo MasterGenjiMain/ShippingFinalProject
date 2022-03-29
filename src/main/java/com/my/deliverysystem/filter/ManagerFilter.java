@@ -1,5 +1,6 @@
 package com.my.deliverysystem.filter;
 
+import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
@@ -10,14 +11,14 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 
-
-@WebFilter("/user/*")
-public class UserFilter implements Filter {
-    private final Logger logger = Logger.getLogger(UserFilter.class);
+@WebFilter("/manager/*")
+public class ManagerFilter implements Filter {
+    private final Logger logger = Logger.getLogger(ManagerFilter.class);
+    private final int MANAGER_ROLE_ID = 2;
 
     @Override
     public void init(FilterConfig filterConfig) {
-        logger.debug("Filtering /user/*");
+        logger.debug("Filtering /manager/*");
     }
 
     @Override
@@ -26,12 +27,16 @@ public class UserFilter implements Filter {
                          FilterChain filterChain) throws IOException, ServletException {
 
         HttpSession session = ((HttpServletRequest) servletRequest).getSession();
-
+        String loginPath = File.separator + ((HttpServletRequest) servletRequest).getContextPath()
+                .replace("/", "") + File.separator + "login.jsp";
         if (session.getAttribute("user") != null) {
-            filterChain.doFilter(servletRequest, servletResponse);
+            User user = (User) session.getAttribute("user");
+            if (user.getRoleId() == MANAGER_ROLE_ID) {
+                filterChain.doFilter(servletRequest, servletResponse);
+            } else {
+                ((HttpServletResponse) servletResponse).sendRedirect(loginPath);
+            }
         } else {
-            String loginPath = File.separator + ((HttpServletRequest) servletRequest).getContextPath()
-                    .replace("/", "") + File.separator + "login.jsp";
             ((HttpServletResponse) servletResponse).sendRedirect(loginPath);
         }
     }
