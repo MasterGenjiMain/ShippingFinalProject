@@ -188,8 +188,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
             pstmt = conn.prepareStatement(DbConstants.UPDATE_DELIVERY_ORDER);
 
             setDeliveryOrder(deliveryOrder, pstmt);
-            pstmt.setLong(9, deliveryOrder.getReceiptId());
-            pstmt.setLong(10, deliveryOrder.getId());
 
             if (pstmt.executeUpdate() > 0) {
                 result = true;
