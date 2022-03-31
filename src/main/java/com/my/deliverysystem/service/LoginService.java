@@ -21,6 +21,8 @@ public class LoginService {
         logger.debug("Entered login ---> " + login);
         logger.debug("Entered password ---> " + userPassword);
 
+        LogoutService.logoutUser(req);
+
         User userFromDb = null;
         UserDAOImplementation service = new UserDAOImplementation();
         try {

@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.service.LogoutService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
@@ -15,11 +16,10 @@ public class LogoutServlet extends HttpServlet {
     Logger logger = Logger.getLogger(LogoutServlet.class);
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        logger.debug("Entered doGet" + getClass().getName());
 
-        HttpSession session = req.getSession();
-        session.removeAttribute("user");
-        session.invalidate();
-        logger.debug("Logout successful!");
+        LogoutService.logoutUser(req);
+
         resp.sendRedirect("index.jsp");
     }
 }
