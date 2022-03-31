@@ -6,6 +6,8 @@ public class DeliveryOrder {
     private long id;
     private long locationFromID;
     private long locationToId;
+    private String cargoName;
+    private String cargoDescription;
     private String address;
     private long deliveryTypeId;
     private double weight;
@@ -13,38 +15,6 @@ public class DeliveryOrder {
     private Date receivingDate;
     private long tariffId;
     private long receiptId;
-
-    public DeliveryOrder() {
-    }
-
-    public DeliveryOrder(long id, long locationFromID, long locationToId,
-                         String address, long deliveryTypeId, double weight,
-                         double volume, Date receivingDate, long tariffId, long receiptId) {
-        this.id = id;
-        this.locationFromID = locationFromID;
-        this.locationToId = locationToId;
-        this.address = address;
-        this.deliveryTypeId = deliveryTypeId;
-        this.weight = weight;
-        this.volume = volume;
-        this.receivingDate = receivingDate;
-        this.tariffId = tariffId;
-        this.receiptId = receiptId;
-    }
-
-    public DeliveryOrder(long id, long locationFromID, long locationToId,
-                         String address, long deliveryTypeId, double weight,
-                         double volume, long tariffId, long receiptId) {
-        this.id = id;
-        this.locationFromID = locationFromID;
-        this.locationToId = locationToId;
-        this.address = address;
-        this.deliveryTypeId = deliveryTypeId;
-        this.weight = weight;
-        this.volume = volume;
-        this.tariffId = tariffId;
-        this.receiptId = receiptId;
-    }
 
     public long getId() {
         return id;
@@ -124,6 +94,26 @@ public class DeliveryOrder {
 
     public void setReceiptId(long receiptId) {
         this.receiptId = receiptId;
+    }
+
+    public long getLocationFromID() {
+        return locationFromID;
+    }
+
+    public String getCargoName() {
+        return cargoName;
+    }
+
+    public void setCargoName(String cargoName) {
+        this.cargoName = cargoName;
+    }
+
+    public String getCargoDescription() {
+        return cargoDescription;
+    }
+
+    public void setCargoDescription(String cargoDescription) {
+        this.cargoDescription = cargoDescription;
     }
 
     @Override

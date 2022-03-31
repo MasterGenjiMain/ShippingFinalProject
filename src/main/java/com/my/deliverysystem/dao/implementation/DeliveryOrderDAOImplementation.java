@@ -107,6 +107,8 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
         deliveryOrder.setId(rs.getLong("id"));
         deliveryOrder.setLocationFromID(rs.getLong("location_from_id"));
         deliveryOrder.setLocationToId(rs.getLong("location_to_id"));
+        deliveryOrder.setCargoName(rs.getString("cargo_name"));
+        deliveryOrder.setCargoDescription(rs.getString("cargo_description"));
         deliveryOrder.setAddress(rs.getString("address"));
         deliveryOrder.setDeliveryTypeId(rs.getLong("delivery_type_id"));
         deliveryOrder.setWeight(rs.getDouble("weight"));
@@ -209,12 +211,14 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
         pstmt.setLong(1, deliveryOrder.getlocationfromid());
         pstmt.setLong(2, deliveryOrder.getLocationToId());
         pstmt.setString(3, deliveryOrder.getAddress());
-        pstmt.setLong(4, deliveryOrder.getDeliveryTypeId());
-        pstmt.setDouble(5, deliveryOrder.getWeight());
-        pstmt.setDouble(6, deliveryOrder.getVolume());
-        pstmt.setDate(7, (Date) deliveryOrder.getReceivingDate());
-        pstmt.setLong(8, deliveryOrder.getTariffId());
-        pstmt.setLong(9, deliveryOrder.getReceiptId());
+        pstmt.setString(4, deliveryOrder.getCargoName());
+        pstmt.setString(5, deliveryOrder.getCargoDescription());
+        pstmt.setLong(6, deliveryOrder.getDeliveryTypeId());
+        pstmt.setDouble(7, deliveryOrder.getWeight());
+        pstmt.setDouble(8, deliveryOrder.getVolume());
+        pstmt.setDate(9, (Date) deliveryOrder.getReceivingDate());
+        pstmt.setLong(10, deliveryOrder.getTariffId());
+        pstmt.setLong(11, deliveryOrder.getReceiptId());
     }
 
     @Override

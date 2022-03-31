@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CityDAOImplementation implements CityDAO {
 
-    private final Logger logger = Logger.getLogger(CargoDAOImplementation.class);
+    private final Logger logger = Logger.getLogger(CityDAOImplementation.class);
 
     @Override
     public void add(City city) throws SQLException {

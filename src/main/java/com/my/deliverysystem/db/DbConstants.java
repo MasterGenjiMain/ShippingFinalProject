@@ -17,18 +17,18 @@ public abstract class DbConstants {
     public static final String DELETE_CITY = "DELETE FROM city WHERE id=?";
 
     public static final String INSERT_INTO_DELIVERY_ORDER = "INSERT INTO delivery_order (id, location_from_id," +
-            " location_to_id, address, delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id)" +
-            " VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    public static final String GET_ALL_DELIVERY_ORDERS = "SELECT id, location_from_id, location_to_id, address," +
+            " location_to_id, cargo_name, cargo_description, address, delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id)" +
+            " VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String GET_ALL_DELIVERY_ORDERS = "SELECT id, location_from_id, location_to_id, cargo_name, cargo_description, address," +
             " delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id FROM delivery_order ORDER BY delivery_order.id";
-    public static final String GET_DELIVERY_ORDER_BY_LOCATION_FROM_ID = "SELECT id, location_from_id, location_to_id," +
+    public static final String GET_DELIVERY_ORDER_BY_LOCATION_FROM_ID = "SELECT id, location_from_id, location_to_id, cargo_name, cargo_description," +
             " address,  delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id FROM delivery_order" +
             " WHERE delivery_order.location_from_id=? ORDER BY delivery_order.id";
-    public static final String GER_DELIVERY_ORDER_BY_LOCATION_TO_ID = "SELECT id, location_from_id, location_to_id," +
+    public static final String GER_DELIVERY_ORDER_BY_LOCATION_TO_ID = "SELECT id, location_from_id, location_to_id, cargo_name, cargo_description," +
             " address,  delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id" +
             " FROM delivery_order WHERE delivery_order.location_to_id=? ORDER BY delivery_order.id";
     public static final String UPDATE_DELIVERY_ORDER = "UPDATE delivery_order SET location_from_id=?," +
-            " location_to_id=?, address=?, delivery_type_id=?, weight=?, volume=?, receiving_date=?, tariff_id=?, receipt_id=? WHERE id=?";
+            " location_to_id=?, cargo_name=?, cargo_description=?, address=?, delivery_type_id=?, weight=?, volume=?, receiving_date=?, tariff_id=?, receipt_id=? WHERE id=?";
     public static final String DELETE_DELIVERY_ORDER = "DELETE FROM delivery_order WHERE id=?";
 
     public static final String INSERT_INTO_DELIVERY_TYPE = "INSERT INTO delivery_type (id, type_name) VALUES (DEFAULT, ?)";

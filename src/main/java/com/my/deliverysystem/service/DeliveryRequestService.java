@@ -53,29 +53,15 @@ public class DeliveryRequestService {
 
 
         //--------------------------------delivery order-----------------------------------------//
-        DeliveryOrder deliveryOrder = createDeliveryOrder(req, receipt);
+        createDeliveryOrder(req, receipt);
 
-        //--------------------------cargo------------------------------
-        createCargo(req, deliveryOrder);
 
         logger.debug("Delivery Request created successfully!");
         req.getSession().setAttribute("message", "Created successfully!");
     }
 
-    private static void createCargo(HttpServletRequest req, DeliveryOrder deliveryOrder) {
-        CargoDAOImplementation cargoService = new CargoDAOImplementation();
-        Cargo cargo = new Cargo();
-        cargo.setName(req.getParameter("cargoName"));
-        cargo.setDescription(req.getParameter("cargoDescription"));
-        cargo.setDeliveryOrderId(deliveryOrder.getId());
-        try {
-            cargoService.add(cargo);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private static DeliveryOrder createDeliveryOrder(HttpServletRequest req, Receipt receipt) {
+    private static void createDeliveryOrder(HttpServletRequest req, Receipt receipt) {
         DeliveryOrder deliveryOrder = new DeliveryOrder();
         DeliveryOrderDAOImplementation deliveryOrderService = new DeliveryOrderDAOImplementation();
         long locationFromId = 0;
@@ -108,7 +94,9 @@ public class DeliveryRequestService {
         }
         deliveryOrder.setLocationToId(locationToId); //2
 
-        deliveryOrder.setAddress(req.getParameter("address")); //3
+        deliveryOrder.setCargoName(req.getParameter("cargoName")); //3
+        deliveryOrder.setCargoDescription(req.getParameter("cargoDescription")); //4
+        deliveryOrder.setAddress(req.getParameter("address")); //5
 
         DeliveryTypeDAOImplementation deliveryTypeService = new DeliveryTypeDAOImplementation();
         List<DeliveryType> deliveryTypes = null;
@@ -125,11 +113,11 @@ public class DeliveryRequestService {
                 }
             }
         }
-        deliveryOrder.setDeliveryTypeId(deliveryTypeId); //4
+        deliveryOrder.setDeliveryTypeId(deliveryTypeId); //6
 
-        deliveryOrder.setWeight(Double.parseDouble(req.getParameter("weight"))); //5
-        deliveryOrder.setVolume(Double.parseDouble(req.getParameter("volume"))); //6
-        deliveryOrder.setReceivingDate(null); //7
+        deliveryOrder.setWeight(Double.parseDouble(req.getParameter("weight"))); //7
+        deliveryOrder.setVolume(Double.parseDouble(req.getParameter("volume"))); //8
+        deliveryOrder.setReceivingDate(null); //9
 
         TariffDAOImplementation tariffService = new TariffDAOImplementation();
         List<Tariff> tariffs = null;
@@ -146,8 +134,8 @@ public class DeliveryRequestService {
                 }
             }
         }
-        deliveryOrder.setTariffId(tariffId); //8
-        deliveryOrder.setReceiptId(receipt.getId()); //9
+        deliveryOrder.setTariffId(tariffId); //10
+        deliveryOrder.setReceiptId(receipt.getId()); //11
 
         try {
             logger.debug(deliveryOrder);
@@ -156,7 +144,6 @@ public class DeliveryRequestService {
         } catch (SQLException e) {
             logger.error(e);
         }
-        return deliveryOrder;
     }
 
     private static Receipt createReceipt(HttpServletRequest req) {
