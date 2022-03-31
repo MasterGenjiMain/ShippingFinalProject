@@ -7,8 +7,7 @@ public class DeliveryType {
     public DeliveryType() {
     }
 
-    public DeliveryType(long id, String typeName) {
-        this.id = id;
+    public DeliveryType(String typeName) {
         this.typeName = typeName;
     }
 

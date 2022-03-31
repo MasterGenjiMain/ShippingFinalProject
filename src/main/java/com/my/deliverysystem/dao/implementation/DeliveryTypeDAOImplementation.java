@@ -36,7 +36,6 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
     }
 
     private void insertNewDeliveryType(DeliveryType deliveryType, Connection conn) throws SQLException {
-        logger.debug("Entered insertNewDeliveryType() deliveryTypeImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -80,7 +79,6 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
     }
 
     private List<DeliveryType> getAllDeliveryTypes(Connection conn) throws SQLException {
-        logger.debug("Entered getAllDeliveryTypes() deliveryTypeImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<DeliveryType> cityList = new ArrayList<>();
@@ -102,7 +100,6 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
     }
 
     private DeliveryType deliveryTypeMap(ResultSet rs) throws SQLException {
-        logger.debug("Entered deliveryTypeMap() deliveryTypeImpl");
         DeliveryType deliveryType = new DeliveryType();
         deliveryType.setId(rs.getLong("id"));
         deliveryType.setTypeName(rs.getString("type_name"));
@@ -136,7 +133,6 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
     }
 
     private DeliveryType getDeliveryTypeById(Long id, Connection conn) throws SQLException {
-        logger.debug("Entered getDeliveryTypeById() deliveryTypeImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         DeliveryType deliveryType = null;
@@ -180,7 +176,6 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
     }
 
     private DeliveryType getDeliveryTypeByName(String pattern, Connection conn) throws SQLException {
-        logger.debug("Entered getDeliveryTypeByName() deliveryTypeImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         DeliveryType deliveryType = null;

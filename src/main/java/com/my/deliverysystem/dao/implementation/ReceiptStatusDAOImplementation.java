@@ -36,7 +36,6 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     }
 
     private void insertNewReceiptStatus(ReceiptStatus receiptStatus, Connection conn) throws SQLException {
-        logger.debug("Entered insertNewReceiptStatus() receiptStatusImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -80,7 +79,6 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     }
 
     private List<ReceiptStatus> getAllReceiptStatuses(Connection conn) throws SQLException {
-        logger.debug("Entered getAllReceiptStatuses() receiptStatusImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<ReceiptStatus> receiptStatuses = new ArrayList<>();
@@ -102,7 +100,6 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     }
 
     private ReceiptStatus receiptStatusMap(ResultSet rs) throws SQLException {
-        logger.debug("Entered receiptStatusMap() receiptStatusImpl");
         ReceiptStatus receiptStatus = new ReceiptStatus();
         receiptStatus.setId(rs.getLong("id"));
         receiptStatus.setStatusName(rs.getString("status_name"));
@@ -136,7 +133,6 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     }
 
     private ReceiptStatus getReceiptStatusById(Long id, Connection conn) throws SQLException {
-        logger.debug("Entered getReceiptStatusById() receiptStatusImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         ReceiptStatus receiptStatus = null;
@@ -180,7 +176,6 @@ public class ReceiptStatusDAOImplementation implements ReceiptStatusDAO {
     }
 
     private ReceiptStatus getReceiptStatusByName(String pattern, Connection conn) throws SQLException {
-        logger.debug("Entered getReceiptStatusByName() receiptStatusImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         ReceiptStatus receiptStatus = null;

@@ -16,6 +16,25 @@ public class DeliveryOrder {
     private long tariffId;
     private long receiptId;
 
+    public DeliveryOrder() {
+    }
+
+    public DeliveryOrder(long locationFromID, long locationToId, String cargoName, String cargoDescription,
+                         String address, long deliveryTypeId, double weight, double volume, Date receivingDate,
+                         long tariffId, long receiptId) {
+        this.locationFromID = locationFromID;
+        this.locationToId = locationToId;
+        this.cargoName = cargoName;
+        this.cargoDescription = cargoDescription;
+        this.address = address;
+        this.deliveryTypeId = deliveryTypeId;
+        this.weight = weight;
+        this.volume = volume;
+        this.receivingDate = receivingDate;
+        this.tariffId = tariffId;
+        this.receiptId = receiptId;
+    }
+
     public long getId() {
         return id;
     }

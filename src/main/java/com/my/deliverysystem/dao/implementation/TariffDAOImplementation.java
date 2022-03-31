@@ -36,7 +36,6 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private void insertNewTariff(Tariff tariff, Connection conn) throws SQLException {
-        logger.debug("Entered insertNewTariff() tariffImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -83,7 +82,6 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private List<Tariff> getAllTariffs(Connection conn) throws SQLException {
-        logger.debug("Entered getAllTariffs() tariffImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<Tariff> tariffs = new ArrayList<>();
@@ -105,7 +103,6 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private Tariff tariffMap(ResultSet rs) throws SQLException {
-        logger.debug("Entered tariffMap() tariffImpl");
         Tariff tariff = new Tariff();
         tariff.setId(rs.getLong("id"));
         tariff.setTariffName(rs.getString("tariff_name"));
@@ -140,7 +137,6 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private Tariff getTariffById(Long id, Connection conn) throws SQLException {
-        logger.debug("Entered getTariffById() tariffImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Tariff tariff = null;
@@ -184,7 +180,6 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private Tariff getTariffByName(String pattern, Connection conn) throws SQLException {
-        logger.debug("Entered getTariffByName() tariffImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Tariff tariff = null;
@@ -269,7 +264,6 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private void close(AutoCloseable autoCloseable) {
-        logger.debug("Entered close() tariffImpl");
         if (autoCloseable != null) {
             try {
                 autoCloseable.close();
@@ -281,7 +275,6 @@ public class TariffDAOImplementation implements TariffDAO {
     }
 
     private void rollback(Connection conn) {
-        logger.debug("Entered rollback() tariffImpl");
         if (conn != null) {
             try {
                 conn.rollback();

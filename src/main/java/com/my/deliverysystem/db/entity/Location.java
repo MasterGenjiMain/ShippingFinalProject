@@ -9,8 +9,7 @@ public class Location {
     public Location() {
     }
 
-    public Location(long id, String locationName, long cityId, int isActive) {
-        this.id = id;
+    public Location(String locationName, long cityId, int isActive) {
         this.locationName = locationName;
         this.cityId = cityId;
         this.isActive = isActive;

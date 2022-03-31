@@ -36,7 +36,6 @@ public class LocationDAOImplementation implements LocationDAO {
     }
 
     private void insertNewLocation(Location location, Connection conn) throws SQLException {
-        logger.debug("Entered insertNewLocation() locationImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
@@ -83,7 +82,6 @@ public class LocationDAOImplementation implements LocationDAO {
     }
 
     private List<Location> getAllLocations(Connection conn) throws SQLException {
-        logger.debug("Entered getAllLocations() locationImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<Location> locationList = new ArrayList<>();
@@ -105,7 +103,6 @@ public class LocationDAOImplementation implements LocationDAO {
     }
 
     private Location locationMap(ResultSet rs) throws SQLException {
-        logger.debug("Entered locationMap() locationImpl");
         Location location = new Location();
         location.setId(rs.getLong("id"));
         location.setLocationName(rs.getString("location_name"));
@@ -140,7 +137,6 @@ public class LocationDAOImplementation implements LocationDAO {
     }
 
     private Location getLocationById(Long id, Connection conn) throws SQLException {
-        logger.debug("Entered getLocationById() locationImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Location location = null;
@@ -184,7 +180,6 @@ public class LocationDAOImplementation implements LocationDAO {
     }
 
     private Location getLocationByName(String pattern, Connection conn) throws SQLException {
-        logger.debug("Entered getLocationByName() locationImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Location location = null;

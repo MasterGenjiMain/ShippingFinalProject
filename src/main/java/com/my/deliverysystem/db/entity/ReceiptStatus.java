@@ -7,8 +7,7 @@ public class ReceiptStatus {
     public ReceiptStatus() {
     }
 
-    public ReceiptStatus(long id, String statusName) {
-        this.id = id;
+    public ReceiptStatus(String statusName) {
         this.statusName = statusName;
     }
 

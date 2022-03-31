@@ -35,7 +35,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
     }
 
     private void insertNewDeliveryOrder(DeliveryOrder deliveryOrder, Connection conn) throws SQLException {
-        logger.debug("Entered insertNewDeliveryOrder() deliveryOrderImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -80,7 +79,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
     }
 
     private List<DeliveryOrder> getAllDeliveryOrders(Connection conn) throws SQLException {
-        logger.debug("Entered getAllDeliveryOrders() deliveryOrderImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<DeliveryOrder> deliveryOrders = new ArrayList<>();
@@ -102,7 +100,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
     }
 
     private DeliveryOrder deliveryOrderMap(ResultSet rs) throws SQLException {
-        logger.debug("Entered deliveryOrderMap() deliveryOrderImpl");
         DeliveryOrder deliveryOrder = new DeliveryOrder();
         deliveryOrder.setId(rs.getLong("id"));
         deliveryOrder.setLocationFromID(rs.getLong("location_from_id"));
@@ -133,7 +130,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
     }
 
     private List<DeliveryOrder> getDeliveryOrders(Long id, String sql) throws SQLException {
-        logger.debug("Entered getDeliveryOrders() deliveryOrderImpl");
         Connection conn = null;
         List<DeliveryOrder> deliveryOrders;
 
@@ -156,7 +152,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
     }
 
     private List<DeliveryOrder> getDeliveryOrdersById(Long id, Connection conn, String sql) throws SQLException {
-        logger.debug("Entered getDeliveryOrdersById() deliveryOrderImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<DeliveryOrder> deliveryOrdersList = new ArrayList<>();
@@ -207,7 +202,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
     }
 
     private void setDeliveryOrder(DeliveryOrder deliveryOrder, PreparedStatement pstmt) throws SQLException {
-        logger.debug("Entered setDeliveryOrder() deliveryOrderImpl");
         pstmt.setLong(1, deliveryOrder.getlocationfromid());
         pstmt.setLong(2, deliveryOrder.getLocationToId());
         pstmt.setString(3, deliveryOrder.getAddress());

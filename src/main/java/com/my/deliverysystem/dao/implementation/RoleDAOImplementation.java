@@ -35,7 +35,6 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private void insertNewRole(Role role, Connection conn) throws SQLException {
-        logger.debug("Entered insertNewRole() roleImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -80,7 +79,6 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private List<Role> getAllRoles(Connection conn) throws SQLException {
-        logger.debug("Entered getAllRoles() roleImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<Role> roleList = new ArrayList<>();
@@ -101,7 +99,6 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private Role roleMap(ResultSet rs) throws SQLException {
-        logger.debug("Entered roleMap() roleImpl");
         Role role = new Role();
         role.setId(rs.getLong("id"));
         role.setRoleName(rs.getString("role_name"));
@@ -134,7 +131,6 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private Role getRoleById(Long id, Connection conn) throws SQLException {
-        logger.debug("Entered getRoleById() roleImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Role role = null;
@@ -178,7 +174,6 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private Role getRoleByName(String pattern, Connection conn) throws SQLException {
-        logger.debug("Entered getRoleByName() roleImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Role role = null;
@@ -259,7 +254,6 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     private void close(AutoCloseable autoCloseable) {
-        logger.debug("Entered close() roleImpl");
         if (autoCloseable != null) {
             try {
                 autoCloseable.close();

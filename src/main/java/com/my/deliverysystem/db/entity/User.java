@@ -19,13 +19,6 @@ public class User {
         this.password = password;
     }
 
-    public User(long id, String username, String password, long roleId) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.roleId = roleId;
-    }
-
     public long getId() {
         return id;
     }

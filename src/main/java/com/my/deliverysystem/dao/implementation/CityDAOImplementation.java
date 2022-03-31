@@ -35,7 +35,6 @@ public class CityDAOImplementation implements CityDAO {
     }
 
     private void insertNewCity(City city, Connection conn) throws SQLException {
-        logger.debug("Entered insertNewCity() cityImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -80,7 +79,6 @@ public class CityDAOImplementation implements CityDAO {
     }
 
     private List<City> getAllCities(Connection conn) throws SQLException {
-        logger.debug("Entered getAllCities() cityImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<City> cityList = new ArrayList<>();
@@ -126,7 +124,6 @@ public class CityDAOImplementation implements CityDAO {
     }
 
     private City getCityById(Long id, Connection conn) throws SQLException {
-        logger.debug("Entered getCityById() cityImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         City city = null;
@@ -171,7 +168,6 @@ public class CityDAOImplementation implements CityDAO {
     }
 
     private City getCityByName(String pattern, Connection conn) throws SQLException {
-        logger.debug("Entered getCityByName() cityImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         City city = null;
@@ -253,7 +249,6 @@ public class CityDAOImplementation implements CityDAO {
     }
 
     private City cityMap(ResultSet rs) throws SQLException {
-        logger.debug("Entered cityMap() cityImpl");
         City city = new City();
         city.setId(rs.getLong("id"));
         city.setCityName(rs.getString("city_name"));

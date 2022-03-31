@@ -7,8 +7,7 @@ public class City {
     public City() {
     }
 
-    public City(long id, String cityName) {
-        this.id = id;
+    public City(String cityName) {
         this.cityName = cityName;
     }
 

@@ -10,8 +10,7 @@ public class Receipt {
     public Receipt() {
     }
 
-    public Receipt(long id, long userId, long managerId, double price, long receiptStatusId) {
-        this.id = id;
+    public Receipt(long userId, long managerId, double price, long receiptStatusId) {
         this.userId = userId;
         this.managerId = managerId;
         this.price = price;

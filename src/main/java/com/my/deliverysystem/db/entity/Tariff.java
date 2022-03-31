@@ -9,17 +9,10 @@ public class Tariff {
     public Tariff() {
     }
 
-    public Tariff(long id, String tariffName, double tariffPrice, String tariffInfo) {
-        this.id = id;
+    public Tariff(String tariffName, double tariffPrice, String tariffInfo) {
         this.tariffName = tariffName;
         this.tariffPrice = tariffPrice;
         this.tariffInfo = tariffInfo;
-    }
-
-    public Tariff(long id, String tariffName, double tariffPrice) {
-        this.id = id;
-        this.tariffName = tariffName;
-        this.tariffPrice = tariffPrice;
     }
 
     public long getId() {

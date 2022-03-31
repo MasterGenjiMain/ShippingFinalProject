@@ -35,7 +35,6 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private void insertNewReceipt(Receipt receipt, Connection conn) throws SQLException {
-        logger.debug("Entered insertNewReceipt() receiptImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -83,7 +82,6 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private List<Receipt> getAllReceipts(Connection conn) throws SQLException {
-        logger.debug("Entered getAllReceipts() receiptImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<Receipt> receipts = new ArrayList<>();
@@ -105,7 +103,6 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private Receipt receiptMap(ResultSet rs) throws SQLException {
-        logger.debug("Entered receiptMap() receiptImpl");
         Receipt receipt = new Receipt();
         receipt.setId(rs.getLong("id"));
         receipt.setUserId(rs.getLong("user_id"));
@@ -129,7 +126,6 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private List<Receipt> getReceipts(Long id, String sql) throws SQLException {
-        logger.debug("Entered getReceipts() receiptImpl");
         Connection conn = null;
         List<Receipt> receipts;
 
@@ -152,7 +148,6 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private List<Receipt> getReceiptsById(Long id, Connection conn, String sql) throws SQLException {
-        logger.debug("Entered getReceiptsById() receiptImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Receipt> receiptList = new ArrayList<>();
@@ -235,7 +230,6 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private void close(AutoCloseable autoCloseable) {
-        logger.debug("Entered close() receiptImpl");
         if (autoCloseable != null) {
             try {
                 autoCloseable.close();
@@ -247,7 +241,6 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     private void rollback(Connection conn) {
-        logger.debug("Entered rollback() receiptImpl");
         if (conn != null) {
             try {
                 conn.rollback();

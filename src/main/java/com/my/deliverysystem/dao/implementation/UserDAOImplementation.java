@@ -36,7 +36,6 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     private void insertNewUser(User user, Connection conn) throws SQLException {
-        logger.debug("Entered insertNewUser() userImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -84,7 +83,6 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     private List<User> getAllUsers(Connection conn) throws SQLException {
-        logger.debug("Entered getAllUsers() userImpl");
         Statement stmt = null;
         ResultSet rs = null;
         List<User> users = new ArrayList<>();
@@ -130,7 +128,6 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     private User getUserById(Long id, Connection conn) throws SQLException {
-        logger.debug("Entered getUserById() userImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         User user = null;
@@ -175,7 +172,6 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     private User getUserByUsername(String pattern, Connection conn) throws SQLException {
-        logger.debug("Entered getUserByUsername() userImpl");
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         User user = null;
@@ -195,7 +191,6 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     private User userMap(ResultSet rs) throws SQLException {
-        logger.debug("Entered userMap() userImpl");
         User user = new User();
         user.setId(rs.getLong("id"));
         user.setUsername(rs.getString("username"));
