@@ -19,7 +19,9 @@ public class GeneralInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet DeliveryRotesServlet");
 
-        LocationTableService.showGeneralInfo(req,resp);
+        LocationTableService.showGeneralInfo(req);
+
+        req.getRequestDispatcher("/generalInfo.jsp").forward(req, resp);
     }
 
 }

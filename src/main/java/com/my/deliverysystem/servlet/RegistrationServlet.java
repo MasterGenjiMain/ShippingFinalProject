@@ -18,13 +18,19 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered registration doGet --> redirecting...");
-        resp.sendRedirect("registration.jsp");
+        req.getRequestDispatcher("/registration.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered registration doPost");
+        boolean successStatus;
+        successStatus = RegistrationService.userRegistration(req);
 
-        RegistrationService.userRegistration(req,resp);
+        if (successStatus) {
+            resp.sendRedirect("login.jsp");
+        } else {
+            req.getRequestDispatcher("/registration.jsp").forward(req, resp);
+        }
     }
 }

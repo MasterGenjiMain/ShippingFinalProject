@@ -30,7 +30,6 @@ public class AccountService {
         }
         req.setAttribute("receipts", receipts);
 
-//        resp.sendRedirect("/FinalProject_war_exploded/account.jsp");
         req.getRequestDispatcher("/account.jsp").forward(req, resp);
     }
 }

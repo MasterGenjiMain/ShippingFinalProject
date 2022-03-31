@@ -18,14 +18,21 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered login doGet --> redirecting...");
-        resp.sendRedirect("login.jsp");
+        req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doPost");
+        boolean successStatus;
+        successStatus = LoginService.userLogin(req);
 
-        LoginService.userLogin(req, resp);
+        if (successStatus) {
+            resp.sendRedirect("index.jsp");
+        } else {
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        }
+
     }
 
 }

@@ -163,9 +163,7 @@ public class DeliveryRequestService {
 
         ReceiptDAOImplementation receiptService = new ReceiptDAOImplementation();
         try {
-            logger.debug(receipt);
             receiptService.add(receipt);
-            logger.debug(receipt);
             logger.debug("receipt added!");
         } catch (SQLException e) {
             logger.error(e);

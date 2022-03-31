@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class LoginService {
     final static Logger logger = Logger.getLogger(LoginService.class.getName());
 
-    public static void userLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public static boolean userLogin(HttpServletRequest req) throws IOException, ServletException {
         logger.debug("Entered userLogin() loginService");
         String login = req.getParameter("login");
         String userPassword = req.getParameter("password");
@@ -34,8 +34,8 @@ public class LoginService {
             if (userFromDb.getUsername().equals(login) && userFromDb.getPassword().equals(userPassword)) {
                 logger.info("Logging successful!");
                 req.getSession().setAttribute("user", userFromDb);
-                resp.sendRedirect("index.jsp");
-                return;
+
+                return true;
             } else {
                 logger.info("Incorrect password");
                 req.setAttribute("message", "Incorrect password!");
@@ -44,6 +44,6 @@ public class LoginService {
             logger.info("Login failed. User not found");
             req.setAttribute("message", "User not found");
         }
-        req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        return false;
     }
 }

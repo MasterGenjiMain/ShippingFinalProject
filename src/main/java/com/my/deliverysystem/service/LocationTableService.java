@@ -17,11 +17,9 @@ public class LocationTableService {
 
     private static final Logger logger = Logger.getLogger(LocationTableService.class);
 
-    public static void showGeneralInfo(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public static void showGeneralInfo(HttpServletRequest req) {
         createLocationsTable(req);
         createTariffsTable(req);
-
-        req.getRequestDispatcher("/generalInfo.jsp").forward(req, resp);
     }
 
     private static void createTariffsTable(HttpServletRequest req) {

@@ -22,6 +22,14 @@ public class TariffsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        TariffCalculatorService.calculate(req, resp);
+        logger.debug("Entered doPost() TariffsServlet");
+        boolean successStatus;
+        successStatus = TariffCalculatorService.calculate(req);
+
+        if (successStatus) {
+            resp.sendRedirect("tariff.jsp");
+        } else {
+            req.getRequestDispatcher("/tariff.jsp").forward(req, resp);
+        }
     }
 }

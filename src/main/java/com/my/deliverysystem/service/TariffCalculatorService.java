@@ -15,7 +15,7 @@ public class TariffCalculatorService {
     private static final int VOLUME_PRICE = 2;
     private static final int WEIGHT_PRICE = 5;
 
-    public static void calculate(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public static boolean calculate(HttpServletRequest req) throws IOException, ServletException {
         logger.debug("Entered calculate() TariffService");
         int height, width, length;
         double distance ,weight;
@@ -34,8 +34,8 @@ public class TariffCalculatorService {
             logger.error(e);
             req.getSession().removeAttribute("price");
             req.setAttribute("message", "All fields must be filled");
-            req.getRequestDispatcher("/tariff.jsp").forward(req, resp);
-            return;
+
+            return false;
         }
 
         logger.debug("height -> " + height);
@@ -59,7 +59,7 @@ public class TariffCalculatorService {
         finalPrice = String.format("%.2f", price);
         req.getSession().setAttribute("price", finalPrice);
 
-        resp.sendRedirect("tariff.jsp");
+        return true;
     }
 
     public static double getPrice(double distance, double weight, double volume) {
