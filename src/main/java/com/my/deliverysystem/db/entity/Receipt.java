@@ -6,15 +6,17 @@ public class Receipt {
     private long managerId;
     private double price;
     private long receiptStatusId;
+    private long deliveryOrderId;
 
     public Receipt() {
     }
 
-    public Receipt(long userId, long managerId, double price, long receiptStatusId) {
+    public Receipt(long userId, long managerId, double price, long receiptStatusId, long deliveryOrderId) {
         this.userId = userId;
         this.managerId = managerId;
         this.price = price;
         this.receiptStatusId = receiptStatusId;
+        this.deliveryOrderId = deliveryOrderId;
     }
 
     public long getId() {
@@ -57,6 +59,14 @@ public class Receipt {
         this.receiptStatusId = receiptStatusId;
     }
 
+    public long getDeliveryOrderId() {
+        return deliveryOrderId;
+    }
+
+    public void setDeliveryOrderId(long deliveryOrderId) {
+        this.deliveryOrderId = deliveryOrderId;
+    }
+
     @Override
     public String toString() {
         return "Receipt{" +
@@ -65,6 +75,7 @@ public class Receipt {
                 ", managerId=" + managerId +
                 ", price=" + price +
                 ", receiptStatusId=" + receiptStatusId +
+                ", deliveryOrderId=" + deliveryOrderId +
                 '}';
     }
 }

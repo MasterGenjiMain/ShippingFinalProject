@@ -43,6 +43,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
             pstmt.setLong(2, receipt.getManagerId());
             pstmt.setDouble(3, receipt.getPrice());
             pstmt.setLong(4, receipt.getReceiptStatusId());
+            pstmt.setLong(5, receipt.getDeliveryOrderId());
             if (pstmt.executeUpdate() > 0) {
                 rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
@@ -109,6 +110,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
         receipt.setManagerId(rs.getLong("manager_id"));
         receipt.setPrice(rs.getDouble("price"));
         receipt.setReceiptStatusId(rs.getLong("receipt_status_id"));
+        receipt.setDeliveryOrderId(rs.getLong("delivery_order_id"));
 
         return receipt;
     }
@@ -183,7 +185,8 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
             pstmt.setLong(1, receipt.getManagerId());
             pstmt.setDouble(2, receipt.getPrice());
             pstmt.setLong(3, receipt.getReceiptStatusId());
-            pstmt.setLong(4, receipt.getId());
+            pstmt.setLong(4, receipt.getDeliveryOrderId());
+            pstmt.setLong(5, receipt.getId());
 
             if (pstmt.executeUpdate() > 0) {
                 result = true;

@@ -112,7 +112,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
         deliveryOrder.setVolume(rs.getDouble("volume"));
         deliveryOrder.setReceivingDate(rs.getDate("receiving_date"));
         deliveryOrder.setTariffId(rs.getLong("tariff_id"));
-        deliveryOrder.setReceiptId(rs.getLong("receipt_id"));
 
         return deliveryOrder;
     }
@@ -185,7 +184,7 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
             pstmt = conn.prepareStatement(DbConstants.UPDATE_DELIVERY_ORDER);
 
             setDeliveryOrder(deliveryOrder, pstmt);
-
+            pstmt.setLong(11, deliveryOrder.getId());
             if (pstmt.executeUpdate() > 0) {
                 result = true;
             }
@@ -212,7 +211,6 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
         pstmt.setDouble(8, deliveryOrder.getVolume());
         pstmt.setDate(9, (Date) deliveryOrder.getReceivingDate());
         pstmt.setLong(10, deliveryOrder.getTariffId());
-        pstmt.setLong(11, deliveryOrder.getReceiptId());
     }
 
     @Override

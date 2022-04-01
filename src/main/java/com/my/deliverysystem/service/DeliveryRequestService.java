@@ -48,20 +48,18 @@ public class DeliveryRequestService {
     }
 
     public static void createNewDeliveryRequest(HttpServletRequest req) {
-        //--------------------------------receipt-----------------------------------------//
-        Receipt receipt = createReceipt(req);
-
 
         //--------------------------------delivery order-----------------------------------------//
-        createDeliveryOrder(req, receipt);
-
+        DeliveryOrder deliveryOrder = createDeliveryOrder(req);
+        //--------------------------------receipt-----------------------------------------//
+        createReceipt(deliveryOrder, req);
 
         logger.debug("Delivery Request created successfully!");
         req.getSession().setAttribute("message", "Created successfully!");
     }
 
 
-    private static void createDeliveryOrder(HttpServletRequest req, Receipt receipt) {
+    private static DeliveryOrder createDeliveryOrder(HttpServletRequest req) {
         DeliveryOrder deliveryOrder = new DeliveryOrder();
         DeliveryOrderDAOImplementation deliveryOrderService = new DeliveryOrderDAOImplementation();
         long locationFromId = 0;
@@ -135,7 +133,6 @@ public class DeliveryRequestService {
             }
         }
         deliveryOrder.setTariffId(tariffId); //10
-        deliveryOrder.setReceiptId(receipt.getId()); //11
 
         try {
             logger.debug(deliveryOrder);
@@ -144,9 +141,10 @@ public class DeliveryRequestService {
         } catch (SQLException e) {
             logger.error(e);
         }
+        return deliveryOrder;
     }
 
-    private static Receipt createReceipt(HttpServletRequest req) {
+    private static void createReceipt(DeliveryOrder deliveryOrder ,HttpServletRequest req) {
         double TEMPORARY_DISTANCE = 450;
         int DEFAULT_MANAGER = 1;
         double weight = Double.parseDouble(req.getParameter("weight"));
@@ -160,6 +158,7 @@ public class DeliveryRequestService {
         receipt.setManagerId(DEFAULT_MANAGER);
         receipt.setPrice(price);
         receipt.setReceiptStatusId(1);
+        receipt.setDeliveryOrderId(deliveryOrder.getId());
 
         ReceiptDAOImplementation receiptService = new ReceiptDAOImplementation();
         try {
@@ -168,6 +167,5 @@ public class DeliveryRequestService {
         } catch (SQLException e) {
             logger.error(e);
         }
-        return receipt;
     }
 }

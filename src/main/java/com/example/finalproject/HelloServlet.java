@@ -193,20 +193,24 @@ public class HelloServlet extends HttpServlet {
 /*            RoleDAOImplementation service = new RoleDAOImplementation();
             System.out.println(service.getByName("manager"));*/
 
-//            DeliveryOrderDAOImplementation deliveryOrderDAOImplementation = new DeliveryOrderDAOImplementation();
-//            DeliveryOrder deliveryOrder = new DeliveryOrder();
-//            deliveryOrder.setLocationFromID(1); //1
-//            deliveryOrder.setLocationToId(2); //2
-//            deliveryOrder.setAddress("dsds"); //3
-//            deliveryOrder.setDeliveryTypeId(1); //4
-//            deliveryOrder.setWeight(45); //5
-//            deliveryOrder.setVolume(4545); //6
-//            deliveryOrder.setReceivingDate(null); //7
-//            deliveryOrder.setTariffId(1); //8
-//            deliveryOrder.setReceiptId(1); //9
-//            System.out.println(deliveryOrder);
+            DeliveryOrderDAOImplementation deliveryOrderDAOImplementation = new DeliveryOrderDAOImplementation();
+            DeliveryOrder deliveryOrder = new DeliveryOrder();
+            deliveryOrder.setLocationFromID(1); //1
+            deliveryOrder.setLocationToId(2); //2
+            deliveryOrder.setCargoName("someNameNew"); //3
+            deliveryOrder.setCargoDescription("someNewDesc"); //4
+            deliveryOrder.setAddress("dsds"); //5
+            deliveryOrder.setDeliveryTypeId(1); //6
+            deliveryOrder.setWeight(45); //7
+            deliveryOrder.setVolume(4545); //8
+            deliveryOrder.setReceivingDate(null); //9
+            deliveryOrder.setTariffId(1); //10
+            System.out.println(deliveryOrder);
 
 //            deliveryOrderDAOImplementation.add(deliveryOrder);
+            System.out.println(deliveryOrderDAOImplementation.getAll());
+            System.out.println(deliveryOrderDAOImplementation.getByLocationFromId(1L));
+            deliveryOrderDAOImplementation.update(deliveryOrder);
         } catch (Exception e) {
             e.printStackTrace();
         }

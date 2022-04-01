@@ -2,13 +2,6 @@ package com.my.deliverysystem.db;
 
 public abstract class DbConstants {
 
-    public static final String INSERT_INTO_CARGO = "INSERT INTO cargo (id, name, description, delivery_order_id) VALUES (DEFAULT, ?, ?, ?)";
-    public static final String GET_ALL_CARGOS = "SELECT id, name, description, delivery_order_id FROM cargo";
-    public static final String GET_CARGO_BY_ID = "SELECT id, name, description, delivery_order_id FROM cargo WHERE cargo.id=? ORDER BY cargo.id";
-    public static final String GET_CARGO_BY_NAME = "SELECT id, name, description, delivery_order_id FROM cargo WHERE cargo.name=? ORDER BY cargo.id";
-    public static final String UPDATE_CARGO = "UPDATE cargo SET name=?, description=?, delivery_order_id=? WHERE id=?";
-    public static final String DELETE_CARGO = "DELETE FROM cargo WHERE id=?";
-
     public static final String INSERT_INTO_CITY = "INSERT INTO city (id, city_name) VALUES (DEFAULT, ?)";
     public static final String GET_ALL_CITIES = "SELECT id, city_name FROM city ORDER BY city.id";
     public static final String GET_CITY_BY_ID = "SELECT id, city_name FROM city where city.id=? ORDER BY city.id";
@@ -17,18 +10,18 @@ public abstract class DbConstants {
     public static final String DELETE_CITY = "DELETE FROM city WHERE id=?";
 
     public static final String INSERT_INTO_DELIVERY_ORDER = "INSERT INTO delivery_order (id, location_from_id," +
-            " location_to_id, cargo_name, cargo_description, address, delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id)" +
-            " VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            " location_to_id, cargo_name, cargo_description, address, delivery_type_id, weight, volume, receiving_date, tariff_id)" +
+            " VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String GET_ALL_DELIVERY_ORDERS = "SELECT id, location_from_id, location_to_id, cargo_name, cargo_description, address," +
-            " delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id FROM delivery_order ORDER BY delivery_order.id";
+            " delivery_type_id, weight, volume, receiving_date, tariff_id FROM delivery_order ORDER BY delivery_order.id";
     public static final String GET_DELIVERY_ORDER_BY_LOCATION_FROM_ID = "SELECT id, location_from_id, location_to_id, cargo_name, cargo_description," +
-            " address,  delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id FROM delivery_order" +
+            " address,  delivery_type_id, weight, volume, receiving_date, tariff_id FROM delivery_order" +
             " WHERE delivery_order.location_from_id=? ORDER BY delivery_order.id";
     public static final String GER_DELIVERY_ORDER_BY_LOCATION_TO_ID = "SELECT id, location_from_id, location_to_id, cargo_name, cargo_description," +
-            " address,  delivery_type_id, weight, volume, receiving_date, tariff_id, receipt_id" +
+            " address, delivery_type_id, weight, volume, receiving_date, tariff_id" +
             " FROM delivery_order WHERE delivery_order.location_to_id=? ORDER BY delivery_order.id";
     public static final String UPDATE_DELIVERY_ORDER = "UPDATE delivery_order SET location_from_id=?," +
-            " location_to_id=?, cargo_name=?, cargo_description=?, address=?, delivery_type_id=?, weight=?, volume=?, receiving_date=?, tariff_id=?, receipt_id=? WHERE id=?";
+            " location_to_id=?, cargo_name=?, cargo_description=?, address=?, delivery_type_id=?, weight=?, volume=?, receiving_date=?, tariff_id=? WHERE id=?";
     public static final String DELETE_DELIVERY_ORDER = "DELETE FROM delivery_order WHERE id=?";
 
     public static final String INSERT_INTO_DELIVERY_TYPE = "INSERT INTO delivery_type (id, type_name) VALUES (DEFAULT, ?)";
@@ -45,11 +38,11 @@ public abstract class DbConstants {
     public static final String UPDATE_LOCATION = "UPDATE location SET location_name=?, city_id=?, is_active=? WHERE id=?";
     public static final String DELETE_LOCATION = "DELETE FROM location WHERE id=?";
 
-    public static final String INSERT_INTO_RECEIPT = "INSERT INTO receipt (id, user_id, manager_id, price, receipt_status_id) VALUES (DEFAULT, ?, ?, ?, ?)";
-    public static final String GET_ALL_RECEIPTS = "SELECT id, user_id, manager_id, price, receipt_status_id FROM receipt ORDER BY receipt.id";
-    public static final String GET_RECEIPT_BY_USER_ID = "SELECT id, user_id, manager_id, price, receipt_status_id FROM receipt WHERE receipt.user_id=? ORDER BY receipt.id";
-    public static final String GET_RECEIPT_BY_MANAGER_ID = "SELECT id, user_id, manager_id, price, receipt_status_id FROM receipt WHERE receipt.manager_id=? ORDER BY receipt.id";
-    public static final String UPDATE_RECEIPT = "UPDATE receipt SET manager_id=?, price=?, receipt_status_id=? WHERE id=?";
+    public static final String INSERT_INTO_RECEIPT = "INSERT INTO receipt (id, user_id, manager_id, price, receipt_status_id, delivery_order_id) VALUES (DEFAULT, ?, ?, ?, ?, ?)";
+    public static final String GET_ALL_RECEIPTS = "SELECT id, user_id, manager_id, price, receipt_status_id, delivery_order_id FROM receipt ORDER BY receipt.id";
+    public static final String GET_RECEIPT_BY_USER_ID = "SELECT id, user_id, manager_id, price, receipt_status_id, delivery_order_id FROM receipt WHERE receipt.user_id=? ORDER BY receipt.id";
+    public static final String GET_RECEIPT_BY_MANAGER_ID = "SELECT id, user_id, manager_id, price, receipt_status_id, delivery_order_id FROM receipt WHERE receipt.manager_id=? ORDER BY receipt.id";
+    public static final String UPDATE_RECEIPT = "UPDATE receipt SET manager_id=?, price=?, receipt_status_id=?, delivery_order_id=? WHERE id=?";
     public static final String DELETE_RECEIPT = "DELETE FROM receipt WHERE id=?";
 
     public static final String INSERT_INTO_RECEIPT_STATUS = "INSERT INTO receipt_status (id, status_name) VALUES (DEFAULT, ?)";

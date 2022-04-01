@@ -14,14 +14,13 @@ public class DeliveryOrder {
     private double volume;
     private Date receivingDate;
     private long tariffId;
-    private long receiptId;
 
     public DeliveryOrder() {
     }
 
     public DeliveryOrder(long locationFromID, long locationToId, String cargoName, String cargoDescription,
                          String address, long deliveryTypeId, double weight, double volume, Date receivingDate,
-                         long tariffId, long receiptId) {
+                         long tariffId) {
         this.locationFromID = locationFromID;
         this.locationToId = locationToId;
         this.cargoName = cargoName;
@@ -32,7 +31,6 @@ public class DeliveryOrder {
         this.volume = volume;
         this.receivingDate = receivingDate;
         this.tariffId = tariffId;
-        this.receiptId = receiptId;
     }
 
     public long getId() {
@@ -107,14 +105,6 @@ public class DeliveryOrder {
         this.tariffId = tariffId;
     }
 
-    public long getReceiptId() {
-        return receiptId;
-    }
-
-    public void setReceiptId(long receiptId) {
-        this.receiptId = receiptId;
-    }
-
     public long getLocationFromID() {
         return locationFromID;
     }
@@ -147,7 +137,6 @@ public class DeliveryOrder {
                 ", volume=" + volume +
                 ", receivingDate=" + receivingDate +
                 ", tariffId=" + tariffId +
-                ", receiptId=" + receiptId +
                 '}';
     }
 }
