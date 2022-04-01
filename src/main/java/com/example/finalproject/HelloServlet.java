@@ -4,6 +4,7 @@ import com.my.deliverysystem.dao.implementation.DeliveryOrderDAOImplementation;
 import com.my.deliverysystem.dao.implementation.ReceiptStatusDAOImplementation;
 import com.my.deliverysystem.dao.implementation.RoleDAOImplementation;
 import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
+import com.my.deliverysystem.dao.implementation.beanImpl.LocationBeanDAOImpl;
 import com.my.deliverysystem.db.entity.DeliveryOrder;
 
 import java.io.*;
@@ -193,24 +194,26 @@ public class HelloServlet extends HttpServlet {
 /*            RoleDAOImplementation service = new RoleDAOImplementation();
             System.out.println(service.getByName("manager"));*/
 
-            DeliveryOrderDAOImplementation deliveryOrderDAOImplementation = new DeliveryOrderDAOImplementation();
-            DeliveryOrder deliveryOrder = new DeliveryOrder();
-            deliveryOrder.setLocationFromID(1); //1
-            deliveryOrder.setLocationToId(2); //2
-            deliveryOrder.setCargoName("someNameNew"); //3
-            deliveryOrder.setCargoDescription("someNewDesc"); //4
-            deliveryOrder.setAddress("dsds"); //5
-            deliveryOrder.setDeliveryTypeId(1); //6
-            deliveryOrder.setWeight(45); //7
-            deliveryOrder.setVolume(4545); //8
-            deliveryOrder.setReceivingDate(null); //9
-            deliveryOrder.setTariffId(1); //10
-            System.out.println(deliveryOrder);
+//            DeliveryOrderDAOImplementation deliveryOrderDAOImplementation = new DeliveryOrderDAOImplementation();
+//            DeliveryOrder deliveryOrder = new DeliveryOrder();
+//            deliveryOrder.setLocationFromID(1); //1
+//            deliveryOrder.setLocationToId(2); //2
+//            deliveryOrder.setCargoName("someNameNew"); //3
+//            deliveryOrder.setCargoDescription("someNewDesc"); //4
+//            deliveryOrder.setAddress("dsds"); //5
+//            deliveryOrder.setDeliveryTypeId(1); //6
+//            deliveryOrder.setWeight(45); //7
+//            deliveryOrder.setVolume(4545); //8
+//            deliveryOrder.setReceivingDate(null); //9
+//            deliveryOrder.setTariffId(1); //10
+//            System.out.println(deliveryOrder);
 
 //            deliveryOrderDAOImplementation.add(deliveryOrder);
-            System.out.println(deliveryOrderDAOImplementation.getAll());
-            System.out.println(deliveryOrderDAOImplementation.getByLocationFromId(1L));
-            deliveryOrderDAOImplementation.update(deliveryOrder);
+//            System.out.println(deliveryOrderDAOImplementation.getAll());
+//            System.out.println(deliveryOrderDAOImplementation.getByLocationFromId(1L));
+//            deliveryOrderDAOImplementation.update(deliveryOrder);
+            LocationBeanDAOImpl service = new LocationBeanDAOImpl();
+            System.out.println(service.getAll());
         } catch (Exception e) {
             e.printStackTrace();
         }

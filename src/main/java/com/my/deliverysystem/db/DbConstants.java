@@ -31,11 +31,11 @@ public abstract class DbConstants {
     public static final String UPDATE_DELIVERY_TYPE = "UPDATE delivery_type SET type_name=? WHERE id=?";
     public static final String DELETE_DELIVERY_TYPE = "DELETE FROM delivery_type WHERE id=?";
 
-    public static final String INSERT_INTO_LOCATION = "INSERT INTO location (id, location_name, city_id, is_active) VALUES (DEFAULT, ?, ?, ?)";
-    public static final String GET_ALL_LOCATIONS = "SELECT id, location_name, city_id, is_active FROM location ORDER BY location.id";
-    public static final String GET_LOCATION_BY_ID = "SELECT id, location_name, city_id, is_active FROM location WHERE location.id=? ORDER BY location.id";
-    public static final String GET_LOCATION_BY_NAME = "SELECT id, location_name, city_id, is_active FROM location WHERE location.location_name=? ORDER BY location.id";
-    public static final String UPDATE_LOCATION = "UPDATE location SET location_name=?, city_id=?, is_active=? WHERE id=?";
+    public static final String INSERT_INTO_LOCATION = "INSERT INTO location (id, location_name, city_id, active_status_id) VALUES (DEFAULT, ?, ?, ?)";
+    public static final String GET_ALL_LOCATIONS = "SELECT id, location_name, city_id, active_status_id FROM location ORDER BY location.id";
+    public static final String GET_LOCATION_BY_ID = "SELECT id, location_name, city_id, active_status_id FROM location WHERE location.id=? ORDER BY location.id";
+    public static final String GET_LOCATION_BY_NAME = "SELECT id, location_name, city_id, active_status_id FROM location WHERE location.location_name=? ORDER BY location.id";
+    public static final String UPDATE_LOCATION = "UPDATE location SET location_name=?, city_id=?, active_status_id=? WHERE id=?";
     public static final String DELETE_LOCATION = "DELETE FROM location WHERE id=?";
 
     public static final String INSERT_INTO_RECEIPT = "INSERT INTO receipt (id, user_id, manager_id, price, receipt_status_id, delivery_order_id) VALUES (DEFAULT, ?, ?, ?, ?, ?)";
@@ -72,6 +72,18 @@ public abstract class DbConstants {
     public static final String GET_USER_BY_USERNAME = "SELECT id, username, email, password, create_time, role_id FROM user WHERE user.username=? ORDER BY user.id";
     public static final String UPDATE_USER = "UPDATE user SET username=?, email=?, password=?, role_id=? WHERE id=?";
     public static final String DELETE_USER = "DELETE FROM user WHERE id=?";
+
+    public static final String GET_ALL_LOCATIONS_BEAN = "SELECT location.id, location.location_name, city.city_name, active_status.active_status_name " +
+            "FROM location " +
+            "LEFT JOIN city ON location.city_id = city.id " +
+            "LEFT JOIN active_status ON location.active_status_id = active_status.id ORDER BY location.id";
+
+    public static final String GET_RECEIPTS_BEAN_BY_ID = "SELECT receipt.id, receipt.user_id, user.username, " +
+            "receipt.price, receipt_status.status_name, receipt.delivery_order_id " +
+            "FROM receipt " +
+            "LEFT JOIN receipt_status ON receipt.receipt_status_id = receipt_status.id " +
+            "LEFT JOIN cargo_delivery_db.user ON receipt.manager_id = user.id " +
+            "WHERE receipt.user_id=? ORDER BY receipt.id";
 
     private DbConstants() {
     }

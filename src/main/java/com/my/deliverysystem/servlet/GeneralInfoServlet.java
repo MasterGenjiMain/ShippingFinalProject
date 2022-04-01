@@ -1,6 +1,6 @@
 package com.my.deliverysystem.servlet;
 
-import com.my.deliverysystem.service.LocationTableService;
+import com.my.deliverysystem.service.GeneralInfoService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ public class GeneralInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet DeliveryRotesServlet");
 
-        LocationTableService.showGeneralInfo(req);
+        GeneralInfoService.showGeneralInfo(req);
 
         req.getRequestDispatcher("/generalInfo.jsp").forward(req, resp);
     }

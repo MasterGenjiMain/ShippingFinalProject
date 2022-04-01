@@ -19,14 +19,14 @@
 <%@include file="parts/navigation.jspf" %>
 <div class="container mt-5">
     <table class="table table-bordered table-responsive table-hover caption-top table-striped">
-        <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0px 0px;"><span
+        <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0 0;"><span
                 style="padding-left: 25px">Available delivery locations</span></caption>
 
         <thead>
         <tr>
             <th>Name</th>
-            <th>City Id</th>
-            <th>Is active</th>
+            <th>City</th>
+            <th>Active Status</th>
         </tr>
         </thead>
 
@@ -34,8 +34,8 @@
         <c:forEach items="${requestScope.locations}" var="location">
             <tr>
                 <td>${location.locationName}</td>
-                <td>${location.cityId}</td>
-                <td>${location.isActive}</td>
+                <td>${location.cityName}</td>
+                <td>${location.activeStatus}</td>
             </tr>
         </c:forEach>
         </tbody>
@@ -44,7 +44,7 @@
 </div>
 <div class="container mt-5">
     <table class="table table-bordered table-responsive table-hover caption-top table-striped">
-        <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0px 0px;"><span
+        <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0 0;"><span
                 style="padding-left: 25px">Available tariffs</span></caption>
 
         <thead>

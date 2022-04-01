@@ -19,6 +19,8 @@ public class AccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet()" + AccountServlet.class.getName());
 
-        AccountService.showReceipts(req, resp);
+        AccountService.showReceipts(req);
+
+        req.getRequestDispatcher("/account.jsp").forward(req, resp);
     }
 }

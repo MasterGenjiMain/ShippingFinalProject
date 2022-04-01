@@ -22,9 +22,10 @@
         <thead>
         <tr>
             <th>User Id</th>
-            <th>Manager Id</th>
+            <th>Manager</th>
             <th>Price</th>
             <th>Receipt Status</th>
+            <th>Delivery Order Id</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -32,10 +33,11 @@
         <tbody>
         <c:forEach items="${requestScope.receipts}" var="receipt">
             <tr>
-                <td>${receipt.userId}</td>
-                <td>${receipt.managerId}</td>
+                <td>${receipt.id}</td>
+                <td>${receipt.managerName}</td>
                 <td>${receipt.price}</td>
-                <td>${receipt.receiptStatusId}</td>
+                <td>${receipt.receiptStatusName}</td>
+                <td>${receipt.deliveryOrderId}</td>
 
                 <td class="text-center"><a class="btn btn-secondary" onclick="" href="#">Pay</a></td>
             </tr>

@@ -4,15 +4,15 @@ public class Location {
     private long id;
     private String locationName;
     private long cityId;
-    private int isActive;
+    private int activeStatusId;
 
     public Location() {
     }
 
-    public Location(String locationName, long cityId, int isActive) {
+    public Location(String locationName, long cityId, int activeStatusId) {
         this.locationName = locationName;
         this.cityId = cityId;
-        this.isActive = isActive;
+        this.activeStatusId = activeStatusId;
     }
 
     public long getId() {
@@ -39,12 +39,12 @@ public class Location {
         this.cityId = cityId;
     }
 
-    public int getIsActive() {
-        return isActive;
+    public int getActiveStatusId() {
+        return activeStatusId;
     }
 
-    public void setIsActive(int isActive) {
-        this.isActive = isActive;
+    public void setActiveStatusId(int activeStatusId) {
+        this.activeStatusId = activeStatusId;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Location {
                 "id=" + id +
                 ", locationName='" + locationName + '\'' +
                 ", cityId=" + cityId +
-                ", isActive=" + isActive +
+                ", isActive=" + activeStatusId +
                 '}';
     }
 }

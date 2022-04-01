@@ -43,7 +43,7 @@ public class LocationDAOImplementation implements LocationDAO {
             pstmt = conn.prepareStatement(DbConstants.INSERT_INTO_LOCATION, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, location.getLocationName());
             pstmt.setLong(2, location.getCityId());
-            pstmt.setInt(3, location.getIsActive());
+            pstmt.setInt(3, location.getActiveStatusId());
             if (pstmt.executeUpdate() > 0) {
                 rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
@@ -107,7 +107,7 @@ public class LocationDAOImplementation implements LocationDAO {
         location.setId(rs.getLong("id"));
         location.setLocationName(rs.getString("location_name"));
         location.setCityId(rs.getLong("city_id"));
-        location.setIsActive(rs.getInt("is_active"));
+        location.setActiveStatusId(rs.getInt("active_status_id"));
 
         return location;
     }
@@ -214,7 +214,7 @@ public class LocationDAOImplementation implements LocationDAO {
 
             pstmt.setString(1, location.getLocationName());
             pstmt.setLong(2, location.getCityId());
-            pstmt.setInt(3, location.getIsActive());
+            pstmt.setInt(3, location.getActiveStatusId());
             pstmt.setLong(4, location.getId());
 
             if (pstmt.executeUpdate() > 0) {
