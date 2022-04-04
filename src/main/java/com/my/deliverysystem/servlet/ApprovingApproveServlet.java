@@ -1,6 +1,6 @@
 package com.my.deliverysystem.servlet;
 
-import com.my.deliverysystem.service.AccountService;
+import com.my.deliverysystem.service.ApproveService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ public class ApprovingApproveServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        AccountService.changeStatus(req, APPROVED_STATUS);
+        ApproveService.approve(req, APPROVED_STATUS);
         req.getRequestDispatcher("/manager/approving").forward(req, resp);
     }
 }
