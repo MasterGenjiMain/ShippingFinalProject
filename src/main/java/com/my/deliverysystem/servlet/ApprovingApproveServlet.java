@@ -1,6 +1,6 @@
 package com.my.deliverysystem.servlet;
 
-import com.my.deliverysystem.service.ApproveService;
+import com.my.deliverysystem.service.AccountService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -10,16 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/manager/approving")
-public class ApprovingServlet extends HttpServlet {
-    private final Logger logger = Logger.getLogger(ApprovingServlet.class);
+@WebServlet("/manager/approving/approve/*")
+public class ApprovingApproveServlet extends HttpServlet {
+    private final Logger logger = Logger.getLogger(ApprovingApproveServlet.class);
+    private static final long APPROVED_STATUS = 2;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("Entered doGet " + getClass().getName());
 
-        ApproveService.showReceipts(req);
-
-        req.getRequestDispatcher("/approving.jsp").forward(req, resp);
+        AccountService.changeStatus(req, APPROVED_STATUS);
+        req.getRequestDispatcher("/manager/approving").forward(req, resp);
     }
 }

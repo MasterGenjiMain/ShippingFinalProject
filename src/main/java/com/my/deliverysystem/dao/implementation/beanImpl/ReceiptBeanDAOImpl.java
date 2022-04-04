@@ -2,8 +2,6 @@ package com.my.deliverysystem.dao.implementation.beanImpl;
 
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
-import com.my.deliverysystem.db.entity.Receipt;
-import com.my.deliverysystem.db.entity.bean.LocationBean;
 import com.my.deliverysystem.db.entity.bean.ReceiptBean;
 import org.apache.log4j.Logger;
 
@@ -13,6 +11,54 @@ import java.util.List;
 
 public class ReceiptBeanDAOImpl {
     private final Logger logger = Logger.getLogger(ReceiptBeanDAOImpl.class);
+
+    public List<ReceiptBean> getAll() throws SQLException {
+        logger.debug("Entered getAll() receiptImpl");
+        Connection conn = null;
+        List<ReceiptBean> allReceipts;
+
+        try {
+            conn = DbManager.getInstance().getConnection();
+            logger.debug("Connected!");
+
+            conn.setAutoCommit(false);
+            allReceipts = getAllReceipts(conn);
+            conn.commit();
+
+
+        } catch (SQLException e) {
+            logger.error("getAll() receiptImpl error: " + e);
+            rollback(conn);
+            throw e;
+        } finally {
+            close(conn);
+        }
+
+        return allReceipts;
+    }
+
+    private List<ReceiptBean> getAllReceipts(Connection conn) throws SQLException {
+        Statement stmt = null;
+        ResultSet rs = null;
+        List<ReceiptBean> receipts = new ArrayList<>();
+
+        try {
+
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(DbConstants.GET_ALL_RECEIPTS_BEANS);
+
+            while(rs.next()) {
+                receipts.add(receiptMap(rs));
+            }
+
+        } finally {
+            close(rs);
+            close(stmt);
+        }
+        return receipts;
+    }
+
+
 
     public List<ReceiptBean> getByUserId(Long id) throws SQLException {
         logger.debug("Entered getByUserId() receiptImpl");

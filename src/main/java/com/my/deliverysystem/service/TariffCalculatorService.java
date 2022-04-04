@@ -14,7 +14,7 @@ public class TariffCalculatorService {
     private static final int VOLUME_PRICE = 2;
     private static final int WEIGHT_PRICE = 5;
 
-    public static boolean calculate(HttpServletRequest req) throws IOException, ServletException {
+    public static boolean calculate(HttpServletRequest req) {
         logger.debug("Entered calculate() TariffService");
         int height, width, length;
         double distance ,weight;
@@ -48,12 +48,7 @@ public class TariffCalculatorService {
 
         price = getPrice(distance, weight, volume);
 
-        logger.debug("before min -> " + price);
-        if (price < MINIMAL_PRICE) {
-            price = MINIMAL_PRICE;
-        }
 
-        logger.debug("after min -> " + price);
 
         finalPrice = String.format("%.2f", price);
         req.getSession().setAttribute("price", finalPrice);
@@ -76,6 +71,14 @@ public class TariffCalculatorService {
         logger.debug("weightPrice -> " + weightPrice);
 
         price = Math.max(volumePrice, weightPrice);
+
+        logger.debug("before min -> " + price);
+        if (price < MINIMAL_PRICE) {
+            price = MINIMAL_PRICE;
+        }
+
+        logger.debug("after min -> " + price);
+
         return price;
     }
 

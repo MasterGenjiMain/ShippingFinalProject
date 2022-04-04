@@ -86,6 +86,14 @@ public abstract class DbConstants {
             "LEFT JOIN cargo_delivery_db.user ON receipt.manager_id = user.id " +
             "WHERE receipt.user_id=? ORDER BY receipt.id";
 
+    public static final String GET_ALL_RECEIPTS_BEANS = "SELECT receipt.id, receipt.user_id, user.username, " +
+            "receipt.price, receipt_status.status_name, receipt.delivery_order_id " +
+            "FROM receipt " +
+            "LEFT JOIN receipt_status ON receipt.receipt_status_id = receipt_status.id " +
+            "LEFT JOIN cargo_delivery_db.user ON receipt.manager_id = user.id " +
+            "ORDER BY receipt.id";
+
+
     private DbConstants() {
     }
 }

@@ -23,9 +23,10 @@
         <tr>
             <th>Id</th>
             <th>User Id</th>
-            <th>Manager Id</th>
+            <th>Manager</th>
             <th>Price</th>
-            <th>Receipt Status Id</th>
+            <th>Receipt Status</th>
+            <th>Delivery Order Id</th>
             <th>Approving</th>
         </tr>
         </thead>
@@ -35,11 +36,37 @@
             <tr>
                 <td>${receipt.id}</td>
                 <td>${receipt.userId}</td>
-                <td>${receipt.managerId}</td>
+                <td>${receipt.managerName}</td>
                 <td>${receipt.price}</td>
-                <td>${receipt.receiptStatusId}</td>
+                <td>${receipt.receiptStatusName}</td>
+                <td>${receipt.deliveryOrderId}</td>
 
-                <td class="text-center"><a class="btn btn-secondary" onclick="" href="#">Approve</a></td>
+                <td class="text-center">
+                    <c:choose>
+                        <c:when test="${receipt.receiptStatusName == 'New'}">
+                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/approve/?id=<c:out value='${receipt.id}'/>">Approve</a>
+                        </c:when>
+                        <c:otherwise>
+                            <c:choose>
+                                <c:when test="${receipt.receiptStatusName != 'Canceled' && receipt.receiptStatusName != 'Closed'}">
+                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status/?id=<c:out value='${receipt.id}'/>">Next status</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="button" class="btn btn-secondary" disabled>Next status</button>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:otherwise>
+                    </c:choose>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <c:choose>
+                        <c:when test="${receipt.receiptStatusName != 'Canceled' && receipt.receiptStatusName != 'Closed'}">
+                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/cancel/?id=<c:out value='${receipt.id}'/>">Cancel</a>
+                        </c:when>
+                        <c:otherwise>
+                            <button type="button" class="btn btn-secondary" disabled>Cancel</button>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
