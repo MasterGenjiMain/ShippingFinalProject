@@ -21,7 +21,7 @@
 
         <thead>
         <tr>
-            <th>User Id</th>
+            <th>Id</th>
             <th>Manager</th>
             <th>Price</th>
             <th>Receipt Status</th>
@@ -39,7 +39,25 @@
                 <td>${receipt.receiptStatusName}</td>
                 <td>${receipt.deliveryOrderId}</td>
 
-                <td class="text-center"><a class="btn btn-secondary" onclick="" href="#">Pay</a></td>
+                <td class="text-center">
+                <c:choose>
+                    <c:when test="${receipt.receiptStatusName == 'Waiting for payment'}">
+                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>/user/account/pay?id=<c:out value='${receipt.id}'/>">Pay</a>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" class="btn btn-secondary" disabled>Pay</button>
+                    </c:otherwise>
+                </c:choose>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <c:choose>
+                    <c:when test="${receipt.receiptStatusName == 'New' || receipt.receiptStatusName == 'Waiting for payment' || receipt.receiptStatusName == 'Paid'}">
+                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>/user/account/cancel?id=<c:out value='${receipt.id}'/>">Cancel</a>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" class="btn btn-secondary" disabled>Cancel</button>
+                    </c:otherwise>
+                </c:choose>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

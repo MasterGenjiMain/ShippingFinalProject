@@ -10,18 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/user/account/*")
-public class AccountServlet extends HttpServlet {
-
-    private final Logger logger = Logger.getLogger(AccountServlet.class);
+@WebServlet("/user/account/pay/*")
+public class AccountPayServlet extends HttpServlet {
+    private final Logger logger = Logger.getLogger(AccountPayServlet.class);
+    private static final long PAYED_STATUS = 3;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("Entered doGet()" + AccountServlet.class.getName());
+        logger.debug("Entered doGet" + getClass().getName());
 
-        AccountService.showReceipts(req);
-        req.getRequestDispatcher("/account.jsp").forward(req, resp);
+        AccountService.changeStatus(req, PAYED_STATUS);
+
+        req.getRequestDispatcher("/user/account").forward(req, resp);
     }
+
 
 
 }

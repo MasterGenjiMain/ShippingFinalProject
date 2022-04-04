@@ -3,6 +3,7 @@ package com.my.deliverysystem.dao.implementation;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.dao.daoInterface.ReceiptDAO;
+import com.my.deliverysystem.db.entity.Location;
 import com.my.deliverysystem.db.entity.Receipt;
 import org.apache.log4j.Logger;
 
@@ -82,6 +83,49 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
         return allReceipts;
     }
 
+    @Override
+    public Receipt getByReceiptId(long id) throws SQLException {
+        logger.debug("Entered getByReceiptId() " + getClass().getName());
+        Connection conn = null;
+        Receipt receipt;
+
+        try {
+            conn = DbManager.getInstance().getConnection();
+            logger.debug("Connected!");
+            conn.setAutoCommit(false);
+            receipt = getReceiptById(id, conn);
+            conn.commit();
+
+            return receipt;
+
+        } catch (SQLException e) {
+            logger.error("getById() locationImpl: " + e);
+            rollback(conn);
+            throw e;
+        } finally {
+            close(conn);
+        }
+    }
+
+    private Receipt getReceiptById(Long id, Connection conn) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Receipt receipt = null;
+        try {
+            pstmt = conn.prepareStatement(DbConstants.GET_RECEIPT_BY_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                receipt = receiptMap(rs);
+            }
+
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+        return receipt;
+    }
+
     private List<Receipt> getAllReceipts(Connection conn) throws SQLException {
         Statement stmt = null;
         ResultSet rs = null;
@@ -116,13 +160,13 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
     }
 
     @Override
-    public List<Receipt> getByUserId(Long id) throws SQLException {
+    public List<Receipt> getByUserId(long id) throws SQLException {
         logger.debug("Entered getByUserId() receiptImpl");
         return getReceipts(id, DbConstants.GET_RECEIPT_BY_USER_ID);
     }
 
     @Override
-    public List<Receipt> getByManagerId(Long id) throws SQLException {
+    public List<Receipt> getByManagerId(long id) throws SQLException {
         logger.debug("Entered getByManagerId() receiptImpl");
         return getReceipts(id, DbConstants.GET_RECEIPT_BY_MANAGER_ID);
     }

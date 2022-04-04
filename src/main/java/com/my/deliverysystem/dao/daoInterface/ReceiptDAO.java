@@ -11,8 +11,9 @@ public interface ReceiptDAO {
 
     //read
     List<Receipt> getAll() throws SQLException;
-    List<Receipt> getByUserId(Long id) throws SQLException;
-    List<Receipt> getByManagerId(Long id) throws SQLException;
+    Receipt getByReceiptId(long id) throws SQLException;
+    List<Receipt> getByUserId(long id) throws SQLException;
+    List<Receipt> getByManagerId(long id) throws SQLException;
 
     //update
     boolean update(Receipt receipt);

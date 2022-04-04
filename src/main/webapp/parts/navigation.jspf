@@ -21,30 +21,30 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="/FinalProject_war_exploded/index.jsp">Home</a>
+                    <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/index.jsp">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="/FinalProject_war_exploded/general-info">General Delivery Info</a>
+                    <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/general-info">General Delivery Info</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="/FinalProject_war_exploded/tariffs">Tariff Calculator</a>
+                    <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/tariffs">Tariff Calculator</a>
                 </li>
 
                 <c:if test="${sessionScope.user.roleId >= 1}">
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="/FinalProject_war_exploded/user/delivery-request">Delivery Request</a>
+                        <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/user/delivery-request">Delivery Request</a>
                     </li>
                 </c:if>
 
                 <c:if test="${sessionScope.user.roleId >= 2}">
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="/FinalProject_war_exploded/manager/approving">Approving</a>
+                        <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/manager/approving">Approving</a>
                     </li>
                 </c:if>
             </ul>
             <c:if test="${sessionScope.user == null}">
-                <a class="btn btn-secondary me-2" href="login.jsp" role="button">Login</a>
-                <a class="btn btn-secondary" href="registration.jsp" role="button">Registration</a>
+                <a class="btn btn-secondary me-2" href="<%=request.getContextPath()%>/login.jsp" role="button">Login</a>
+                <a class="btn btn-secondary" href="<%=request.getContextPath()%>/registration.jsp" role="button">Registration</a>
             </c:if>
             <c:if test="${sessionScope.user != null}">
                 <div class="dropdown mx-3">
@@ -54,9 +54,9 @@
                                     <c:out value="${sessionScope.user.username}"/>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="/FinalProject_war_exploded/user/account">Account</a></li>
+                                <li><a class="dropdown-item" href="<%=request.getContextPath()%>/user/account/">Account</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/FinalProject_war_exploded/logout">Logout</a></li>
+                                <li><a class="dropdown-item" href="<%=request.getContextPath()%>/logout">Logout</a></li>
                             </ul>
                         </li>
                     </ul>

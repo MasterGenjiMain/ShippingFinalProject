@@ -44,6 +44,7 @@ public abstract class DbConstants {
     public static final String GET_RECEIPT_BY_MANAGER_ID = "SELECT id, user_id, manager_id, price, receipt_status_id, delivery_order_id FROM receipt WHERE receipt.manager_id=? ORDER BY receipt.id";
     public static final String UPDATE_RECEIPT = "UPDATE receipt SET manager_id=?, price=?, receipt_status_id=?, delivery_order_id=? WHERE id=?";
     public static final String DELETE_RECEIPT = "DELETE FROM receipt WHERE id=?";
+    public static final String GET_RECEIPT_BY_ID = "SELECT id, user_id, manager_id, price, receipt_status_id, delivery_order_id FROM receipt WHERE receipt.id=? ORDER BY receipt.id";
 
     public static final String INSERT_INTO_RECEIPT_STATUS = "INSERT INTO receipt_status (id, status_name) VALUES (DEFAULT, ?)";
     public static final String GET_ALL_RECEIPT_STATUSES = "SELECT id, status_name FROM receipt_status ORDER BY receipt_status.id";

@@ -32,4 +32,22 @@ public class AccountService {
         }
         req.setAttribute("receipts", receipts);
     }
+
+    public static void changeStatus(HttpServletRequest req, long status) {
+        long id = Integer.parseInt(req.getParameter("id"));
+        Receipt receipt = null;
+        logger.debug(id);
+        ReceiptDAOImplementation service = new ReceiptDAOImplementation();
+        try {
+            receipt = service.getByReceiptId(id);
+            logger.debug(receipt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (receipt != null) {
+            receipt.setReceiptStatusId(status);
+            logger.debug(receipt);
+            service.update(receipt);
+        }
+    }
 }

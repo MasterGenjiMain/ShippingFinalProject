@@ -1,11 +1,9 @@
 package com.example.finalproject;
 
-import com.my.deliverysystem.dao.implementation.DeliveryOrderDAOImplementation;
-import com.my.deliverysystem.dao.implementation.ReceiptStatusDAOImplementation;
-import com.my.deliverysystem.dao.implementation.RoleDAOImplementation;
-import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
+import com.my.deliverysystem.dao.implementation.*;
 import com.my.deliverysystem.dao.implementation.beanImpl.LocationBeanDAOImpl;
 import com.my.deliverysystem.db.entity.DeliveryOrder;
+import com.my.deliverysystem.db.entity.Receipt;
 
 import java.io.*;
 import java.util.Date;
@@ -212,8 +210,15 @@ public class HelloServlet extends HttpServlet {
 //            System.out.println(deliveryOrderDAOImplementation.getAll());
 //            System.out.println(deliveryOrderDAOImplementation.getByLocationFromId(1L));
 //            deliveryOrderDAOImplementation.update(deliveryOrder);
-            LocationBeanDAOImpl service = new LocationBeanDAOImpl();
-            System.out.println(service.getAll());
+//            LocationBeanDAOImpl service = new LocationBeanDAOImpl();
+//            System.out.println(service.getAll());
+
+            ReceiptDAOImplementation service = new ReceiptDAOImplementation();
+            Receipt receipt;
+            receipt = service.getByReceiptId(4);
+            receipt.setReceiptStatusId(2);
+            service.update(receipt);
+            System.out.println(service.getByReceiptId(4));
         } catch (Exception e) {
             e.printStackTrace();
         }
