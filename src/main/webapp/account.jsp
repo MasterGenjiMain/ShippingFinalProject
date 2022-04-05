@@ -11,11 +11,14 @@
     <meta charset="UTF-8">
     <%@include file="parts/style.jspf"%>
     <title>Account</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 </head>
 <body>
 <%@include file="parts/navigation.jspf"%>
 <div class="container mt-5">
-    <table class="table table-bordered table-responsive table-hover caption-top table-striped">
+    <table id="table" class="table table-bordered table-responsive table-hover caption-top table-striped">
         <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0 0;"><span
                 style="padding-left: 25px">Current receipts</span></caption>
 
@@ -64,5 +67,7 @@
 
     </table>
 </div>
+
+<%@include file="parts/pagination.jspf"%>
 </body>
 </html>
