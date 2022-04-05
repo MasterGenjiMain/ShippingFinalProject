@@ -3,7 +3,6 @@ package com.my.deliverysystem.dao.implementation;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.dao.daoInterface.ReceiptDAO;
-import com.my.deliverysystem.db.entity.Location;
 import com.my.deliverysystem.db.entity.Receipt;
 import org.apache.log4j.Logger;
 

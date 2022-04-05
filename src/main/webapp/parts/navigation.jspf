@@ -38,7 +38,7 @@
 
                 <c:if test="${sessionScope.user.roleId >= 2}">
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/manager/approving">Approving</a>
+                        <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/manager/approving/">Approving</a>
                     </li>
                 </c:if>
             </ul>

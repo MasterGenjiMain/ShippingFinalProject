@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebFilter("/manager/*")
 public class ManagerFilter implements Filter {
     private final Logger logger = Logger.getLogger(ManagerFilter.class);
-    private final int MANAGER_ROLE_ID = 2;
+    private static final int MANAGER_ROLE_ID = 2;
 
     @Override
     public void init(FilterConfig filterConfig) {

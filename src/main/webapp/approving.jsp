@@ -44,12 +44,12 @@
                 <td class="text-center">
                     <c:choose>
                         <c:when test="${receipt.receiptStatusName == 'New'}">
-                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/approve/?id=<c:out value='${receipt.id}'/>">Approve</a>
+                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/approve?id=<c:out value='${receipt.id}'/>">Approve</a>
                         </c:when>
                         <c:otherwise>
                             <c:choose>
                                 <c:when test="${receipt.receiptStatusName != 'Canceled' && receipt.receiptStatusName != 'Closed'}">
-                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status/?id=<c:out value='${receipt.id}'/>">Next status</a>
+                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status?id=<c:out value='${receipt.id}'/>">Next status</a>
                                 </c:when>
                                 <c:otherwise>
                                     <button type="button" class="btn btn-secondary" disabled>Next status</button>
@@ -60,7 +60,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <c:choose>
                         <c:when test="${receipt.receiptStatusName != 'Canceled' && receipt.receiptStatusName != 'Closed'}">
-                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/cancel/?id=<c:out value='${receipt.id}'/>">Cancel</a>
+                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/cancel?id=<c:out value='${receipt.id}'/>">Cancel</a>
                         </c:when>
                         <c:otherwise>
                             <button type="button" class="btn btn-secondary" disabled>Cancel</button>
