@@ -37,6 +37,7 @@ public class DeliveryRequestServlet extends HttpServlet {
         logger.debug(req.getParameter("deliveryType"));
         logger.debug(req.getParameter("weight"));
         logger.debug(req.getParameter("volume"));
+        logger.debug(req.getParameter("distance"));
         logger.debug(req.getParameter("tariff"));
 
         DeliveryRequestService.createNewDeliveryRequest(req);

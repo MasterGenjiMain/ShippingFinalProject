@@ -145,11 +145,11 @@ public class DeliveryRequestService {
     }
 
     private static void createReceipt(DeliveryOrder deliveryOrder ,HttpServletRequest req) {
-        double TEMPORARY_DISTANCE = 450;
         int DEFAULT_MANAGER = 1;
         double weight = Double.parseDouble(req.getParameter("weight"));
         double volume = Double.parseDouble(req.getParameter("volume"));
-        double price = TariffCalculatorService.getPrice(TEMPORARY_DISTANCE, weight, volume);
+        double distance = Double.parseDouble(req.getParameter("distance"));
+        double price = TariffCalculatorService.getPrice(distance, weight, volume);
 
         User user = (User) req.getSession().getAttribute("user");
 

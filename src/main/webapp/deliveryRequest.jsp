@@ -71,13 +71,19 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label">Weight:</label>
             <div class="col-sm-3">
-                <input type="number" name="weight" class="form-control" placeholder="Weight">
+                <input type="number" name="weight" class="form-control" placeholder="Weight (kg)">
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label">Volume:</label>
             <div class="col-sm-3">
                 <input type="number" name="volume" class="form-control" placeholder="Volume">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Distance:</label>
+            <div class="col-sm-3">
+                <input type="number" name="distance" class="form-control" placeholder="Distance (km)">
             </div>
         </div>
         <div class="mb-3 row">
@@ -92,7 +98,7 @@
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Create</button>
-        <a class="btn btn-primary" href="/FinalProject_war_exploded/index.jsp" role="button">Back</a>
+        <a class="btn btn-primary" href="<%=request.getContextPath()%>/index.jsp" role="button">Back</a>
         <c:out value="${sessionScope.message}"/>
     </form>
 </div>
