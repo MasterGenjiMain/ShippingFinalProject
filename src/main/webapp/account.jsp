@@ -20,16 +20,16 @@
 <div class="container mt-5">
     <table id="table" class="table table-bordered table-responsive table-hover caption-top table-striped">
         <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0 0;"><span
-                style="padding-left: 25px">Current receipts</span></caption>
+                style="padding-left: 25px"><fmt:message key="account.label.receipts"/></span></caption>
 
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Manager</th>
-            <th>Price</th>
-            <th>Receipt Status</th>
-            <th>Delivery Order Id</th>
-            <th>Actions</th>
+            <th><fmt:message key="account.label.table.receipts.id"/></th>
+            <th><fmt:message key="account.label.table.receipts.manager"/></th>
+            <th><fmt:message key="account.label.table.receipts.price"/></th>
+            <th><fmt:message key="account.label.table.receipts.receipt-status"/></th>
+            <th><fmt:message key="account.label.table.receipts.delivery-order-id"/></th>
+            <th><fmt:message key="account.label.table.receipts.actions"/></th>
         </tr>
         </thead>
 
@@ -45,26 +45,30 @@
                 <td class="text-center">
                 <c:choose>
                     <c:when test="${receipt.receiptStatusName == 'Waiting for payment'}">
-                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>/user/account/pay?id=<c:out value='${receipt.id}'/>">Pay</a>
+                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>
+                        /user/account/pay?id=<c:out value='${receipt.id}'/>"><fmt:message key="account.label.table.receipts.button.pay"/></a>
+                    </c:when>
+                    <c:when test="${receipt.receiptStatusName == 'New'}">
+                        <button type="button" class="btn btn-secondary" disabled><fmt:message key="account.label.table.receipts.button.waiting"/></button>
                     </c:when>
                     <c:otherwise>
-                        <button type="button" class="btn btn-secondary" disabled>Pay</button>
+                        <button type="button" class="btn btn-secondary" disabled><fmt:message key="account.label.table.receipts.button.payed"/></button>
                     </c:otherwise>
                 </c:choose>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <c:choose>
                     <c:when test="${receipt.receiptStatusName == 'New' || receipt.receiptStatusName == 'Waiting for payment' || receipt.receiptStatusName == 'Paid'}">
-                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>/user/account/cancel?id=<c:out value='${receipt.id}'/>">Cancel</a>
+                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>
+                        /user/account/cancel?id=<c:out value='${receipt.id}'/>"><fmt:message key="account.label.table.receipts.button.cancel"/></a>
                     </c:when>
                     <c:otherwise>
-                        <button type="button" class="btn btn-secondary" disabled>Cancel</button>
+                        <button type="button" class="btn btn-secondary" disabled><fmt:message key="account.label.table.receipts.button.cancel"/></button>
                     </c:otherwise>
                 </c:choose>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
-
     </table>
 </div>
 

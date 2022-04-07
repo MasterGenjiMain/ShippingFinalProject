@@ -17,37 +17,37 @@
 <div class="container mt-5">
     <form action="tariffs" method="post">
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label">Height:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.height"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="height" class="form-control" placeholder="Height (cm)">
+                <input type="number" name="height" class="form-control" placeholder="<fmt:message key="tariff.placeholder.height"/>">
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label">Width:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.width"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="width" class="form-control" placeholder="Width (cm)">
+                <input type="number" name="width" class="form-control" placeholder="<fmt:message key="tariff.placeholder.width"/>">
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label">Length:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.length"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="length" class="form-control" placeholder="Length (cm)">
+                <input type="number" name="length" class="form-control" placeholder="<fmt:message key="tariff.placeholder.length"/>">
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label">Distance:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.distance"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="distance" class="form-control" placeholder="Distance (km)">
+                <input type="number" name="distance" class="form-control" placeholder="<fmt:message key="tariff.placeholder.distance"/>">
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label">Weight:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.weight"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="weight" class="form-control" placeholder="Weight (kg)">
+                <input type="number" name="weight" class="form-control" placeholder="<fmt:message key="tariff.placeholder.weight"/>">
             </div>
         </div>
-        <button class="btn btn-primary" type="submit">Calculate</button>
-        <a class="btn btn-primary" href="index.jsp" role="button">Back</a>
+        <button class="btn btn-primary" type="submit"><fmt:message key="tariff.label.button.calculate"/></button>
+        <a class="btn btn-primary" href="index.jsp" role="button"><fmt:message key="tariff.label.button.back"/></a>
         <c:out value="${requestScope.message}"/>
         <c:if test="${sessionScope.price != null}">
             <c:out value="${sessionScope.price} UAH"/>

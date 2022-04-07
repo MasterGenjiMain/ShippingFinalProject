@@ -18,25 +18,31 @@
 <div class="container mt-5">
     <form action="registration" method="post">
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label">Username:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="registration.label.username"/>:</label>
             <div class="col-sm-3">
-                <input type="text" name="username" class="form-control" placeholder="Username">
+                <input type="text" name="username" class="form-control" placeholder="<fmt:message key="registration.placeholder.username"/>">
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label">Email:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="registration.label.email"/>:</label>
             <div class="col-sm-3">
-                <input type="text" name="email" class="form-control" placeholder="Email">
+                <input type="text" name="email" class="form-control" placeholder="<fmt:message key="registration.placeholder.email"/>">
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label">Password:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="registration.label.password"/>:</label>
             <div class="col-sm-3">
-                <input type="password" name="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" class="form-control" placeholder="<fmt:message key="registration.placeholder.password"/>">
             </div>
         </div>
-        <button class="btn btn-primary" type="submit">Register</button>
-        <a class="btn btn-primary" href="index.jsp" role="button">Back</a>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label"><fmt:message key="registration.label.repeat-password"/>:</label>
+            <div class="col-sm-3">
+                <input type="password" name="repeat-password" class="form-control" placeholder="<fmt:message key="registration.placeholder.repeat-password"/>">
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit"><fmt:message key="registration.label.button.registration"/></button>
+        <a class="btn btn-primary" href="index.jsp" role="button"><fmt:message key="registration.label.button.back"/></a>
         <c:out value="${requestScope.message}"/>
     </form>
 </div>

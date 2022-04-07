@@ -20,17 +20,17 @@
 <div class="container mt-5">
     <table id="table" class="table table-bordered table-responsive table-hover caption-top table-striped">
         <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0 0;"><span
-                style="padding-left: 25px">Receipts</span></caption>
+                style="padding-left: 25px"><fmt:message key="approving.label.receipts"/></span></caption>
 
         <thead>
         <tr>
-            <th>Id</th>
-            <th>User Id</th>
-            <th>Manager</th>
-            <th>Price</th>
-            <th>Receipt Status</th>
-            <th>Delivery Order Id</th>
-            <th>Approving</th>
+            <th><fmt:message key="approving.label.table.receipts.id"/></th>
+            <th><fmt:message key="approving.label.table.receipts.user-id"/></th>
+            <th><fmt:message key="approving.label.table.receipts.manager"/></th>
+            <th><fmt:message key="approving.label.table.receipts.price"/></th>
+            <th><fmt:message key="approving.label.table.receipts.receipt-status"/></th>
+            <th><fmt:message key="approving.label.table.receipts.delivery-order-id"/></th>
+            <th><fmt:message key="approving.label.table.receipts.action"/></th>
         </tr>
         </thead>
 
@@ -47,15 +47,17 @@
                 <td class="text-center">
                     <c:choose>
                         <c:when test="${receipt.receiptStatusName == 'New'}">
-                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/approve?id=<c:out value='${receipt.id}'/>">Approve</a>
+                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>
+                            /manager/approving/approve?id=<c:out value='${receipt.id}'/>"><fmt:message key="approving.label.table.receipts.button.approve"/></a>
                         </c:when>
                         <c:otherwise>
                             <c:choose>
                                 <c:when test="${receipt.receiptStatusName != 'Canceled' && receipt.receiptStatusName != 'Closed'}">
-                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status?id=<c:out value='${receipt.id}'/>">Next status</a>
+                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>
+                                    /manager/approving/next-status?id=<c:out value='${receipt.id}'/>"><fmt:message key="approving.label.table.receipts.button.next-status"/></a>
                                 </c:when>
                                 <c:otherwise>
-                                    <button type="button" class="btn btn-secondary" disabled>Next status</button>
+                                    <button type="button" class="btn btn-secondary" disabled><fmt:message key="approving.label.table.receipts.button.next-status"/></button>
                                 </c:otherwise>
                             </c:choose>
                         </c:otherwise>
@@ -63,10 +65,11 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <c:choose>
                         <c:when test="${receipt.receiptStatusName != 'Canceled' && receipt.receiptStatusName != 'Closed'}">
-                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/cancel?id=<c:out value='${receipt.id}'/>">Cancel</a>
+                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>
+                            /manager/approving/cancel?id=<c:out value='${receipt.id}'/>"><fmt:message key="approving.label.table.receipts.button.cancel"/></a>
                         </c:when>
                         <c:otherwise>
-                            <button type="button" class="btn btn-secondary" disabled>Cancel</button>
+                            <button type="button" class="btn btn-secondary" disabled><fmt:message key="approving.label.table.receipts.button.cancel"/></button>
                         </c:otherwise>
                     </c:choose>
                 </td>

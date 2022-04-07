@@ -18,6 +18,7 @@ public class RegistrationService {
         String login = req.getParameter("username");
         String email = req.getParameter("email").toLowerCase();
         String password = req.getParameter("password");
+        String rePassword = req.getParameter("repeat-password");
 
         logger.debug("login --> " + login);
         logger.debug("email --> " + email);
@@ -26,15 +27,22 @@ public class RegistrationService {
         User newUser = new User(login, email, password);
         UserDAOImplementation service = new UserDAOImplementation();
 
-        if (login.equals("") || email.equals("") || password.equals("")) {
+        if (login.equals("") || email.equals("") || password.equals("") || rePassword.equals("")) {
             if (login.equals("")) {
                 req.setAttribute("message", "Login can't be empty!");
             } else if (email.equals("")) {
                 req.setAttribute("message", "Email can't be empty!");
-            } else {
+            } else if (password.equals("")){
                 req.setAttribute("message", "Password can't be empty!");
+            } else {
+                req.setAttribute("message", "Password confirmation can't be empty!");
             }
             logger.debug("Bad input!");
+            return false;
+        }
+
+        if (!password.equals(rePassword)) {
+            req.setAttribute("message", "Passwords didn't match");
             return false;
         }
 

@@ -23,13 +23,13 @@
 <div class="container mt-5">
     <table id="table" class="table table-bordered table-responsive table-hover caption-top table-striped">
         <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0 0;"><span
-                style="padding-left: 25px">Available delivery locations</span></caption>
+                style="padding-left: 25px"><fmt:message key="general-info.label.locations"/></span></caption>
 
         <thead>
         <tr>
-            <th>Name</th>
-            <th>City</th>
-            <th>Active Status</th>
+            <th><fmt:message key="general-info.label.table.location.name"/></th>
+            <th><fmt:message key="general-info.label.table.location.city"/></th>
+            <th><fmt:message key="general-info.label.table.location.active-status"/></th>
         </tr>
         </thead>
 
@@ -48,13 +48,13 @@
 <div class="container mt-5">
     <table id="table2" class="table table-bordered table-responsive table-hover caption-top table-striped">
         <caption class="bg-light text-dark p-2 fs-5" style="border-radius: 30px 30px 0 0;"><span
-                style="padding-left: 25px">Available tariffs</span></caption>
+                style="padding-left: 25px"><fmt:message key="general-info.label.tariffs"/></span></caption>
 
         <thead>
         <tr>
-            <th>Tariff Name</th>
-            <th>Tariff Price</th>
-            <td>Tariff Info</td>
+            <th><fmt:message key="general-info.label.table.tariff.name"/></th>
+            <th><fmt:message key="general-info.label.table.tariff.price"/></th>
+            <th><fmt:message key="general-info.label.table.tariff.info"/></th>
         </tr>
         </thead>
 
