@@ -49,6 +49,17 @@ public class DeliveryRequestService {
 
     public static void createNewDeliveryRequest(HttpServletRequest req) {
 
+        logger.debug(req.getParameter("cargoName"));
+        logger.debug(req.getParameter("cargoDescription"));
+        logger.debug(req.getParameter("locationFrom"));
+        logger.debug(req.getParameter("locationTo"));
+        logger.debug(req.getParameter("address"));
+        logger.debug(req.getParameter("deliveryType"));
+        logger.debug(req.getParameter("weight"));
+        logger.debug(req.getParameter("volume"));
+        logger.debug(req.getParameter("distance"));
+        logger.debug(req.getParameter("tariff"));
+
         //--------------------------------delivery order-----------------------------------------//
         DeliveryOrder deliveryOrder = createDeliveryOrder(req);
         //--------------------------------receipt-----------------------------------------//
@@ -149,7 +160,8 @@ public class DeliveryRequestService {
         double weight = Double.parseDouble(req.getParameter("weight"));
         double volume = Double.parseDouble(req.getParameter("volume"));
         double distance = Double.parseDouble(req.getParameter("distance"));
-        double price = TariffCalculatorService.getPrice(distance, weight, volume);
+        String tariffName = req.getParameter("tariff");
+        double price = TariffCalculatorService.getPrice(distance, weight, volume, tariffName);
 
         User user = (User) req.getSession().getAttribute("user");
 

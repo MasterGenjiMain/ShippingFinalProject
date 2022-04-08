@@ -46,6 +46,17 @@
                 <input type="number" name="weight" class="form-control" placeholder="<fmt:message key="tariff.placeholder.weight"/>">
             </div>
         </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.tariff"/>:</label>
+            <div class="col-sm-3">
+                <select class="form-select" aria-label="Default select example" name="tariff">
+                    <option disabled selected>-----</option>
+                    <c:forEach items="${requestScope.tariffs}" var="tariff">
+                        <option>${tariff.tariffName}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
         <button class="btn btn-primary" type="submit"><fmt:message key="tariff.label.button.calculate"/></button>
         <a class="btn btn-primary" href="index.jsp" role="button"><fmt:message key="tariff.label.button.back"/></a>
         <c:out value="${requestScope.message}"/>

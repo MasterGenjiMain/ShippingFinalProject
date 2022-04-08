@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
 @WebServlet("/user/delivery-request")
@@ -28,19 +29,10 @@ public class DeliveryRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doPost " + getClass().getName());
-
-        logger.debug(req.getParameter("cargoName"));
-        logger.debug(req.getParameter("cargoDescription"));
-        logger.debug(req.getParameter("locationFrom"));
-        logger.debug(req.getParameter("locationTo"));
-        logger.debug(req.getParameter("address"));
-        logger.debug(req.getParameter("deliveryType"));
-        logger.debug(req.getParameter("weight"));
-        logger.debug(req.getParameter("volume"));
-        logger.debug(req.getParameter("distance"));
-        logger.debug(req.getParameter("tariff"));
+        String appPath = File.separator + req.getContextPath()
+                .replace("/", "") + File.separator;
 
         DeliveryRequestService.createNewDeliveryRequest(req);
-        resp.sendRedirect("/FinalProject_war_exploded/user/delivery-request");
+        resp.sendRedirect( appPath + "user/delivery-request");
     }
 }

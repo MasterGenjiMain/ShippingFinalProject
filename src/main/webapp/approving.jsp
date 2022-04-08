@@ -47,14 +47,14 @@
                 <td class="text-center">
                     <c:choose>
                         <c:when test="${receipt.receiptStatusName == 'New'}">
-                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>
-                            /manager/approving/approve?id=<c:out value='${receipt.id}'/>"><fmt:message key="approving.label.table.receipts.button.approve"/></a>
+                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/approve?id=<c:out value='${receipt.id}'/>">
+                                <fmt:message key="approving.label.table.receipts.button.approve"/></a>
                         </c:when>
                         <c:otherwise>
                             <c:choose>
                                 <c:when test="${receipt.receiptStatusName != 'Canceled' && receipt.receiptStatusName != 'Closed'}">
-                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>
-                                    /manager/approving/next-status?id=<c:out value='${receipt.id}'/>"><fmt:message key="approving.label.table.receipts.button.next-status"/></a>
+                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status?id=<c:out value='${receipt.id}'/>">
+                                        <fmt:message key="approving.label.table.receipts.button.next-status"/></a>
                                 </c:when>
                                 <c:otherwise>
                                     <button type="button" class="btn btn-secondary" disabled><fmt:message key="approving.label.table.receipts.button.next-status"/></button>
@@ -65,8 +65,8 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <c:choose>
                         <c:when test="${receipt.receiptStatusName != 'Canceled' && receipt.receiptStatusName != 'Closed'}">
-                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>
-                            /manager/approving/cancel?id=<c:out value='${receipt.id}'/>"><fmt:message key="approving.label.table.receipts.button.cancel"/></a>
+                            <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/cancel?id=<c:out value='${receipt.id}'/>">
+                                <fmt:message key="approving.label.table.receipts.button.cancel"/></a>
                         </c:when>
                         <c:otherwise>
                             <button type="button" class="btn btn-secondary" disabled><fmt:message key="approving.label.table.receipts.button.cancel"/></button>

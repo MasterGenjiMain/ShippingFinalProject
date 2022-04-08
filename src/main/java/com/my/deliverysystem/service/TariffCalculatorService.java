@@ -1,15 +1,15 @@
 package com.my.deliverysystem.service;
 
+import com.my.deliverysystem.dao.implementation.TariffDAOImplementation;
+import com.my.deliverysystem.db.entity.Tariff;
 import org.apache.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.sql.SQLException;
 
 public class TariffCalculatorService {
     private static final Logger logger = Logger.getLogger(TariffCalculatorService.class);
 
-    private static final int MINIMAL_PRICE = 50;
     private static final int VOLUME_DIVIDER = 1000;
     private static final int VOLUME_PRICE = 2;
     private static final int WEIGHT_PRICE = 5;
@@ -18,6 +18,7 @@ public class TariffCalculatorService {
         logger.debug("Entered calculate() TariffService");
         int height, width, length;
         double distance ,weight;
+        String tariffName;
 
         double volume, price;
         String finalPrice;
@@ -29,6 +30,7 @@ public class TariffCalculatorService {
 
             distance = Double.parseDouble(req.getParameter("distance"));
             weight = Double.parseDouble(req.getParameter("weight"));
+            tariffName = req.getParameter("tariff");
         } catch (NumberFormatException e) {
             logger.error(e);
             req.getSession().removeAttribute("price");
@@ -42,11 +44,12 @@ public class TariffCalculatorService {
         logger.debug("length -> " + length);
         logger.debug("distance -> " + distance);
         logger.debug("weight -> " + weight);
+        logger.debug("tariff -> " + tariffName);
 
         volume = height * width * length;
         logger.debug("volume -> " + volume);
 
-        price = getPrice(distance, weight, volume);
+        price = getPrice(distance, weight, volume, tariffName);
 
 
 
@@ -56,11 +59,12 @@ public class TariffCalculatorService {
         return true;
     }
 
-    public static double getPrice(double distance, double weight, double volume) {
+    public static double getPrice(double distance, double weight, double volume, String tariffName) {
         double volumePrice;
         double weightPrice;
         double DISTANCE_MULTIPLAYER;
         double price;
+        double MINIMAL_PRICE = 0;
         DISTANCE_MULTIPLAYER = getDistanceMultiplayer(distance);
 
         logger.debug("DISTANCE_MULTIPLAYER -> " + DISTANCE_MULTIPLAYER);
@@ -71,6 +75,19 @@ public class TariffCalculatorService {
         logger.debug("weightPrice -> " + weightPrice);
 
         price = Math.max(volumePrice, weightPrice);
+
+        //--------------
+        Tariff tariff = null;
+        TariffDAOImplementation tariffService = new TariffDAOImplementation();
+        try {
+            tariff = tariffService.getByName(tariffName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (tariff != null) {
+            MINIMAL_PRICE = tariff.getTariffPrice();
+        }
+        //-------------
 
         logger.debug("before min -> " + price);
         if (price < MINIMAL_PRICE) {

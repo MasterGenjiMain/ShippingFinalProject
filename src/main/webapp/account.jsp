@@ -45,8 +45,8 @@
                 <td class="text-center">
                 <c:choose>
                     <c:when test="${receipt.receiptStatusName == 'Waiting for payment'}">
-                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>
-                        /user/account/pay?id=<c:out value='${receipt.id}'/>"><fmt:message key="account.label.table.receipts.button.pay"/></a>
+                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>/user/account/pay?id=<c:out value='${receipt.id}'/>">
+                            <fmt:message key="account.label.table.receipts.button.pay"/></a>
                     </c:when>
                     <c:when test="${receipt.receiptStatusName == 'New'}">
                         <button type="button" class="btn btn-secondary" disabled><fmt:message key="account.label.table.receipts.button.waiting"/></button>
@@ -58,8 +58,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <c:choose>
                     <c:when test="${receipt.receiptStatusName == 'New' || receipt.receiptStatusName == 'Waiting for payment' || receipt.receiptStatusName == 'Paid'}">
-                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>
-                        /user/account/cancel?id=<c:out value='${receipt.id}'/>"><fmt:message key="account.label.table.receipts.button.cancel"/></a>
+                        <a class="btn btn-secondary" href="<%=request.getContextPath()%>/user/account/cancel?id=<c:out value='${receipt.id}'/>">
+                            <fmt:message key="account.label.table.receipts.button.cancel"/></a>
                     </c:when>
                     <c:otherwise>
                         <button type="button" class="btn btn-secondary" disabled><fmt:message key="account.label.table.receipts.button.cancel"/></button>
