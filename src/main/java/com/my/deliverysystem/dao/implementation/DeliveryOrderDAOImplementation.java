@@ -4,6 +4,7 @@ import com.my.deliverysystem.dao.daoInterface.DeliveryOrderDAO;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.db.entity.DeliveryOrder;
+import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -78,6 +79,50 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
         return deliveryOrders;
     }
 
+    @Override
+    public DeliveryOrder getById(long id) throws SQLException {
+        logger.debug("Entered getById() userImpl");
+        Connection conn = null;
+        DeliveryOrder deliveryOrder;
+
+        try {
+            logger.debug("Connecting...");
+            conn = DbManager.getInstance().getConnection();
+            logger.debug("Connected!");
+            conn.setAutoCommit(false);
+            deliveryOrder = getDeliveryOrderById(id, conn);
+            conn.commit();
+
+            return deliveryOrder;
+
+        } catch (SQLException e) {
+            logger.error("getById() userImpl error: " + e);
+            rollback(conn);
+            throw e;
+        } finally {
+            close(conn);
+        }
+    }
+
+    private DeliveryOrder getDeliveryOrderById(Long id, Connection conn) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        DeliveryOrder deliveryOrder = null;
+        try {
+            pstmt = conn.prepareStatement(DbConstants.GET_DELIVERY_ORDER_BY_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                deliveryOrder = deliveryOrderMap(rs);
+            }
+
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+        return deliveryOrder;
+    }
+
     private List<DeliveryOrder> getAllDeliveryOrders(Connection conn) throws SQLException {
         Statement stmt = null;
         ResultSet rs = null;
@@ -110,7 +155,7 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
         deliveryOrder.setDeliveryTypeId(rs.getLong("delivery_type_id"));
         deliveryOrder.setWeight(rs.getDouble("weight"));
         deliveryOrder.setVolume(rs.getDouble("volume"));
-        deliveryOrder.setReceivingDate(rs.getDate("receiving_date"));
+        deliveryOrder.setReceivingDate(rs.getTimestamp("receiving_date"));
         deliveryOrder.setTariffId(rs.getLong("tariff_id"));
 
         return deliveryOrder;
@@ -209,7 +254,7 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
         pstmt.setLong(6, deliveryOrder.getDeliveryTypeId());
         pstmt.setDouble(7, deliveryOrder.getWeight());
         pstmt.setDouble(8, deliveryOrder.getVolume());
-        pstmt.setDate(9, (Date) deliveryOrder.getReceivingDate());
+        pstmt.setTimestamp(9, deliveryOrder.getReceivingDate());
         pstmt.setLong(10, deliveryOrder.getTariffId());
     }
 

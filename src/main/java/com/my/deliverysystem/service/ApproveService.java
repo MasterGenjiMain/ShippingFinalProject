@@ -1,19 +1,24 @@
 package com.my.deliverysystem.service;
 
+import com.my.deliverysystem.dao.implementation.DeliveryOrderDAOImplementation;
 import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
 import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
+import com.my.deliverysystem.db.entity.DeliveryOrder;
 import com.my.deliverysystem.db.entity.Receipt;
 import com.my.deliverysystem.db.entity.User;
 import com.my.deliverysystem.db.entity.bean.ReceiptBean;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ApproveService {
     final static Logger logger = Logger.getLogger(ApproveService.class.getName());
-    private static final int CANCEL_STATUS = 8;
+    private static final int CLOSED_STATUS = 7;
 
     public static void showReceipts(HttpServletRequest req) {
         ReceiptBeanDAOImpl receiptService = new ReceiptBeanDAOImpl();
@@ -40,7 +45,24 @@ public class ApproveService {
         if (receipt != null) {
             long receiptStatus = receipt.getReceiptStatusId();
             logger.debug(receiptStatus);
-            if (receiptStatus < CANCEL_STATUS - 1) {
+            if (receiptStatus < CLOSED_STATUS - 1) {
+                logger.debug("CLOSED_STATUS - 1");
+                receipt.setReceiptStatusId(++receiptStatus);
+            } else if (receiptStatus == CLOSED_STATUS - 1) {
+                logger.debug("CLOSED_STATUS");
+                DeliveryOrderDAOImplementation orderService = new DeliveryOrderDAOImplementation();
+                DeliveryOrder deliveryOrder = null;
+                try {
+                    deliveryOrder = orderService.getById(receipt.getDeliveryOrderId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (deliveryOrder != null) {
+                    deliveryOrder.setReceivingDate(new Timestamp(System.currentTimeMillis()));
+                }
+                logger.debug(deliveryOrder);
+                orderService.update(deliveryOrder);
+
                 receipt.setReceiptStatusId(++receiptStatus);
             }
             logger.debug(receipt);

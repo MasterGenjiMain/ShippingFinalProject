@@ -103,7 +103,7 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     @Override
-    public User getById(Long id) throws SQLException {
+    public User getById(long id) throws SQLException {
         logger.debug("Entered getById() userImpl");
         Connection conn = null;
         User user;

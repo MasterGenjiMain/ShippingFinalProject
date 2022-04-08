@@ -12,7 +12,7 @@ public interface UserDAO {
 
     //read
     List<User> getAll() throws SQLException;
-    User getById(Long id) throws SQLException;
+    User getById(long id) throws SQLException;
     User getByUsername(String pattern) throws SQLException;
 
     //update

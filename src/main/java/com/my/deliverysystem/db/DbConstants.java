@@ -17,6 +17,9 @@ public abstract class DbConstants {
     public static final String GET_DELIVERY_ORDER_BY_LOCATION_FROM_ID = "SELECT id, location_from_id, location_to_id, cargo_name, cargo_description," +
             " address,  delivery_type_id, weight, volume, receiving_date, tariff_id FROM delivery_order" +
             " WHERE delivery_order.location_from_id=? ORDER BY delivery_order.id";
+    public static final String GET_DELIVERY_ORDER_BY_ID = "SELECT id, location_from_id, location_to_id, cargo_name, cargo_description," +
+            " address,  delivery_type_id, weight, volume, receiving_date, tariff_id FROM delivery_order" +
+            " WHERE delivery_order.id=? ORDER BY delivery_order.id";
     public static final String GER_DELIVERY_ORDER_BY_LOCATION_TO_ID = "SELECT id, location_from_id, location_to_id, cargo_name, cargo_description," +
             " address, delivery_type_id, weight, volume, receiving_date, tariff_id" +
             " FROM delivery_order WHERE delivery_order.location_to_id=? ORDER BY delivery_order.id";

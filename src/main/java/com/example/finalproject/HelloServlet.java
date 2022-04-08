@@ -1,12 +1,9 @@
 package com.example.finalproject;
 
-import com.my.deliverysystem.dao.implementation.*;
-import com.my.deliverysystem.dao.implementation.beanImpl.LocationBeanDAOImpl;
-import com.my.deliverysystem.db.entity.DeliveryOrder;
-import com.my.deliverysystem.db.entity.Receipt;
 
 import java.io.*;
-import java.util.Date;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
@@ -213,12 +210,17 @@ public class HelloServlet extends HttpServlet {
 //            LocationBeanDAOImpl service = new LocationBeanDAOImpl();
 //            System.out.println(service.getAll());
 
-            ReceiptDAOImplementation service = new ReceiptDAOImplementation();
-            Receipt receipt;
-            receipt = service.getByReceiptId(4);
-            receipt.setReceiptStatusId(2);
-            service.update(receipt);
-            System.out.println(service.getByReceiptId(4));
+//            ReceiptDAOImplementation service = new ReceiptDAOImplementation();
+//            Receipt receipt;
+//            receipt = service.getByReceiptId(4);
+//            receipt.setReceiptStatusId(2);
+//            service.update(receipt);
+//            System.out.println(service.getByReceiptId(4));
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            java.sql.Date date = new Date(System.currentTimeMillis());
+            System.out.println(sdf.format(date));
+
         } catch (Exception e) {
             e.printStackTrace();
         }

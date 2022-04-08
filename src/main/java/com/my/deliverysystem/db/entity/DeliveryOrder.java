@@ -1,6 +1,6 @@
 package com.my.deliverysystem.db.entity;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class DeliveryOrder {
     private long id;
@@ -12,14 +12,14 @@ public class DeliveryOrder {
     private long deliveryTypeId;
     private double weight;
     private double volume;
-    private Date receivingDate;
+    private Timestamp receivingDate;
     private long tariffId;
 
     public DeliveryOrder() {
     }
 
     public DeliveryOrder(long locationFromID, long locationToId, String cargoName, String cargoDescription,
-                         String address, long deliveryTypeId, double weight, double volume, Date receivingDate,
+                         String address, long deliveryTypeId, double weight, double volume, Timestamp receivingDate,
                          long tariffId) {
         this.locationFromID = locationFromID;
         this.locationToId = locationToId;
@@ -89,11 +89,11 @@ public class DeliveryOrder {
         this.volume = volume;
     }
 
-    public Date getReceivingDate() {
+    public Timestamp getReceivingDate() {
         return receivingDate;
     }
 
-    public void setReceivingDate(Date receivingDate) {
+    public void setReceivingDate(Timestamp receivingDate) {
         this.receivingDate = receivingDate;
     }
 

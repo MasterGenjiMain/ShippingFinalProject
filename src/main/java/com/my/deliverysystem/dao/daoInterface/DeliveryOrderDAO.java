@@ -11,6 +11,7 @@ public interface DeliveryOrderDAO {
 
     //read
     List<DeliveryOrder> getAll() throws SQLException;
+    DeliveryOrder getById(long id) throws SQLException;
     List<DeliveryOrder> getByLocationFromId(Long id) throws SQLException;
     List<DeliveryOrder> getByLocationToId(Long id) throws SQLException;
 
