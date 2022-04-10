@@ -1,8 +1,15 @@
 package com.example.finalproject;
 
 
+import com.my.deliverysystem.dao.implementation.DeliveryTypeDAOImplementation;
+import com.my.deliverysystem.dao.implementation.LanguageDAOImplementation;
+import com.my.deliverysystem.dao.implementation.TariffDAOImplementation;
+import com.my.deliverysystem.db.entity.DeliveryType;
+import com.my.deliverysystem.db.entity.Language;
+
 import java.io.*;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -217,9 +224,31 @@ public class HelloServlet extends HttpServlet {
 //            service.update(receipt);
 //            System.out.println(service.getByReceiptId(4));
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            java.sql.Date date = new Date(System.currentTimeMillis());
-            System.out.println(sdf.format(date));
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//            java.sql.Date date = new Date(System.currentTimeMillis());
+//            System.out.println(sdf.format(date));
+
+//            DeliveryTypeDAOImplementation typeService = new DeliveryTypeDAOImplementation();
+//            System.out.println(typeService.getAll());
+//            System.out.println((typeService.getById(2)));
+//            System.out.println(typeService.getByName("Food"));
+//            System.out.println(typeService.getByLanguageId(1));
+//            System.out.println(typeService.getByLanguageId(2));
+
+//            TariffDAOImplementation tariffService = new TariffDAOImplementation();
+//            System.out.println(tariffService.getAll());
+//            System.out.println(tariffService.getById(2));
+//            System.out.println(tariffService.getByName("Міжнародна (легка)"));
+//            System.out.println(tariffService.getByLanguageId(1));
+//            System.out.println(tariffService.getByLanguageId(2));
+
+            LanguageDAOImplementation languageService = new LanguageDAOImplementation();
+            System.out.println(languageService.getByName("en"));
+            System.out.println(languageService.getByName("uk"));
+            System.out.println(request.getSession().getAttribute("language"));
+            String currentLanguage = String.valueOf(request.getSession().getAttribute("language"));
+            System.out.println(currentLanguage);
+            System.out.println(languageService.getByName(currentLanguage));
 
         } catch (Exception e) {
             e.printStackTrace();

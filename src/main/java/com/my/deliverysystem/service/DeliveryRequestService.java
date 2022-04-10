@@ -26,10 +26,14 @@ public class DeliveryRequestService {
 
     public static void getAllDeliveryTypesToRequest(HttpServletRequest req){
         logger.debug("Entered getAllDeliveryTypesToRequest-> " + DeliveryRequestService.class.getName());
+
+        GeneralInfoService generalInfoService = new GeneralInfoService();
+        Language currentLanguage = generalInfoService.getCurrentLanguage(req);
+
         DeliveryTypeDAOImplementation deliveryTypeService = new DeliveryTypeDAOImplementation();
         List<DeliveryType> deliveryTypes = new ArrayList<>();
         try {
-            deliveryTypes = deliveryTypeService.getAll();
+            deliveryTypes = deliveryTypeService.getByLanguageId(currentLanguage != null ? currentLanguage.getId() : 1);
         } catch (SQLException e) {
             logger.error(e);
         }
@@ -37,10 +41,13 @@ public class DeliveryRequestService {
     }
 
     public static void getAllTariffsToRequest(HttpServletRequest req){
+        GeneralInfoService generalInfoService = new GeneralInfoService();
+        Language currentLanguage = generalInfoService.getCurrentLanguage(req);
+
         TariffDAOImplementation tariffService = new TariffDAOImplementation();
         List<Tariff> tariffs = new ArrayList<>();
         try {
-            tariffs = tariffService.getAll();
+            tariffs = tariffService.getByLanguageId(currentLanguage != null ? currentLanguage.getId() : 1);
         } catch (SQLException e) {
             logger.error(e);
         }

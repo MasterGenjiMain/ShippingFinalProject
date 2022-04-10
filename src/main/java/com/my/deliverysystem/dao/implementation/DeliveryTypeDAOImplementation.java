@@ -41,6 +41,7 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
         try {
             pstmt = conn.prepareStatement(INSERT_INTO_DELIVERY_TYPE, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, deliveryType.getTypeName());
+            pstmt.setLong(2, deliveryType.getLanguageId());
             if (pstmt.executeUpdate() > 0) {
                 rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
@@ -103,12 +104,13 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
         DeliveryType deliveryType = new DeliveryType();
         deliveryType.setId(rs.getLong("id"));
         deliveryType.setTypeName(rs.getString("type_name"));
+        deliveryType.setLanguageId(rs.getLong("language_id"));
 
         return deliveryType;
     }
 
     @Override
-    public DeliveryType getById(Long id) throws SQLException {
+    public DeliveryType getById(long id) throws SQLException {
         logger.debug("Entered getById() deliveryTypeImpl");
         Connection conn = null;
         DeliveryType deliveryType;
@@ -175,6 +177,49 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
         }
     }
 
+    @Override
+    public List<DeliveryType> getByLanguageId(long id) throws SQLException {
+        logger.debug("Entered getByLanguageId() deliveryTypeImpl");
+        Connection conn = null;
+        List<DeliveryType> deliveryTypes;
+
+        try {
+            conn = DbManager.getInstance().getConnection();
+            logger.debug("Connected!");
+            conn.setAutoCommit(false);
+            deliveryTypes = getDeliveryTypesByLanguageId(id, conn);
+            conn.commit();
+
+            return deliveryTypes;
+
+        } catch (SQLException e) {
+            logger.error("getByUserId() deliveryOrderImpl error: " + e);
+            rollback(conn);
+            throw e;
+        } finally {
+            close(conn);
+        }
+    }
+
+    private List<DeliveryType> getDeliveryTypesByLanguageId(Long id, Connection conn) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<DeliveryType> deliveryTypesList = new ArrayList<>();
+        try {
+            pstmt = conn.prepareStatement(GET_DELIVERY_TYPE_BY_LANGUAGE_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                deliveryTypesList.add(deliveryTypeMap(rs));
+            }
+
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+        return deliveryTypesList;
+    }
+
     private DeliveryType getDeliveryTypeByName(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -209,7 +254,8 @@ public class DeliveryTypeDAOImplementation implements DeliveryTypeDAO {
             pstmt = conn.prepareStatement(UPDATE_DELIVERY_TYPE);
 
             pstmt.setString(1, deliveryType.getTypeName());
-            pstmt.setLong(2, deliveryType.getId());
+            pstmt.setLong(2, deliveryType.getLanguageId());
+            pstmt.setLong(3, deliveryType.getId());
 
             if (pstmt.executeUpdate() > 0) {
                 result = true;

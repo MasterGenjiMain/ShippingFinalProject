@@ -2,6 +2,7 @@ package com.my.deliverysystem.dao.implementation;
 
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.dao.daoInterface.TariffDAO;
+import com.my.deliverysystem.db.entity.DeliveryType;
 import com.my.deliverysystem.db.entity.Tariff;
 import org.apache.log4j.Logger;
 
@@ -43,6 +44,7 @@ public class TariffDAOImplementation implements TariffDAO {
             pstmt.setString(1, tariff.getTariffName());
             pstmt.setDouble(2, tariff.getTariffPrice());
             pstmt.setString(3, tariff.getTariffInfo());
+            pstmt.setLong(4, tariff.getLanguageId());
             if (pstmt.executeUpdate() > 0) {
                 rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
@@ -108,12 +110,13 @@ public class TariffDAOImplementation implements TariffDAO {
         tariff.setTariffName(rs.getString("tariff_name"));
         tariff.setTariffPrice(rs.getDouble("tariff_price"));
         tariff.setTariffInfo(rs.getString("tariff_info"));
+        tariff.setLanguageId(rs.getLong("language_id"));
 
         return tariff;
     }
 
     @Override
-    public Tariff getById(Long id) throws SQLException {
+    public Tariff getById(long id) throws SQLException {
         logger.debug("Entered getById() tariffImpl");
         Connection conn = null;
         Tariff tariff;
@@ -179,6 +182,49 @@ public class TariffDAOImplementation implements TariffDAO {
         }
     }
 
+    @Override
+    public List<Tariff> getByLanguageId(long id) throws SQLException {
+        logger.debug("Entered getByLanguageId() deliveryTypeImpl");
+        Connection conn = null;
+        List<Tariff> Tariffs;
+
+        try {
+            conn = DbManager.getInstance().getConnection();
+            logger.debug("Connected!");
+            conn.setAutoCommit(false);
+            Tariffs = getTariffsByLanguageId(id, conn);
+            conn.commit();
+
+            return Tariffs;
+
+        } catch (SQLException e) {
+            logger.error("getByUserId() deliveryOrderImpl error: " + e);
+            rollback(conn);
+            throw e;
+        } finally {
+            close(conn);
+        }
+    }
+
+    private List<Tariff> getTariffsByLanguageId(Long id, Connection conn) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<Tariff> deliveryTypesList = new ArrayList<>();
+        try {
+            pstmt = conn.prepareStatement(GET_TARIFFS_BY_LANGUAGE_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                deliveryTypesList.add(tariffMap(rs));
+            }
+
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+        return deliveryTypesList;
+    }
+
     private Tariff getTariffByName(String pattern, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -215,7 +261,8 @@ public class TariffDAOImplementation implements TariffDAO {
             pstmt.setString(1, tariff.getTariffName());
             pstmt.setDouble(2, tariff.getTariffPrice());
             pstmt.setString(3, tariff.getTariffInfo());
-            pstmt.setLong(4, tariff.getId());
+            pstmt.setLong(4, tariff.getLanguageId());
+            pstmt.setLong(5, tariff.getId());
 
             if (pstmt.executeUpdate() > 0) {
                 result = true;

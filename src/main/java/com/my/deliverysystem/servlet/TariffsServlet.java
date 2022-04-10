@@ -19,7 +19,7 @@ public class TariffsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet() TariffsServlet");
-        DeliveryRequestService.getAllTariffsToRequest(req);
+        TariffCalculatorService.getAllTariffsToRequest(req);
         req.getRequestDispatcher("/tariff.jsp").forward(req, resp);
     }
 

@@ -5,14 +5,16 @@ public class Tariff {
     private String tariffName;
     private double tariffPrice;
     private String tariffInfo;
+    private long languageId;
 
     public Tariff() {
     }
 
-    public Tariff(String tariffName, double tariffPrice, String tariffInfo) {
+    public Tariff(String tariffName, double tariffPrice, String tariffInfo, long languageId) {
         this.tariffName = tariffName;
         this.tariffPrice = tariffPrice;
         this.tariffInfo = tariffInfo;
+        this.languageId = languageId;
     }
 
     public long getId() {
@@ -47,6 +49,14 @@ public class Tariff {
         this.tariffInfo = tariffInfo;
     }
 
+    public long getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(long languageId) {
+        this.languageId = languageId;
+    }
+
     @Override
     public String toString() {
         return "Tariff{" +
@@ -54,6 +64,7 @@ public class Tariff {
                 ", tariffName='" + tariffName + '\'' +
                 ", tariffPrice=" + tariffPrice +
                 ", tariffInfo='" + tariffInfo + '\'' +
+                ", languageId=" + languageId +
                 '}';
     }
 }

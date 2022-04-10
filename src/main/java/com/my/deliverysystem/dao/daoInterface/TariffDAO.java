@@ -11,9 +11,9 @@ public interface TariffDAO {
 
     //read
     List<Tariff> getAll() throws SQLException;
-    Tariff getById(Long id) throws SQLException;
+    Tariff getById(long id) throws SQLException;
     Tariff getByName(String pattern) throws SQLException;
-
+    List<Tariff> getByLanguageId(long id) throws SQLException;
     //update
     boolean update(Tariff tariff);
 

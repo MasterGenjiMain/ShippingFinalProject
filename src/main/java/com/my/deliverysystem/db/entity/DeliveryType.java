@@ -3,6 +3,7 @@ package com.my.deliverysystem.db.entity;
 public class DeliveryType {
     private long id;
     private String typeName;
+    private long languageId;
 
     public DeliveryType() {
     }
@@ -27,11 +28,20 @@ public class DeliveryType {
         this.typeName = typeName;
     }
 
+    public long getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(long languageId) {
+        this.languageId = languageId;
+    }
+
     @Override
     public String toString() {
         return "DeliveryType{" +
                 "id=" + id +
                 ", typeName='" + typeName + '\'' +
+                ", languageId=" + languageId +
                 '}';
     }
 }

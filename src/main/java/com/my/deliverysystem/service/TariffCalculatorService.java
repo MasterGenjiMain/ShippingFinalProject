@@ -1,11 +1,14 @@
 package com.my.deliverysystem.service;
 
 import com.my.deliverysystem.dao.implementation.TariffDAOImplementation;
+import com.my.deliverysystem.db.entity.Language;
 import com.my.deliverysystem.db.entity.Tariff;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TariffCalculatorService {
     private static final Logger logger = Logger.getLogger(TariffCalculatorService.class);
@@ -111,5 +114,19 @@ public class TariffCalculatorService {
             DISTANCE_MULTIPLAYER = 1.5;
         }
         return DISTANCE_MULTIPLAYER;
+    }
+
+    public static void getAllTariffsToRequest(HttpServletRequest req){
+        GeneralInfoService generalInfoService = new GeneralInfoService();
+        Language currentLanguage = generalInfoService.getCurrentLanguage(req);
+
+        TariffDAOImplementation tariffService = new TariffDAOImplementation();
+        List<Tariff> tariffs = new ArrayList<>();
+        try {
+            tariffs = tariffService.getByLanguageId(currentLanguage != null ? currentLanguage.getId() : 1);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+        req.setAttribute("tariffs", tariffs);
     }
 }

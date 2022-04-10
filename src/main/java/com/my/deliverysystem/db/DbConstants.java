@@ -27,12 +27,13 @@ public abstract class DbConstants {
             " location_to_id=?, cargo_name=?, cargo_description=?, address=?, delivery_type_id=?, weight=?, volume=?, receiving_date=?, tariff_id=? WHERE id=?";
     public static final String DELETE_DELIVERY_ORDER = "DELETE FROM delivery_order WHERE id=?";
 
-    public static final String INSERT_INTO_DELIVERY_TYPE = "INSERT INTO delivery_type (id, type_name) VALUES (DEFAULT, ?)";
-    public static final String GET_ALL_DELIVERY_TYPES = "SELECT id, type_name FROM delivery_type ORDER BY delivery_type.id";
-    public static final String GET_DELIVERY_TYPE_BY_ID = "SELECT id, type_name FROM delivery_type where delivery_type.id=? ORDER BY delivery_type.id";
-    public static final String GET_DELIVERY_TYPE_BY_NAME = "SELECT id, type_name FROM delivery_type where delivery_type.type_name=? ORDER BY delivery_type.id";
-    public static final String UPDATE_DELIVERY_TYPE = "UPDATE delivery_type SET type_name=? WHERE id=?";
+    public static final String INSERT_INTO_DELIVERY_TYPE = "INSERT INTO delivery_type (id, type_name, language_id) VALUES (DEFAULT, ?, ?)";
+    public static final String GET_ALL_DELIVERY_TYPES = "SELECT id, type_name, language_id FROM delivery_type ORDER BY delivery_type.id";
+    public static final String GET_DELIVERY_TYPE_BY_ID = "SELECT id, type_name, language_id FROM delivery_type where delivery_type.id=? ORDER BY delivery_type.id";
+    public static final String GET_DELIVERY_TYPE_BY_NAME = "SELECT id, type_name, language_id FROM delivery_type where delivery_type.type_name=? ORDER BY delivery_type.id";
+    public static final String UPDATE_DELIVERY_TYPE = "UPDATE delivery_type SET type_name=?, language_id=? WHERE id=?";
     public static final String DELETE_DELIVERY_TYPE = "DELETE FROM delivery_type WHERE id=?";
+    public static final String GET_DELIVERY_TYPE_BY_LANGUAGE_ID = "SELECT id, type_name, language_id FROM delivery_type WHERE delivery_type.language_id=? ORDER BY delivery_type.id";
 
     public static final String INSERT_INTO_LOCATION = "INSERT INTO location (id, location_name, city_id, active_status_id) VALUES (DEFAULT, ?, ?, ?)";
     public static final String GET_ALL_LOCATIONS = "SELECT id, location_name, city_id, active_status_id FROM location ORDER BY location.id";
@@ -63,12 +64,13 @@ public abstract class DbConstants {
     public static final String UPDATE_ROLE = "UPDATE role SET role_name=? WHERE id=?";
     public static final String DELETE_ROLE = "DELETE FROM role WHERE id=?";
 
-    public static final String INSERT_INTO_TARIFF = "INSERT INTO tariff (id, tariff_name, tariff_price, tariff_info) VALUES (DEFAULT, ?, ?, ?)";
-    public static final String GET_ALL_TARIFFS = "SELECT id, tariff_name, tariff_price, tariff_info FROM tariff ORDER BY tariff.id";
-    public static final String GET_TARIFF_BY_ID = "SELECT id, tariff_name, tariff_price, tariff_info FROM tariff WHERE tariff.id=? ORDER BY tariff.id";
-    public static final String GET_TARIFF_BY_NAME = "SELECT id, tariff_name, tariff_price, tariff_info FROM tariff WHERE tariff.tariff_name=? ORDER BY tariff.id";
-    public static final String UPDATE_TARIFF = "UPDATE tariff SET tariff_name=?, tariff_price=?, tariff_info=? WHERE id=?";
+    public static final String INSERT_INTO_TARIFF = "INSERT INTO tariff (id, tariff_name, tariff_price, tariff_info, language_id) VALUES (DEFAULT, ?, ?, ?, ?)";
+    public static final String GET_ALL_TARIFFS = "SELECT id, tariff_name, tariff_price, tariff_info, language_id FROM tariff ORDER BY tariff.id";
+    public static final String GET_TARIFF_BY_ID = "SELECT id, tariff_name, tariff_price, tariff_info, language_id FROM tariff WHERE tariff.id=? ORDER BY tariff.id";
+    public static final String GET_TARIFF_BY_NAME = "SELECT id, tariff_name, tariff_price, tariff_info, language_id FROM tariff WHERE tariff.tariff_name=? ORDER BY tariff.id";
+    public static final String UPDATE_TARIFF = "UPDATE tariff SET tariff_name=?, tariff_price=?, tariff_info=?, language_id=? WHERE id=?";
     public static final String DELETE_TARIFF = "DELETE FROM tariff WHERE id=?";
+    public static final String GET_TARIFFS_BY_LANGUAGE_ID = "SELECT id, tariff_name, tariff_price, tariff_info, language_id FROM tariff WHERE tariff.language_id=? ORDER BY tariff.id";
 
     public static final String INSERT_INTO_USER = "INSERT INTO user (id, username, email, password, create_time, role_id) VALUES (DEFAULT, ?, ?, ?, DEFAULT, 1)";
     public static final String GET_ALL_USERS = "SELECT id, username, email, password, create_time, role_id FROM user ORDER BY user.id";
@@ -95,6 +97,8 @@ public abstract class DbConstants {
             "LEFT JOIN receipt_status ON receipt.receipt_status_id = receipt_status.id " +
             "LEFT JOIN cargo_delivery_db.user ON receipt.manager_id = user.id " +
             "ORDER BY receipt.id";
+
+    public static final String GET_LANGUAGE_BY_NAME = "SELECT id, language_name FROM language WHERE language.language_name=? ORDER BY language.id";
 
 
     private DbConstants() {

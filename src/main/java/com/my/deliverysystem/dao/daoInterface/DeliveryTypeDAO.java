@@ -11,8 +11,9 @@ public interface DeliveryTypeDAO {
 
     //read
     List<DeliveryType> getAll() throws SQLException;
-    DeliveryType getById(Long id) throws SQLException;
+    DeliveryType getById(long id) throws SQLException;
     DeliveryType getByName(String pattern) throws SQLException;
+    List<DeliveryType> getByLanguageId(long id) throws SQLException;
 
     //update
     boolean update(DeliveryType deliveryType);
