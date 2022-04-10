@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class DeliveryOrder {
     private long id;
-    private long locationFromID;
+    private long locationFromId;
     private long locationToId;
     private String cargoName;
     private String cargoDescription;
@@ -18,10 +18,10 @@ public class DeliveryOrder {
     public DeliveryOrder() {
     }
 
-    public DeliveryOrder(long locationFromID, long locationToId, String cargoName, String cargoDescription,
+    public DeliveryOrder(long locationFromId, long locationToId, String cargoName, String cargoDescription,
                          String address, long deliveryTypeId, double weight, double volume, Timestamp receivingDate,
                          long tariffId) {
-        this.locationFromID = locationFromID;
+        this.locationFromId = locationFromId;
         this.locationToId = locationToId;
         this.cargoName = cargoName;
         this.cargoDescription = cargoDescription;
@@ -42,11 +42,11 @@ public class DeliveryOrder {
     }
 
     public long getlocationfromid() {
-        return locationFromID;
+        return locationFromId;
     }
 
-    public void setLocationFromID(long locationFromID) {
-        this.locationFromID = locationFromID;
+    public void setLocationFromId(long locationFromId) {
+        this.locationFromId = locationFromId;
     }
 
     public long getLocationToId() {
@@ -105,8 +105,8 @@ public class DeliveryOrder {
         this.tariffId = tariffId;
     }
 
-    public long getLocationFromID() {
-        return locationFromID;
+    public long getLocationFromId() {
+        return locationFromId;
     }
 
     public String getCargoName() {
@@ -129,7 +129,7 @@ public class DeliveryOrder {
     public String toString() {
         return "DeliveryOrder{" +
                 "id=" + id +
-                ", locationFromID=" + locationFromID +
+                ", locationFromID=" + locationFromId +
                 ", locationToId=" + locationToId +
                 ", address='" + address + '\'' +
                 ", deliveryTypeId=" + deliveryTypeId +

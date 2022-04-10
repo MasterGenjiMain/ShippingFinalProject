@@ -4,7 +4,6 @@ import com.my.deliverysystem.dao.daoInterface.DeliveryOrderDAO;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.db.entity.DeliveryOrder;
-import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -147,7 +146,7 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
     private DeliveryOrder deliveryOrderMap(ResultSet rs) throws SQLException {
         DeliveryOrder deliveryOrder = new DeliveryOrder();
         deliveryOrder.setId(rs.getLong("id"));
-        deliveryOrder.setLocationFromID(rs.getLong("location_from_id"));
+        deliveryOrder.setLocationFromId(rs.getLong("location_from_id"));
         deliveryOrder.setLocationToId(rs.getLong("location_to_id"));
         deliveryOrder.setCargoName(rs.getString("cargo_name"));
         deliveryOrder.setCargoDescription(rs.getString("cargo_description"));

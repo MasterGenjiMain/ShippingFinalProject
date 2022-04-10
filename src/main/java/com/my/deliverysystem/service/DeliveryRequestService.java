@@ -99,7 +99,7 @@ public class DeliveryRequestService {
                 }
             }
         }
-        deliveryOrder.setLocationFromID(locationFromId); //1
+        deliveryOrder.setLocationFromId(locationFromId); //1
 
         if (locations != null) {
             for (Location location : locations) {

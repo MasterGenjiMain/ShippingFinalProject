@@ -10,10 +10,8 @@ import com.my.deliverysystem.db.entity.bean.ReceiptBean;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ApproveService {
@@ -26,7 +24,7 @@ public class ApproveService {
         try {
             receipts = receiptService.getAll();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         req.setAttribute("receipts", receipts);
     }
@@ -40,7 +38,7 @@ public class ApproveService {
             receipt = service.getByReceiptId(id);
             logger.debug(receipt);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         if (receipt != null) {
             long receiptStatus = receipt.getReceiptStatusId();
@@ -55,7 +53,7 @@ public class ApproveService {
                 try {
                     deliveryOrder = orderService.getById(receipt.getDeliveryOrderId());
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    logger.error(e);
                 }
                 if (deliveryOrder != null) {
                     deliveryOrder.setReceivingDate(new Timestamp(System.currentTimeMillis()));
