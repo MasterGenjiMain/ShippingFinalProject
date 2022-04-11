@@ -100,6 +100,14 @@ public abstract class DbConstants {
 
     public static final String GET_LANGUAGE_BY_NAME = "SELECT id, language_name FROM language WHERE language.language_name=? ORDER BY language.id";
 
+    public static final String GET_ALL_DELIVERY_ORDER_BEANS = "SELECT d0.id, l1.location_name, l2.location_name, d0.cargo_name, d0.cargo_description, " +
+            "d0.address, dt.type_name, d0.weight, d0.volume, d0.receiving_date, t.tariff_name " +
+            "FROM delivery_order as d0 " +
+            "INNER JOIN location as l1 ON d0.location_from_id = l1.id " +
+            "INNER JOIN location as l2 ON d0.location_to_id = l2.id " +
+            "LEFT JOIN delivery_type as dt ON d0.delivery_type_id = dt.id " +
+            "LEFT JOIN tariff as t ON d0.tariff_id = t.id;";
+
 
     private DbConstants() {
     }

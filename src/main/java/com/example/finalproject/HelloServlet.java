@@ -4,6 +4,7 @@ package com.example.finalproject;
 import com.my.deliverysystem.dao.implementation.DeliveryTypeDAOImplementation;
 import com.my.deliverysystem.dao.implementation.LanguageDAOImplementation;
 import com.my.deliverysystem.dao.implementation.TariffDAOImplementation;
+import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
 import com.my.deliverysystem.db.entity.DeliveryType;
 import com.my.deliverysystem.db.entity.Language;
 
@@ -242,13 +243,16 @@ public class HelloServlet extends HttpServlet {
 //            System.out.println(tariffService.getByLanguageId(1));
 //            System.out.println(tariffService.getByLanguageId(2));
 
-            LanguageDAOImplementation languageService = new LanguageDAOImplementation();
-            System.out.println(languageService.getByName("en"));
-            System.out.println(languageService.getByName("uk"));
-            System.out.println(request.getSession().getAttribute("language"));
-            String currentLanguage = String.valueOf(request.getSession().getAttribute("language"));
-            System.out.println(currentLanguage);
-            System.out.println(languageService.getByName(currentLanguage));
+//            LanguageDAOImplementation languageService = new LanguageDAOImplementation();
+//            System.out.println(languageService.getByName("en"));
+//            System.out.println(languageService.getByName("uk"));
+//            System.out.println(request.getSession().getAttribute("language"));
+//            String currentLanguage = String.valueOf(request.getSession().getAttribute("language"));
+//            System.out.println(currentLanguage);
+//            System.out.println(languageService.getByName(currentLanguage));
+
+            DeliveryOrderBeanDAOImpl deliveryOrderBeanDAO = new DeliveryOrderBeanDAOImpl();
+            System.out.println(deliveryOrderBeanDAO.getAll());
 
         } catch (Exception e) {
             e.printStackTrace();

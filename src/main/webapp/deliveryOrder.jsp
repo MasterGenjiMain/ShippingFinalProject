@@ -40,19 +40,19 @@
         </thead>
 
         <tbody>
-        <c:forEach items="${requestScope.deliveryOrders}" var="deliveryOrder">
+        <c:forEach items="${requestScope.deliveryOrders}" var="deliveryOrders">
             <tr>
-                <td>${deliveryOrder.id}</td>
-                <td>${deliveryOrder.locationFromId}</td>
-                <td>${deliveryOrder.locationToId}</td>
-                <td>${deliveryOrder.cargoName}</td>
-                <td>${deliveryOrder.cargoDescription}</td>
-                <td>${deliveryOrder.address}</td>
-                <td>${deliveryOrder.deliveryTypeId}</td>
-                <td>${deliveryOrder.weight}</td>
-                <td>${deliveryOrder.volume}</td>
-                <td>${deliveryOrder.receivingDate}</td>
-                <td>${deliveryOrder.tariffId}</td>
+                <td>${deliveryOrders.id}</td>
+                <td>${deliveryOrders.locationFrom}</td>
+                <td>${deliveryOrders.locationTo}</td>
+                <td>${deliveryOrders.cargoName}</td>
+                <td>${deliveryOrders.cargoDescription}</td>
+                <td>${deliveryOrders.address}</td>
+                <td>${deliveryOrders.deliveryType}</td>
+                <td>${deliveryOrders.weight}</td>
+                <td>${deliveryOrders.volume}</td>
+                <td>${deliveryOrders.receivingDate}</td>
+                <td>${deliveryOrders.tariff}</td>
             </tr>
         </c:forEach>
         </tbody>

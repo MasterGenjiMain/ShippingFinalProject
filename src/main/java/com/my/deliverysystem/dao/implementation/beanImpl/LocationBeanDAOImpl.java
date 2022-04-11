@@ -1,5 +1,6 @@
 package com.my.deliverysystem.dao.implementation.beanImpl;
 
+import com.my.deliverysystem.dao.daoInterface.beanDAO.LocationBeanDAO;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.db.entity.bean.LocationBean;
@@ -9,9 +10,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationBeanDAOImpl {
+public class LocationBeanDAOImpl implements LocationBeanDAO {
     private final Logger logger = Logger.getLogger(LocationBeanDAOImpl.class);
 
+    @Override
     public List<LocationBean> getAll() throws SQLException {
         logger.debug("Entered getAll() locationImpl");
         Connection conn = null;

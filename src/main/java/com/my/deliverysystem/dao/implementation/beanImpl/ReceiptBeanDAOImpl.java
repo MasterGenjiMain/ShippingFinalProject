@@ -1,5 +1,6 @@
 package com.my.deliverysystem.dao.implementation.beanImpl;
 
+import com.my.deliverysystem.dao.daoInterface.beanDAO.ReceiptBeanDAO;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.db.entity.bean.ReceiptBean;
@@ -9,9 +10,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReceiptBeanDAOImpl {
+import static com.my.deliverysystem.db.DbConstants.GET_RECEIPTS_BEAN_BY_ID;
+
+public class ReceiptBeanDAOImpl implements ReceiptBeanDAO {
     private final Logger logger = Logger.getLogger(ReceiptBeanDAOImpl.class);
 
+    @Override
     public List<ReceiptBean> getAll() throws SQLException {
         logger.debug("Entered getAll() receiptImpl");
         Connection conn = null;
@@ -58,14 +62,13 @@ public class ReceiptBeanDAOImpl {
         return receipts;
     }
 
-
-
+    @Override
     public List<ReceiptBean> getByUserId(Long id) throws SQLException {
         logger.debug("Entered getByUserId() receiptImpl");
-        return getReceipts(id, DbConstants.GET_RECEIPTS_BEAN_BY_ID);
+        return getReceipts(id);
     }
 
-    private List<ReceiptBean> getReceipts(Long id, String sql) throws SQLException {
+    private List<ReceiptBean> getReceipts(Long id) throws SQLException {
         Connection conn = null;
         List<ReceiptBean> receiptBeans;
 
@@ -73,7 +76,7 @@ public class ReceiptBeanDAOImpl {
             conn = DbManager.getInstance().getConnection();
             logger.debug("Connected!");
             conn.setAutoCommit(false);
-            receiptBeans = getReceiptsById(id, conn, sql);
+            receiptBeans = getReceiptsById(id, conn);
             conn.commit();
 
             return receiptBeans;
@@ -87,12 +90,12 @@ public class ReceiptBeanDAOImpl {
         }
     }
 
-    private List<ReceiptBean> getReceiptsById(Long id, Connection conn, String sql) throws SQLException {
+    private List<ReceiptBean> getReceiptsById(Long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<ReceiptBean> receiptList = new ArrayList<>();
         try {
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(GET_RECEIPTS_BEAN_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {

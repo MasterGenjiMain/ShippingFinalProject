@@ -1,7 +1,9 @@
 package com.my.deliverysystem.service;
 
 import com.my.deliverysystem.dao.implementation.DeliveryOrderDAOImplementation;
+import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
 import com.my.deliverysystem.db.entity.DeliveryOrder;
+import com.my.deliverysystem.db.entity.bean.DeliveryOrderBean;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +14,8 @@ public class DeliveryOrderService {
     final static Logger logger = Logger.getLogger(DeliveryOrderService.class.getName());
 
     public static void showDeliveryOrders(HttpServletRequest req) {
-        DeliveryOrderDAOImplementation deliveryOrderService = new DeliveryOrderDAOImplementation();
-        List<DeliveryOrder> deliveryOrders = null;
+        DeliveryOrderBeanDAOImpl deliveryOrderService = new DeliveryOrderBeanDAOImpl();
+        List<DeliveryOrderBean> deliveryOrders = null;
         try {
             deliveryOrders = deliveryOrderService.getAll();
         } catch (SQLException e) {
