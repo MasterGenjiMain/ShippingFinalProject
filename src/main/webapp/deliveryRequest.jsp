@@ -20,20 +20,20 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.cargo-name"/>:</label>
             <div class="col-sm-3">
-                <input type="text" name="cargoName" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.cargo-name"/>">
+                <input type="text" name="cargoName" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.cargo-name"/>" required>
             </div>
         </div>
         <div class="mb-5 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.cargo-description"/>:</label>
             <div class="col-sm-3">
-                <input type="text" name="cargoDescription" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.cargo-description"/>">
+                <input type="text" name="cargoDescription" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.cargo-description"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.location-from"/>:</label>
             <div class="col-sm-3">
-                <select class="form-select" aria-label="Default select example" name="locationFrom">
-                    <option disabled selected>-----</option>
+                <select class="form-select" aria-label="Default select example" name="locationFrom" required>
+                    <option disabled selected value="">-----</option>
                     <c:forEach items="${requestScope.locations}" var="location">
                         <option>${location.locationName}</option>
                     </c:forEach>
@@ -43,8 +43,8 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.location-to"/>:</label>
             <div class="col-sm-3">
-                <select class="form-select" aria-label="Default select example" name="locationTo">
-                    <option disabled selected>-----</option>
+                <select class="form-select" aria-label="Default select example" name="locationTo" required>
+                    <option disabled selected value="">-----</option>
                     <c:forEach items="${requestScope.locations}" var="location">
                         <option>${location.locationName}</option>
                     </c:forEach>
@@ -54,14 +54,14 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.address"/>:</label>
             <div class="col-sm-3">
-                <input type="text" name="address" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.address"/>">
+                <input type="text" name="address" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.address"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.delivery-type"/>:</label>
             <div class="col-sm-3">
-                <select class="form-select" aria-label="Default select example"  name="deliveryType">
-                    <option disabled selected>-----</option>
+                <select class="form-select" aria-label="Default select example" name="deliveryType" required>
+                    <option disabled selected value="">-----</option>
                     <c:forEach items="${requestScope.deliveryTypes}" var="deliveryType">
                         <option>${deliveryType.typeName}</option>
                     </c:forEach>
@@ -71,26 +71,26 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.weight"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="weight" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.weight"/>">
+                <input type="number" name="weight" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.weight"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.volume"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="volume" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.volume"/>">
+                <input type="number" name="volume" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.volume"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.distance"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="distance" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.distance"/>">
+                <input type="number" name="distance" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.distance"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.tariff"/>:</label>
             <div class="col-sm-3">
-                <select class="form-select" aria-label="Default select example" name="tariff">
-                    <option disabled selected>-----</option>
+                <select class="form-select" aria-label="Default select example" name="tariff" required>
+                    <option disabled selected value="">-----</option>
                     <c:forEach items="${requestScope.tariffs}" var="tariff">
                         <option>${tariff.tariffName}</option>
                     </c:forEach>

@@ -20,25 +20,25 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="registration.label.username"/>:</label>
             <div class="col-sm-3">
-                <input type="text" name="username" class="form-control" placeholder="<fmt:message key="registration.placeholder.username"/>">
+                <input type="text" name="username" class="form-control" placeholder="<fmt:message key="registration.placeholder.username"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="registration.label.email"/>:</label>
             <div class="col-sm-3">
-                <input type="text" name="email" class="form-control" placeholder="<fmt:message key="registration.placeholder.email"/>">
+                <input type="email" name="email" class="form-control" placeholder="<fmt:message key="registration.placeholder.email"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="registration.label.password"/>:</label>
             <div class="col-sm-3">
-                <input type="password" name="password" class="form-control" placeholder="<fmt:message key="registration.placeholder.password"/>">
+                <input type="password" name="password" class="form-control" placeholder="<fmt:message key="registration.placeholder.password"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="registration.label.repeat-password"/>:</label>
             <div class="col-sm-3">
-                <input type="password" name="repeat-password" class="form-control" placeholder="<fmt:message key="registration.placeholder.repeat-password"/>">
+                <input type="password" name="repeat-password" class="form-control" placeholder="<fmt:message key="registration.placeholder.repeat-password"/>" required>
             </div>
         </div>
         <button class="btn btn-primary" type="submit"><fmt:message key="registration.label.button.registration"/></button>

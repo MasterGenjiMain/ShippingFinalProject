@@ -19,38 +19,38 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.height"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="height" class="form-control" placeholder="<fmt:message key="tariff.placeholder.height"/>">
+                <input type="number" name="height" class="form-control" placeholder="<fmt:message key="tariff.placeholder.height"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.width"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="width" class="form-control" placeholder="<fmt:message key="tariff.placeholder.width"/>">
+                <input type="number" name="width" class="form-control" placeholder="<fmt:message key="tariff.placeholder.width"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.length"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="length" class="form-control" placeholder="<fmt:message key="tariff.placeholder.length"/>">
+                <input type="number" name="length" class="form-control" placeholder="<fmt:message key="tariff.placeholder.length"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.distance"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="distance" class="form-control" placeholder="<fmt:message key="tariff.placeholder.distance"/>">
+                <input type="number" name="distance" class="form-control" placeholder="<fmt:message key="tariff.placeholder.distance"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.weight"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="weight" class="form-control" placeholder="<fmt:message key="tariff.placeholder.weight"/>">
+                <input type="number" name="weight" class="form-control" placeholder="<fmt:message key="tariff.placeholder.weight"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.tariff"/>:</label>
             <div class="col-sm-3">
-                <select class="form-select" aria-label="Default select example" name="tariff">
-                    <option disabled selected>-----</option>
+                <select class="form-select" aria-label="Default select example" name="tariff" required>
+                    <option disabled selected value="">-----</option>
                     <c:forEach items="${requestScope.tariffs}" var="tariff">
                         <option>${tariff.tariffName}</option>
                     </c:forEach>

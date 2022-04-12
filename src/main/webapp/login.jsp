@@ -20,13 +20,13 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="login.label.login"/>:</label>
             <div class="col-sm-3">
-                <input type="text" name="login" class="form-control" placeholder="<fmt:message key="login.placeholder.login"/>">
+                <input type="text" name="login" class="form-control" placeholder="<fmt:message key="login.placeholder.login"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="login.label.password"/></label>
             <div class="col-sm-3">
-                <input type="password" name="password" class="form-control" placeholder="<fmt:message key="login.placeholder.password"/>">
+                <input type="password" name="password" class="form-control" placeholder="<fmt:message key="login.placeholder.password"/>" required>
             </div>
         </div>
         <button class="btn btn-primary" type="submit"><fmt:message key="login.label.button.sign-in"/></button>
