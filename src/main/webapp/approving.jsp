@@ -52,12 +52,28 @@
                         </c:when>
                         <c:otherwise>
                             <c:choose>
-                                <c:when test="${receipt.receiptStatusName != 'Canceled' && receipt.receiptStatusName != 'Closed'}">
+                                <c:when test="${receipt.receiptStatusName == 'Waiting for payment'}">
                                     <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status?id=<c:out value='${receipt.id}'/>">
-                                        <fmt:message key="approving.label.table.receipts.button.next-status"/></a>
+                                        <fmt:message key="approving.label.table.receipts.button.paid"/></a>
+                                </c:when>
+                                <c:when test="${receipt.receiptStatusName == 'Paid'}">
+                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status?id=<c:out value='${receipt.id}'/>">
+                                        <fmt:message key="approving.label.table.receipts.button.preparing"/></a>
+                                </c:when>
+                                <c:when test="${receipt.receiptStatusName == 'Preparing'}">
+                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status?id=<c:out value='${receipt.id}'/>">
+                                        <fmt:message key="approving.label.table.receipts.button.delivering"/></a>
+                                </c:when>
+                                <c:when test="${receipt.receiptStatusName == 'Delivering'}">
+                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status?id=<c:out value='${receipt.id}'/>">
+                                        <fmt:message key="approving.label.table.receipts.button.delivered"/></a>
+                                </c:when>
+                                <c:when test="${receipt.receiptStatusName == 'Delivered'}">
+                                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/manager/approving/next-status?id=<c:out value='${receipt.id}'/>">
+                                        <fmt:message key="approving.label.table.receipts.button.closed"/></a>
                                 </c:when>
                                 <c:otherwise>
-                                    <button type="button" class="btn btn-secondary" disabled><fmt:message key="approving.label.table.receipts.button.next-status"/></button>
+                                    <button type="button" class="btn btn-secondary" disabled><fmt:message key="approving.label.table.receipts.button.closed"/></button>
                                 </c:otherwise>
                             </c:choose>
                         </c:otherwise>

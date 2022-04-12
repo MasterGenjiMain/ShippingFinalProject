@@ -57,7 +57,8 @@
                 </c:choose>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <c:choose>
-                    <c:when test="${receipt.receiptStatusName == 'New' || receipt.receiptStatusName == 'Waiting for payment' || receipt.receiptStatusName == 'Paid'}">
+                    <c:when test="${receipt.receiptStatusName == 'New' || receipt.receiptStatusName == 'Waiting for payment'
+                    || receipt.receiptStatusName == 'Paid' || receipt.receiptStatusName == 'Preparing'}">
                         <a class="btn btn-secondary" href="<%=request.getContextPath()%>/user/account/cancel?id=<c:out value='${receipt.id}'/>">
                             <fmt:message key="account.label.table.receipts.button.cancel"/></a>
                     </c:when>
