@@ -98,6 +98,14 @@ public abstract class DbConstants {
             "LEFT JOIN cargo_delivery_db.user ON receipt.manager_id = user.id " +
             "ORDER BY receipt.id";
 
+    public static final String GET_RECEIPT_BEAN_BY_ID = "SELECT receipt.id, receipt.user_id, user.username, " +
+            "receipt.price, receipt_status.status_name, receipt.delivery_order_id " +
+            "FROM receipt " +
+            "LEFT JOIN receipt_status ON receipt.receipt_status_id = receipt_status.id " +
+            "LEFT JOIN cargo_delivery_db.user ON receipt.manager_id = user.id " +
+            "WHERE receipt.id=? " +
+            "ORDER BY receipt.id";
+
     public static final String GET_LANGUAGE_BY_NAME = "SELECT id, language_name FROM language WHERE language.language_name=? ORDER BY language.id";
 
     public static final String GET_ALL_DELIVERY_ORDER_BEANS = "SELECT d0.id, l1.location_name, l2.location_name, d0.cargo_name, d0.cargo_description, " +
@@ -106,7 +114,18 @@ public abstract class DbConstants {
             "INNER JOIN location as l1 ON d0.location_from_id = l1.id " +
             "INNER JOIN location as l2 ON d0.location_to_id = l2.id " +
             "LEFT JOIN delivery_type as dt ON d0.delivery_type_id = dt.id " +
-            "LEFT JOIN tariff as t ON d0.tariff_id = t.id;";
+            "LEFT JOIN tariff as t ON d0.tariff_id = t.id " +
+            "ORDER BY d0.id";
+
+    public static final String GET_DELIVERY_ORDER_BEAN_BY_ID = "SELECT d0.id, l1.location_name, l2.location_name, d0.cargo_name, d0.cargo_description, " +
+            "d0.address, dt.type_name, d0.weight, d0.volume, d0.receiving_date, t.tariff_name " +
+            "FROM delivery_order as d0 " +
+            "INNER JOIN location as l1 ON d0.location_from_id = l1.id " +
+            "INNER JOIN location as l2 ON d0.location_to_id = l2.id " +
+            "LEFT JOIN delivery_type as dt ON d0.delivery_type_id = dt.id " +
+            "LEFT JOIN tariff as t ON d0.tariff_id = t.id " +
+            "WHERE d0.id=? " +
+            "ORDER BY d0.id";
 
 
     private DbConstants() {

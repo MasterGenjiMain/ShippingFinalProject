@@ -33,6 +33,9 @@ public class AccountServlet extends HttpServlet {
                     AccountService.changeStatus(req, PAYED_STATUS);
                     resp.sendRedirect("user/account");
                     break;
+                case "/receipt-download":
+                    AccountService.showReceiptPDF(req, resp);
+                    break;
                 default:
                     AccountService.showReceipts(req);
                     req.getRequestDispatcher("/account.jsp").forward(req, resp);

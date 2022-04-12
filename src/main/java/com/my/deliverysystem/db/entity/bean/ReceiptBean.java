@@ -63,7 +63,7 @@ public class ReceiptBean {
                 ", userId=" + userId +
                 ", managerName='" + managerName + '\'' +
                 ", price=" + price +
-                ", receiptStatusId='" + receiptStatusName + '\'' +
+                ", receiptStatusName='" + receiptStatusName + '\'' +
                 ", deliveryOrderId=" + deliveryOrderId +
                 '}';
     }

@@ -3,14 +3,10 @@ package com.my.deliverysystem.dao.implementation.beanImpl;
 import com.my.deliverysystem.dao.daoInterface.beanDAO.DeliveryOrderBeanDAO;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
-import com.my.deliverysystem.db.entity.DeliveryOrder;
 import com.my.deliverysystem.db.entity.bean.DeliveryOrderBean;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +38,49 @@ public class DeliveryOrderBeanDAOImpl implements DeliveryOrderBeanDAO {
         }
 
         return deliveryOrderBeans;
+    }
+
+    @Override
+    public DeliveryOrderBean getById(long id) throws SQLException {
+        logger.debug("Entered getByReceiptId() " + getClass().getName());
+        Connection conn = null;
+        DeliveryOrderBean deliveryOrderBean;
+
+        try {
+            conn = DbManager.getInstance().getConnection();
+            logger.debug("Connected!");
+            conn.setAutoCommit(false);
+            deliveryOrderBean = getDeliveryOrderById(id, conn);
+            conn.commit();
+
+            return deliveryOrderBean;
+
+        } catch (SQLException e) {
+            logger.error("getById() locationImpl: " + e);
+            rollback(conn);
+            throw e;
+        } finally {
+            close(conn);
+        }
+    }
+
+    private DeliveryOrderBean getDeliveryOrderById(long id, Connection conn) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        DeliveryOrderBean deliveryOrderBean = null;
+        try {
+            pstmt = conn.prepareStatement(DbConstants.GET_DELIVERY_ORDER_BEAN_BY_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                deliveryOrderBean = deliveryOrderBeanMap(rs);
+            }
+
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+        return deliveryOrderBean;
     }
 
     private List<DeliveryOrderBean> getAllDeliveryOrderBrans(Connection conn) throws SQLException {
@@ -77,7 +116,7 @@ public class DeliveryOrderBeanDAOImpl implements DeliveryOrderBeanDAO {
         deliveryOrderBean.setWeight(rs.getDouble("weight"));
         deliveryOrderBean.setVolume(rs.getDouble("volume"));
         deliveryOrderBean.setReceivingDate(rs.getTimestamp("receiving_date"));
-        deliveryOrderBean.setTariff(rs.getString("tariff_name"));
+        deliveryOrderBean.setTariffName(rs.getString("tariff_name"));
 
         return deliveryOrderBean;
     }

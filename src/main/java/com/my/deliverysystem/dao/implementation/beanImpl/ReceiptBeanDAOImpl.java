@@ -52,7 +52,7 @@ public class ReceiptBeanDAOImpl implements ReceiptBeanDAO {
             rs = stmt.executeQuery(DbConstants.GET_ALL_RECEIPTS_BEANS);
 
             while(rs.next()) {
-                receipts.add(receiptMap(rs));
+                receipts.add(receiptBeanMap(rs));
             }
 
         } finally {
@@ -63,12 +63,55 @@ public class ReceiptBeanDAOImpl implements ReceiptBeanDAO {
     }
 
     @Override
-    public List<ReceiptBean> getByUserId(Long id) throws SQLException {
+    public List<ReceiptBean> getByUserId(long id) throws SQLException {
         logger.debug("Entered getByUserId() receiptImpl");
         return getReceipts(id);
     }
 
-    private List<ReceiptBean> getReceipts(Long id) throws SQLException {
+    @Override
+    public ReceiptBean getById(long id) throws SQLException {
+        logger.debug("Entered getByReceiptId() " + getClass().getName());
+        Connection conn = null;
+        ReceiptBean receiptBean;
+
+        try {
+            conn = DbManager.getInstance().getConnection();
+            logger.debug("Connected!");
+            conn.setAutoCommit(false);
+            receiptBean = getReceiptBeanById(id, conn);
+            conn.commit();
+
+            return receiptBean;
+
+        } catch (SQLException e) {
+            logger.error("getById() locationImpl: " + e);
+            rollback(conn);
+            throw e;
+        } finally {
+            close(conn);
+        }
+    }
+
+    private ReceiptBean getReceiptBeanById(Long id, Connection conn) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ReceiptBean receiptBean = null;
+        try {
+            pstmt = conn.prepareStatement(DbConstants.GET_RECEIPT_BEAN_BY_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                receiptBean = receiptBeanMap(rs);
+            }
+
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+        return receiptBean;
+    }
+
+    private List<ReceiptBean> getReceipts(long id) throws SQLException {
         Connection conn = null;
         List<ReceiptBean> receiptBeans;
 
@@ -99,7 +142,7 @@ public class ReceiptBeanDAOImpl implements ReceiptBeanDAO {
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                receiptList.add(receiptMap(rs));
+                receiptList.add(receiptBeanMap(rs));
             }
 
         } finally {
@@ -109,7 +152,7 @@ public class ReceiptBeanDAOImpl implements ReceiptBeanDAO {
         return receiptList;
     }
 
-    private ReceiptBean receiptMap(ResultSet rs) throws SQLException {
+    private ReceiptBean receiptBeanMap(ResultSet rs) throws SQLException {
         ReceiptBean receiptBean = new ReceiptBean();
         receiptBean.setId(rs.getLong("id"));
         receiptBean.setUserId(rs.getLong("user_id"));

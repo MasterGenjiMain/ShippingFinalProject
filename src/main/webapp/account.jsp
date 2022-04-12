@@ -66,6 +66,9 @@
                         <button type="button" class="btn btn-secondary" disabled><fmt:message key="account.label.table.receipts.button.cancel"/></button>
                     </c:otherwise>
                 </c:choose>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-secondary" href="<%=request.getContextPath()%>/user/account/receipt-download?id=<c:out value='${receipt.id}'/>">
+                        <fmt:message key="account.label.table.receipts.button.receiptDownload"/></a>
                 </td>
             </tr>
         </c:forEach>

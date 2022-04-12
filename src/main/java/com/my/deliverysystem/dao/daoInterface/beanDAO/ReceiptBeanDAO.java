@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ReceiptBeanDAO {
      List<ReceiptBean> getAll() throws SQLException;
-     List<ReceiptBean> getByUserId(Long id) throws SQLException;
+     List<ReceiptBean> getByUserId(long id) throws SQLException;
+     ReceiptBean getById(long id) throws SQLException;
 }

@@ -106,7 +106,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
         }
     }
 
-    private Receipt getReceiptById(Long id, Connection conn) throws SQLException {
+    private Receipt getReceiptById(long id, Connection conn) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Receipt receipt = null;
@@ -170,7 +170,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
         return getReceipts(id, DbConstants.GET_RECEIPT_BY_MANAGER_ID);
     }
 
-    private List<Receipt> getReceipts(Long id, String sql) throws SQLException {
+    private List<Receipt> getReceipts(long id, String sql) throws SQLException {
         Connection conn = null;
         List<Receipt> receipts;
 
@@ -192,7 +192,7 @@ public class ReceiptDAOImplementation implements ReceiptDAO {
         }
     }
 
-    private List<Receipt> getReceiptsById(Long id, Connection conn, String sql) throws SQLException {
+    private List<Receipt> getReceiptsById(long id, Connection conn, String sql) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Receipt> receiptList = new ArrayList<>();

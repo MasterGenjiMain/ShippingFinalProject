@@ -14,7 +14,7 @@ public class DeliveryOrderBean {
     private double weight;
     private double volume;
     private Timestamp receivingDate;
-    private String tariff;
+    private String tariffName;
 
     public DeliveryOrderBean() {
     }
@@ -23,7 +23,7 @@ public class DeliveryOrderBean {
                              String cargoName, String cargoDescription,
                              String address, String deliveryType,
                              double weight, double volume,
-                             Timestamp receivingDate, String tariff) {
+                             Timestamp receivingDate, String tariffName) {
         this.locationFrom = locationFrom;
         this.locationTo = locationTo;
         this.cargoName = cargoName;
@@ -33,7 +33,7 @@ public class DeliveryOrderBean {
         this.weight = weight;
         this.volume = volume;
         this.receivingDate = receivingDate;
-        this.tariff = tariff;
+        this.tariffName = tariffName;
     }
 
     public long getId() {
@@ -116,12 +116,12 @@ public class DeliveryOrderBean {
         this.receivingDate = receivingDate;
     }
 
-    public String getTariff() {
-        return tariff;
+    public String getTariffName() {
+        return tariffName;
     }
 
-    public void setTariff(String tariff) {
-        this.tariff = tariff;
+    public void setTariffName(String tariffName) {
+        this.tariffName = tariffName;
     }
 
     @Override
@@ -137,7 +137,7 @@ public class DeliveryOrderBean {
                 ", weight=" + weight +
                 ", volume=" + volume +
                 ", receivingDate=" + receivingDate +
-                ", tariff='" + tariff + '\'' +
+                ", tariff='" + tariffName + '\'' +
                 '}';
     }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DeliveryOrderBeanDAO {
     List<DeliveryOrderBean> getAll() throws SQLException;
+    DeliveryOrderBean getById(long id) throws SQLException;
 }
