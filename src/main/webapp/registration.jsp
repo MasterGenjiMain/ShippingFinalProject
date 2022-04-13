@@ -43,7 +43,11 @@
         </div>
         <button class="btn btn-primary" type="submit"><fmt:message key="registration.label.button.registration"/></button>
         <a class="btn btn-primary" href="index.jsp" role="button"><fmt:message key="registration.label.button.back"/></a>
-        <c:out value="${requestScope.message}"/>
+        <c:if test="${requestScope.message != null}">
+            <div class="alert alert-danger mt-3" role="alert">
+                <c:out value="${requestScope.message}"/>
+            </div>
+        </c:if>
     </form>
 </div>
 </body>

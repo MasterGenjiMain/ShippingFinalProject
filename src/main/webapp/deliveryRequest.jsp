@@ -99,7 +99,12 @@
         </div>
         <button class="btn btn-primary" type="submit"><fmt:message key="delivery-request.label.button.create"/></button>
         <a class="btn btn-primary" href="<%=request.getContextPath()%>/index.jsp" role="button"><fmt:message key="delivery-request.label.button.back"/></a>
-        <c:out value="${sessionScope.message}"/>
+        <c:if test="${sessionScope.message != null}">
+            <div class="alert alert-success mt-3" role="alert">
+                <c:out value="${sessionScope.message}"/>
+                <%session.removeAttribute("message");%>
+            </div>
+        </c:if>
     </form>
 </div>
 

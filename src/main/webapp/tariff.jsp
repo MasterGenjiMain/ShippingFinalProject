@@ -59,9 +59,15 @@
         </div>
         <button class="btn btn-primary" type="submit"><fmt:message key="tariff.label.button.calculate"/></button>
         <a class="btn btn-primary" href="index.jsp" role="button"><fmt:message key="tariff.label.button.back"/></a>
-        <c:out value="${requestScope.message}"/>
+        <c:if test="${requestScope.message != null}">
+            <div class="alert alert-danger mt-3" role="alert">
+                <c:out value="${requestScope.message}"/>
+            </div>
+        </c:if>
         <c:if test="${sessionScope.price != null}">
-            <c:out value="${sessionScope.price} UAH"/>
+        <div class="alert alert-success mt-3" role="alert">
+            <c:out value="Your calculated price: ${sessionScope.price} UAH"/>
+        </div>
         </c:if>
     </form>
 </div>
