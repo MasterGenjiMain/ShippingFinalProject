@@ -72,5 +72,6 @@
 </div>
 
 <%@include file="parts/pagination.jspf"%>
+<%@include file="parts/refreshPageCookie.jspf"%>
 </body>
 </html>

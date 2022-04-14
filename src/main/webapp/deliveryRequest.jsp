@@ -100,13 +100,13 @@
         <button class="btn btn-primary" type="submit"><fmt:message key="delivery-request.label.button.create"/></button>
         <a class="btn btn-primary" href="<%=request.getContextPath()%>/index.jsp" role="button"><fmt:message key="delivery-request.label.button.back"/></a>
         <c:if test="${sessionScope.message != null}">
-            <div class="alert alert-success mt-3" role="alert">
+            <div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">
                 <c:out value="${sessionScope.message}"/>
-                <%session.removeAttribute("message");%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </c:if>
     </form>
 </div>
-
+<%@include file="parts/refreshPageCookie.jspf"%>
 </body>
 </html>

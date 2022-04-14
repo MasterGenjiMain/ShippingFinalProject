@@ -11,11 +11,12 @@
     <meta charset="utf-8">
     <%@include file="parts/style.jspf"%>
     <title>Tariffs</title>
+
 </head>
 <body>
 <%@include file="parts/navigation.jspf"%>
 <div class="container mt-5">
-    <form action="tariffs" method="post">
+    <form action="delivery-calculator" method="post">
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label"><fmt:message key="tariff.label.height"/>:</label>
             <div class="col-sm-3">
@@ -65,13 +66,13 @@
             </div>
         </c:if>
         <c:if test="${sessionScope.price != null}">
-        <div class="alert alert-success mt-3" role="alert">
+        <div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">
             <c:out value="Your calculated price: ${sessionScope.price} UAH"/>
-            <%session.removeAttribute("price");%>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         </c:if>
     </form>
 </div>
-
+<%@include file="parts/refreshPageCookie.jspf"%>
 </body>
 </html>

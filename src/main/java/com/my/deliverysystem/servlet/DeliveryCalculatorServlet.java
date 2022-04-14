@@ -31,7 +31,7 @@ public class DeliveryCalculatorServlet extends HttpServlet {
         successStatus = DeliveryCalculatorService.calculate(req);
 
         if (successStatus) {
-            resp.sendRedirect( appPath + "tariffs");
+            resp.sendRedirect( appPath + "delivery-calculator");
         } else {
             req.getRequestDispatcher("/deliveryCalculator.jsp").forward(req, resp);
         }

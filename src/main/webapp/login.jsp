@@ -32,8 +32,9 @@
         <button class="btn btn-primary" type="submit"><fmt:message key="login.label.button.sign-in"/></button>
         <a class="btn btn-primary" href="index.jsp" role="button"><fmt:message key="login.label.button.back"/></a>
         <c:if test="${requestScope.message != null}">
-        <div class="alert alert-danger mt-3" role="alert">
+        <div class="alert alert-danger mt-3 alert-dismissible fade show" role="alert">
             <c:out value="${requestScope.message}"/>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         </c:if>
     </form>
