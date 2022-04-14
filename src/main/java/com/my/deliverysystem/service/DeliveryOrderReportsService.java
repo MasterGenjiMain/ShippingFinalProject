@@ -5,6 +5,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
 import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
+import com.my.deliverysystem.db.entity.User;
 import com.my.deliverysystem.db.entity.bean.DeliveryOrderBean;
 import com.my.deliverysystem.db.entity.bean.ReceiptBean;
 import org.apache.log4j.Logger;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class DeliveryOrderReportsService {
@@ -66,13 +69,22 @@ public class DeliveryOrderReportsService {
             Font fontCNR = new Font(baseFontR);
             fontCNR.setStyle(Font.BOLD);
             fontCNR.setSize(36);
-            Paragraph paragraphCNR = new Paragraph("Report\n", fontCNR);
+            Paragraph paragraphCNR = new Paragraph("Report", fontCNR);
             paragraphCNR.setAlignment(Element.ALIGN_CENTER);
             document.add(paragraphCNR);
 
             Font fontPR = new Font(baseFontR);
             fontPR.setStyle(Font.NORMAL);
             fontPR.setSize(24);
+
+            Font fontUI = new Font(baseFontR);
+            fontUI.setStyle(Font.NORMAL);
+            fontUI.setSize(12);
+
+            String managerName = "Created by: " + ((User) req.getSession().getAttribute("user")).getUsername();
+            Chunk chunkUN = new Chunk(managerName, fontUI);
+
+            document.add(chunkUN);
 
             Paragraph paragraphR = new Paragraph("Receipt", fontPR);
             document.add(paragraphR);
@@ -98,6 +110,8 @@ public class DeliveryOrderReportsService {
             Paragraph paragraphDO = new Paragraph("Cargo", fontPR);
             document.add(paragraphDO);
 
+
+
             String deliveryOrderInfo = null;
             if (deliveryOrder != null) {
                 deliveryOrderInfo = "Location from: " + deliveryOrder.getLocationFrom() + "\n" +
@@ -119,6 +133,18 @@ public class DeliveryOrderReportsService {
                 chunkDO = new Chunk(deliveryOrderInfo, fontT);
             }
             document.add(chunkDO);
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            String time = dtf.format(now);
+
+            String userDate = String.format("\nDate: %s", time);
+
+            Chunk chunkUD = null;
+            if (deliveryOrderInfo != null) {
+                chunkUD = new Chunk(userDate, fontUI);
+            }
+            document.add(chunkUD);
 
             document.close();
         } catch (DocumentException de) {
