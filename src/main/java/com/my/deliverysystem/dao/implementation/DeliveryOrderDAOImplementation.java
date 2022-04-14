@@ -247,9 +247,9 @@ public class DeliveryOrderDAOImplementation implements DeliveryOrderDAO {
     private void setDeliveryOrder(DeliveryOrder deliveryOrder, PreparedStatement pstmt) throws SQLException {
         pstmt.setLong(1, deliveryOrder.getlocationfromid());
         pstmt.setLong(2, deliveryOrder.getLocationToId());
-        pstmt.setString(3, deliveryOrder.getAddress());
-        pstmt.setString(4, deliveryOrder.getCargoName());
-        pstmt.setString(5, deliveryOrder.getCargoDescription());
+        pstmt.setString(3, deliveryOrder.getCargoName());
+        pstmt.setString(4, deliveryOrder.getCargoDescription());
+        pstmt.setString(5, deliveryOrder.getAddress());
         pstmt.setLong(6, deliveryOrder.getDeliveryTypeId());
         pstmt.setDouble(7, deliveryOrder.getWeight());
         pstmt.setDouble(8, deliveryOrder.getVolume());

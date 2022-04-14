@@ -67,6 +67,7 @@
         <c:if test="${sessionScope.price != null}">
         <div class="alert alert-success mt-3" role="alert">
             <c:out value="Your calculated price: ${sessionScope.price} UAH"/>
+            <%session.removeAttribute("price");%>
         </div>
         </c:if>
     </form>

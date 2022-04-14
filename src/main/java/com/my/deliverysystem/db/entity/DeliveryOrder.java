@@ -129,8 +129,10 @@ public class DeliveryOrder {
     public String toString() {
         return "DeliveryOrder{" +
                 "id=" + id +
-                ", locationFromID=" + locationFromId +
+                ", locationFromId=" + locationFromId +
                 ", locationToId=" + locationToId +
+                ", cargoName='" + cargoName + '\'' +
+                ", cargoDescription='" + cargoDescription + '\'' +
                 ", address='" + address + '\'' +
                 ", deliveryTypeId=" + deliveryTypeId +
                 ", weight=" + weight +

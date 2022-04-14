@@ -110,9 +110,9 @@ public class DeliveryRequestService {
         }
         deliveryOrder.setLocationToId(locationToId); //2
 
-        deliveryOrder.setCargoName(req.getParameter("cargoName")); //3
-        deliveryOrder.setCargoDescription(req.getParameter("cargoDescription")); //4
-        deliveryOrder.setAddress(req.getParameter("address")); //5
+        deliveryOrder.setCargoName(req.getParameter("cargoName"));
+        deliveryOrder.setCargoDescription(req.getParameter("cargoDescription"));
+        deliveryOrder.setAddress(req.getParameter("address"));
 
         DeliveryTypeDAOImplementation deliveryTypeService = new DeliveryTypeDAOImplementation();
         List<DeliveryType> deliveryTypes = null;
@@ -153,7 +153,7 @@ public class DeliveryRequestService {
         deliveryOrder.setTariffId(tariffId); //10
 
         try {
-            logger.debug(deliveryOrder);
+            logger.debug(deliveryOrder + "to add !");
             deliveryOrderService.add(deliveryOrder);
             logger.debug("Delivery order added!");
         } catch (SQLException e) {
