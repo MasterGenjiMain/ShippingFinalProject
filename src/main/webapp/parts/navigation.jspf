@@ -31,7 +31,7 @@
                     <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/general-info"><fmt:message key="nav.label.info"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/tariffs"><fmt:message key="nav.label.calculator"/></a>
+                    <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/delivery-calculator"><fmt:message key="nav.label.calculator"/></a>
                 </li>
 
                 <c:if test="${sessionScope.user.roleId >= 1}">

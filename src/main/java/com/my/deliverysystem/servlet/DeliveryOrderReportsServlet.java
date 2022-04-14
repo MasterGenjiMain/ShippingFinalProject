@@ -1,6 +1,6 @@
 package com.my.deliverysystem.servlet;
 
-import com.my.deliverysystem.service.DeliveryOrderService;
+import com.my.deliverysystem.service.DeliveryOrderReportsService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/manager/delivery-order-reports/*")
-public class DeliveryOrderServlet extends HttpServlet {
-    Logger logger = Logger.getLogger(DeliveryOrderServlet.class);
+public class DeliveryOrderReportsServlet extends HttpServlet {
+    Logger logger = Logger.getLogger(DeliveryOrderReportsServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -21,11 +21,11 @@ public class DeliveryOrderServlet extends HttpServlet {
         logger.debug(action);
         switch (action){
             case "/report-download":
-                DeliveryOrderService.showReportPDF(req, resp);
+                DeliveryOrderReportsService.showReportPDF(req, resp);
                 break;
             default:
-                DeliveryOrderService.showDeliveryOrders(req);
-                req.getRequestDispatcher("/deliveryOrder.jsp").forward(req, resp);
+                DeliveryOrderReportsService.showDeliveryOrders(req);
+                req.getRequestDispatcher("/deliveryOrderReports.jsp").forward(req, resp);
         }
     }
 }

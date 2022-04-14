@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DeliveryOrderService {
-    final static Logger logger = Logger.getLogger(DeliveryOrderService.class.getName());
+public class DeliveryOrderReportsService {
+    final static Logger logger = Logger.getLogger(DeliveryOrderReportsService.class.getName());
 
     public static void showDeliveryOrders(HttpServletRequest req) {
         DeliveryOrderBeanDAOImpl deliveryOrderService = new DeliveryOrderBeanDAOImpl();

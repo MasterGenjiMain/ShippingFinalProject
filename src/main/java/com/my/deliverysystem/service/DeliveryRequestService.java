@@ -168,7 +168,7 @@ public class DeliveryRequestService {
         double volume = Double.parseDouble(req.getParameter("volume"));
         double distance = Double.parseDouble(req.getParameter("distance"));
         String tariffName = req.getParameter("tariff");
-        double price = TariffCalculatorService.getPrice(distance, weight, volume, tariffName);
+        double price = DeliveryCalculatorService.getPrice(distance, weight, volume, tariffName);
 
         User user = (User) req.getSession().getAttribute("user");
 

@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TariffCalculatorService {
-    private static final Logger logger = Logger.getLogger(TariffCalculatorService.class);
+public class DeliveryCalculatorService {
+    private static final Logger logger = Logger.getLogger(DeliveryCalculatorService.class);
 
     private static final int VOLUME_DIVIDER = 1000;
     private static final int VOLUME_PRICE = 2;

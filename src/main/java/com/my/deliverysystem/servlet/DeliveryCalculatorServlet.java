@@ -1,7 +1,6 @@
 package com.my.deliverysystem.servlet;
 
-import com.my.deliverysystem.service.DeliveryRequestService;
-import com.my.deliverysystem.service.TariffCalculatorService;
+import com.my.deliverysystem.service.DeliveryCalculatorService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -12,15 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 
-@WebServlet("/tariffs")
-public class TariffsServlet extends HttpServlet {
-    private final Logger logger = Logger.getLogger(TariffsServlet.class);
+@WebServlet("/delivery-calculator")
+public class DeliveryCalculatorServlet extends HttpServlet {
+    private final Logger logger = Logger.getLogger(DeliveryCalculatorServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet() TariffsServlet");
-        TariffCalculatorService.getAllTariffsToRequest(req);
-        req.getRequestDispatcher("/tariff.jsp").forward(req, resp);
+        DeliveryCalculatorService.getAllTariffsToRequest(req);
+        req.getRequestDispatcher("/deliveryCalculator.jsp").forward(req, resp);
     }
 
     @Override
@@ -29,12 +28,12 @@ public class TariffsServlet extends HttpServlet {
         String appPath = File.separator + req.getContextPath()
                 .replace("/", "") + File.separator;
         boolean successStatus;
-        successStatus = TariffCalculatorService.calculate(req);
+        successStatus = DeliveryCalculatorService.calculate(req);
 
         if (successStatus) {
             resp.sendRedirect( appPath + "tariffs");
         } else {
-            req.getRequestDispatcher("/tariff.jsp").forward(req, resp);
+            req.getRequestDispatcher("/deliveryCalculator.jsp").forward(req, resp);
         }
     }
 }
