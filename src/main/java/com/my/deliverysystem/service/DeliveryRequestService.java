@@ -63,7 +63,9 @@ public class DeliveryRequestService {
         logger.debug(req.getParameter("address"));
         logger.debug(req.getParameter("deliveryType"));
         logger.debug(req.getParameter("weight"));
-        logger.debug(req.getParameter("volume"));
+        logger.debug(req.getParameter("height"));
+        logger.debug(req.getParameter("width"));
+        logger.debug(req.getParameter("length"));
         logger.debug(req.getParameter("distance"));
         logger.debug(req.getParameter("tariff"));
 
@@ -132,7 +134,12 @@ public class DeliveryRequestService {
         deliveryOrder.setDeliveryTypeId(deliveryTypeId); //6
 
         deliveryOrder.setWeight(Double.parseDouble(req.getParameter("weight"))); //7
-        deliveryOrder.setVolume(Double.parseDouble(req.getParameter("volume"))); //8
+
+        double height = Double.parseDouble(req.getParameter("height"));
+        double width = Double.parseDouble(req.getParameter("width"));
+        double length = Double.parseDouble(req.getParameter("length"));
+        deliveryOrder.setVolume(height * width * length); //8
+        logger.debug("Delivery order volume -> " + (height * width * length));
         deliveryOrder.setReceivingDate(null); //9
 
         TariffDAOImplementation tariffService = new TariffDAOImplementation();
@@ -165,8 +172,11 @@ public class DeliveryRequestService {
     private static void createReceipt(DeliveryOrder deliveryOrder ,HttpServletRequest req) {
         int DEFAULT_MANAGER = 1;
         double weight = Double.parseDouble(req.getParameter("weight"));
-        double volume = Double.parseDouble(req.getParameter("volume"));
+        double height = Double.parseDouble(req.getParameter("height"));
+        double width = Double.parseDouble(req.getParameter("width"));
+        double length = Double.parseDouble(req.getParameter("length"));
         double distance = Double.parseDouble(req.getParameter("distance"));
+        double volume = height * width * length;
         String tariffName = req.getParameter("tariff");
         double price = DeliveryCalculatorService.getPrice(distance, weight, volume, tariffName);
 

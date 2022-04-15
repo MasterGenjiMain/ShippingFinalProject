@@ -69,15 +69,27 @@
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.weight"/>:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.height"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="weight" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.weight"/>" required>
+                <input type="number" name="height" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.height"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.volume"/>:</label>
+            <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.width"/>:</label>
             <div class="col-sm-3">
-                <input type="number" name="volume" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.volume"/>" required>
+                <input type="number" name="width" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.width"/>" required>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.length"/>:</label>
+            <div class="col-sm-3">
+                <input type="number" name="length" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.length"/>" required>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label"><fmt:message key="delivery-request.label.weight"/>:</label>
+            <div class="col-sm-3">
+                <input type="number" name="weight" class="form-control" placeholder="<fmt:message key="delivery-request.placeholder.weight"/>" required>
             </div>
         </div>
         <div class="mb-3 row">
