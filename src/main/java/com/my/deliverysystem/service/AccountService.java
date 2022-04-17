@@ -23,7 +23,6 @@ public class AccountService {
     private static final Logger logger = Logger.getLogger(AccountService.class);
 
     public static void showReceipts(HttpServletRequest req) {
-
         ReceiptBeanDAOImpl service = new ReceiptBeanDAOImpl();
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");

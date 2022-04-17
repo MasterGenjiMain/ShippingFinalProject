@@ -27,7 +27,7 @@ public class DeliveryRequestServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.debug("Entered doPost " + getClass().getName());
         String appPath = File.separator + req.getContextPath()
                 .replace("/", "") + File.separator;

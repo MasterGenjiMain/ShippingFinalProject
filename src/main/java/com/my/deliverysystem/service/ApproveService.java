@@ -32,7 +32,6 @@ public class ApproveService {
     public static void nextStatus(HttpServletRequest req) {
         long id = Integer.parseInt(req.getParameter("id"));
         Receipt receipt = null;
-        logger.debug(id);
         ReceiptDAOImplementation service = new ReceiptDAOImplementation();
         try {
             receipt = service.getByReceiptId(id);

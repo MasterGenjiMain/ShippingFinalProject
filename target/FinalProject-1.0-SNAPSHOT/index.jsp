@@ -11,7 +11,14 @@
 
 <%@include file="parts/navigation.jspf"%>
 <div class="container mt-5">
-
+    <div class="text-center">
+        <h1>Welcome to Cargo Delivery System,
+            <c:if test="${sessionScope.user == null}">
+                Guest
+            </c:if>
+            <c:out value="${sessionScope.user.username}"/>
+        </h1>
+    </div>
 </div>
 
 
