@@ -33,9 +33,9 @@ public class DeliveryCalculatorService {
         this.tariffService = tariffService;
     }
 
-    private static final int VOLUME_DIVIDER = 1000;
-    private static final int VOLUME_PRICE = 2;
-    private static final int WEIGHT_PRICE = 5;
+    protected static final int VOLUME_DIVIDER = 1000;
+    protected static final int VOLUME_PRICE = 2;
+    protected static final int WEIGHT_PRICE = 5;
 
 
     public boolean calculate(HttpServletRequest req) {

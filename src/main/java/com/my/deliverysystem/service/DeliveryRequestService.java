@@ -240,10 +240,6 @@ public class DeliveryRequestService {
     }
 
     public double getPrice(double distance, double weight, double volume, String tariffName) {
-        final int VOLUME_DIVIDER = 1000;
-        final int VOLUME_PRICE = 2;
-        final int WEIGHT_PRICE = 5;
-
         double volumePrice;
         double weightPrice;
         double DISTANCE_MULTIPLAYER;
@@ -253,8 +249,8 @@ public class DeliveryRequestService {
 
         logger.debug("DISTANCE_MULTIPLAYER -> " + DISTANCE_MULTIPLAYER);
 
-        volumePrice = ((volume / VOLUME_DIVIDER) * VOLUME_PRICE) * DISTANCE_MULTIPLAYER;
-        weightPrice = (weight * WEIGHT_PRICE) * DISTANCE_MULTIPLAYER;
+        volumePrice = ((volume / DeliveryCalculatorService.VOLUME_DIVIDER) * DeliveryCalculatorService.VOLUME_PRICE) * DISTANCE_MULTIPLAYER;
+        weightPrice = (weight * DeliveryCalculatorService.WEIGHT_PRICE) * DISTANCE_MULTIPLAYER;
         logger.debug("volumePrice -> " + volumePrice);
         logger.debug("weightPrice -> " + weightPrice);
 
