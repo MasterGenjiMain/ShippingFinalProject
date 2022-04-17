@@ -8,6 +8,18 @@ public class ReceiptBean {
     private String receiptStatusName;
     private long deliveryOrderId;
 
+    public ReceiptBean(long id, long userId, String managerName, double price, String receiptStatusName, long deliveryOrderId) {
+        this.id = id;
+        this.userId = userId;
+        this.managerName = managerName;
+        this.price = price;
+        this.receiptStatusName = receiptStatusName;
+        this.deliveryOrderId = deliveryOrderId;
+    }
+
+    public ReceiptBean() {
+    }
+
     public long getId() {
         return id;
     }

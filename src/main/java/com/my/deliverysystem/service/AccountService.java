@@ -2,6 +2,7 @@ package com.my.deliverysystem.service;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import com.my.deliverysystem.dao.daoInterface.beanDAO.ReceiptBeanDAO;
 import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
 import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
 import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
@@ -19,11 +20,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class works with AccountServlet and realizes all it's main functions
+ * -showReceipts
+ * -changeStatus
+ * -showReceiptPDF
+ */
+
 public class AccountService {
     private static final Logger logger = Logger.getLogger(AccountService.class);
 
-    public static void showReceipts(HttpServletRequest req) {
-        ReceiptBeanDAOImpl service = new ReceiptBeanDAOImpl();
+    public static void showReceipts(HttpServletRequest req, ReceiptBeanDAO service) {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         List<ReceiptBean> receipts = new ArrayList<>();

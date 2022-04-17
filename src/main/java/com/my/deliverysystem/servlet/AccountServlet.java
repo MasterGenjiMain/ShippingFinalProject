@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
 import com.my.deliverysystem.service.AccountService;
 import org.apache.log4j.Logger;
 
@@ -37,7 +38,7 @@ public class AccountServlet extends HttpServlet {
                     AccountService.showReceiptPDF(req, resp);
                     break;
                 default:
-                    AccountService.showReceipts(req);
+                    AccountService.showReceipts(req, new ReceiptBeanDAOImpl());
                     req.getRequestDispatcher("/account.jsp").forward(req, resp);
             }
         }
