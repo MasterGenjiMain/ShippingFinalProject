@@ -2,6 +2,8 @@ package com.my.deliverysystem.service;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import com.my.deliverysystem.dao.daoInterface.ReceiptDAO;
+import com.my.deliverysystem.dao.daoInterface.beanDAO.DeliveryOrderBeanDAO;
 import com.my.deliverysystem.dao.daoInterface.beanDAO.ReceiptBeanDAO;
 import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
 import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
@@ -28,27 +30,37 @@ import java.util.List;
  */
 
 public class AccountService {
-    private static final Logger logger = Logger.getLogger(AccountService.class);
+    private final Logger logger = Logger.getLogger(AccountService.class);
+    private static final Logger logger1 = Logger.getLogger(AccountService.class);
 
-    public static void showReceipts(HttpServletRequest req, ReceiptBeanDAO service) {
+    private final ReceiptBeanDAO receiptBeanDAOService;
+    private final ReceiptDAO receiptDAOService;
+    private final DeliveryOrderBeanDAO deliveryOrderBeanDAOService;
+
+    public AccountService(ReceiptBeanDAO receiptBeanDAOService, ReceiptDAO receiptDAOService, DeliveryOrderBeanDAO deliveryOrderBeanDAOService) {
+        this.receiptBeanDAOService = receiptBeanDAOService;
+        this.receiptDAOService = receiptDAOService;
+        this.deliveryOrderBeanDAOService = deliveryOrderBeanDAOService;
+    }
+
+    public void showReceipts(HttpServletRequest req) {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         List<ReceiptBean> receipts = new ArrayList<>();
         try{
-            receipts = service.getByUserId(user.getId());
+            receipts = receiptBeanDAOService.getByUserId(user.getId());
         } catch (SQLException e) {
             logger.error(e);
         }
         req.setAttribute("receipts", receipts);
     }
 
-    public static void changeStatus(HttpServletRequest req, long status) {
+    public void changeStatus(HttpServletRequest req, long status) {
         long id = Long.parseLong(req.getParameter("id"));
         Receipt receipt = null;
         logger.debug(id);
-        ReceiptDAOImplementation service = new ReceiptDAOImplementation();
         try {
-            receipt = service.getByReceiptId(id);
+            receipt = receiptDAOService.getByReceiptId(id);
             logger.debug(receipt);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,24 +68,22 @@ public class AccountService {
         if (receipt != null) {
             receipt.setReceiptStatusId(status);
             logger.debug(receipt);
-            service.update(receipt);
+            receiptDAOService.update(receipt);
         }
     }
 
-    public static void showReceiptPDF(HttpServletRequest req, HttpServletResponse resp) {
-        logger.debug("Entered downloadReceipt()");
+    public void showReceiptPDF(HttpServletRequest req, HttpServletResponse resp) {
+        logger1.debug("Entered downloadReceipt()");
         resp.setContentType("application/pdf");
         long id = Long.parseLong(req.getParameter("id"));
         ReceiptBean receipt = null;
         DeliveryOrderBean deliveryOrder = null;
 
-        ReceiptBeanDAOImpl receiptBeanDAOService = new ReceiptBeanDAOImpl();
-        DeliveryOrderBeanDAOImpl deliveryOrderBeanDAOService = new DeliveryOrderBeanDAOImpl();
         try {
             receipt = receiptBeanDAOService.getById(id);
-            logger.debug(receipt);
+            logger1.debug(receipt);
             deliveryOrder = deliveryOrderBeanDAOService.getById(receipt.getDeliveryOrderId());
-            logger.debug(deliveryOrder);
+            logger1.debug(deliveryOrder);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -153,8 +163,8 @@ public class AccountService {
 
             document.close();
         } catch (DocumentException de) {
-            logger.error(de);
+            logger1.error(de);
         }
-        logger.debug("finished");
+        logger1.debug("finished");
     }
 }

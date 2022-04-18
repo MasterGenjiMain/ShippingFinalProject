@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
 import com.my.deliverysystem.service.AccountService;
 import com.my.deliverysystem.service.ApproveService;
 import org.apache.log4j.Logger;
@@ -29,7 +30,7 @@ public class ApprovingServlet extends HttpServlet {
                 resp.sendRedirect("manager/approving");
                 break;
             case "/cancel":
-                AccountService.changeStatus(req, CANCELED_STATUS);
+                ApproveService.changeStatus(req, CANCELED_STATUS, new ReceiptDAOImplementation());
                 resp.sendRedirect("manager/approving");
                 break;
             case "/approve":

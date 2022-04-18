@@ -11,7 +11,8 @@ public class Receipt {
     public Receipt() {
     }
 
-    public Receipt(long userId, long managerId, double price, long receiptStatusId, long deliveryOrderId) {
+    public Receipt(long id, long userId, long managerId, double price, long receiptStatusId, long deliveryOrderId) {
+        this.id = id;
         this.userId = userId;
         this.managerId = managerId;
         this.price = price;

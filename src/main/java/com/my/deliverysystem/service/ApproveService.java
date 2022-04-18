@@ -1,5 +1,6 @@
 package com.my.deliverysystem.service;
 
+import com.my.deliverysystem.dao.daoInterface.ReceiptDAO;
 import com.my.deliverysystem.dao.implementation.DeliveryOrderDAOImplementation;
 import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
 import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
@@ -82,6 +83,23 @@ public class ApproveService {
         if (receipt != null) {
             receipt.setReceiptStatusId(status);
             receipt.setManagerId(user.getId());
+            logger.debug(receipt);
+            service.update(receipt);
+        }
+    }
+
+    public static void changeStatus(HttpServletRequest req, long status, ReceiptDAO service) {
+        long id = Long.parseLong(req.getParameter("id"));
+        Receipt receipt = null;
+        logger.debug(id);
+        try {
+            receipt = service.getByReceiptId(id);
+            logger.debug(receipt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (receipt != null) {
+            receipt.setReceiptStatusId(status);
             logger.debug(receipt);
             service.update(receipt);
         }

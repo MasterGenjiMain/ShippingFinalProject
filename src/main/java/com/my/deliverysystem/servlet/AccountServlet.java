@@ -1,5 +1,7 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
+import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
 import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
 import com.my.deliverysystem.service.AccountService;
 import org.apache.log4j.Logger;
@@ -21,24 +23,25 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet()" + AccountServlet.class.getName());
+        AccountService accountService = new AccountService(new ReceiptBeanDAOImpl(), new ReceiptDAOImplementation(), new DeliveryOrderBeanDAOImpl());
 
         String action = req.getPathInfo();
         logger.debug(action);
         if (action != null) {
             switch (action) {
                 case "/cancel":
-                    AccountService.changeStatus(req, CANCELED_STATUS);
+                    accountService.changeStatus(req, CANCELED_STATUS);
                     resp.sendRedirect("user/account");
                     break;
                 case "/pay":
-                    AccountService.changeStatus(req, PAYED_STATUS);
+                    accountService.changeStatus(req, PAYED_STATUS);
                     resp.sendRedirect("user/account");
                     break;
                 case "/receipt-download":
-                    AccountService.showReceiptPDF(req, resp);
+                    accountService.showReceiptPDF(req, resp);
                     break;
                 default:
-                    AccountService.showReceipts(req, new ReceiptBeanDAOImpl());
+                    accountService.showReceipts(req);
                     req.getRequestDispatcher("/account.jsp").forward(req, resp);
             }
         }

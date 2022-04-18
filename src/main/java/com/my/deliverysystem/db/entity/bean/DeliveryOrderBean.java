@@ -19,11 +19,12 @@ public class DeliveryOrderBean {
     public DeliveryOrderBean() {
     }
 
-    public DeliveryOrderBean(String locationFrom, String locationTo,
+    public DeliveryOrderBean(long id, String locationFrom, String locationTo,
                              String cargoName, String cargoDescription,
                              String address, String deliveryType,
                              double weight, double volume,
                              Timestamp receivingDate, String tariffName) {
+        this.id = id;
         this.locationFrom = locationFrom;
         this.locationTo = locationTo;
         this.cargoName = cargoName;
