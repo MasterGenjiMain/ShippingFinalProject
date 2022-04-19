@@ -2,7 +2,6 @@ package com.my.deliverysystem.service;
 
 import com.my.deliverysystem.dao.daoInterface.ReceiptDAO;
 import com.my.deliverysystem.dao.daoInterface.beanDAO.ReceiptBeanDAO;
-import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
 import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
 import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
 import com.my.deliverysystem.db.entity.Receipt;
@@ -11,15 +10,12 @@ import com.my.deliverysystem.db.entity.bean.DeliveryOrderBean;
 import com.my.deliverysystem.db.entity.bean.ReceiptBean;
 import org.junit.jupiter.api.Test;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -30,13 +26,13 @@ import static org.mockito.Mockito.*;
 class AccountServiceTest {
 
     @Test
-    void testShowReceiptsWithCorrectValue() throws SQLException {
+    void showReceiptsReturnsCorrectElements() throws SQLException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         ReceiptBeanDAO receiptBeanDAO = mock(ReceiptBeanDAO.class);
         HttpSession session = mock(HttpSession.class);
         User user = new User(1, null, null, null);
 
-        AccountService accountService = new AccountService(receiptBeanDAO, null, null);
+        AccountService accountService = new AccountService(receiptBeanDAO);
 
         when(session.getAttribute("user")).thenReturn(user);
         when(req.getSession()).thenReturn(session);
@@ -61,7 +57,7 @@ class AccountServiceTest {
         HttpSession session = mock(HttpSession.class);
         User user = new User(2, null, null, null);
 
-        AccountService accountService = new AccountService(receiptBeanDAO, null, null);
+        AccountService accountService = new AccountService(receiptBeanDAO);
 
         when(session.getAttribute("user")).thenReturn(user);
         when(req.getSession()).thenReturn(session);
@@ -86,7 +82,7 @@ class AccountServiceTest {
         HttpSession session = mock(HttpSession.class);
         User user = new User(-2, null, null, null);
 
-        AccountService accountService = new AccountService(receiptBeanDAO, null, null);
+        AccountService accountService = new AccountService(receiptBeanDAO);
 
         when(session.getAttribute("user")).thenReturn(user);
         when(req.getSession()).thenReturn(session);
@@ -103,7 +99,7 @@ class AccountServiceTest {
     void changeStatusSetsCorrectValue() throws SQLException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         ReceiptDAO service = mock(ReceiptDAO.class);
-        AccountService accountService = new AccountService(null, service, null);
+        AccountService accountService = new AccountService(service);
         long statusToSet = 1;
         long firstId = 1;
         Receipt receiptFirst = new Receipt(1, 0, 0, 0, 0, 0);
@@ -120,7 +116,7 @@ class AccountServiceTest {
     void SQLExceptionThrowsWhenIdIncorrect() throws SQLException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         ReceiptDAO service = mock(ReceiptDAO.class);
-        AccountService accountService = new AccountService(null, service, null);
+        AccountService accountService = new AccountService(service);
         long incorrectId = -5;
         long statusToSet = 1;
 
@@ -132,25 +128,27 @@ class AccountServiceTest {
         assertThrows(SQLException.class, () -> service.getByReceiptId(incorrectId));
     }
 
-//    @Test
-//    void showReceiptPDFTest() throws SQLException, IOException {
-//        HttpServletRequest req = mock(HttpServletRequest.class);
-//        HttpServletResponse resp = mock(HttpServletResponse.class);
-//        ReceiptBeanDAOImpl receiptBeanDAOService = mock(ReceiptBeanDAOImpl.class);
-//        DeliveryOrderBeanDAOImpl deliveryOrderBeanDAOService = mock(DeliveryOrderBeanDAOImpl.class);
-//        long id = 1;
-//        ReceiptBean receipt = new ReceiptBean(1, 0, null, 0, "New", 1);
-//        DeliveryOrderBean deliveryOrder = new DeliveryOrderBean(1, null, null, null,
-//                        null, null, null, 0, 0, null, null);
-//
-//        when(req.getParameter("id")).thenReturn(String.valueOf(id));
-//        when(receiptBeanDAOService.getById(id)).thenReturn(receipt);
-//        when(deliveryOrderBeanDAOService.getById(receipt.getDeliveryOrderId())).thenReturn(deliveryOrder);
-//
-//        when(resp.getOutputStream()).thenReturn();
-//
-//        AccountService accountService = new AccountService(receiptBeanDAOService, null, deliveryOrderBeanDAOService);
-//        accountService.showReceiptPDF(req, resp);
-//    }
+    @Test
+    void showReceiptPDFTest() throws SQLException, IOException {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        ReceiptBeanDAOImpl receiptBeanDAOService = mock(ReceiptBeanDAOImpl.class);
+        DeliveryOrderBeanDAOImpl deliveryOrderBeanDAOService = mock(DeliveryOrderBeanDAOImpl.class);
+        ServletOutputStream servletOutputStream = mock(ServletOutputStream.class);
+        long id = 1;
+        ReceiptBean receipt = new ReceiptBean(1, 0, null, 0, "New", 1);
+        DeliveryOrderBean deliveryOrder = new DeliveryOrderBean(1, null, null, null,
+                        null, null, null, 0, 0, null, null);
+
+        when(req.getParameter("id")).thenReturn(String.valueOf(id));
+        when(receiptBeanDAOService.getById(id)).thenReturn(receipt);
+        when(deliveryOrderBeanDAOService.getById(receipt.getDeliveryOrderId())).thenReturn(deliveryOrder);
+
+        when(resp.getOutputStream()).thenReturn(servletOutputStream);
+
+        AccountService accountService = new AccountService(receiptBeanDAOService, null, deliveryOrderBeanDAOService);
+
+        assertDoesNotThrow(() -> accountService.showReceiptPDF(req, resp));
+    }
 
 }

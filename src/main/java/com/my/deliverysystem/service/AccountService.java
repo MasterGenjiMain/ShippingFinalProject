@@ -5,9 +5,6 @@ import com.itextpdf.text.pdf.*;
 import com.my.deliverysystem.dao.daoInterface.ReceiptDAO;
 import com.my.deliverysystem.dao.daoInterface.beanDAO.DeliveryOrderBeanDAO;
 import com.my.deliverysystem.dao.daoInterface.beanDAO.ReceiptBeanDAO;
-import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
-import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
-import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
 import com.my.deliverysystem.db.entity.Receipt;
 import com.my.deliverysystem.db.entity.User;
 import com.my.deliverysystem.db.entity.bean.DeliveryOrderBean;
@@ -31,16 +28,23 @@ import java.util.List;
 
 public class AccountService {
     private final Logger logger = Logger.getLogger(AccountService.class);
-    private static final Logger logger1 = Logger.getLogger(AccountService.class);
 
-    private final ReceiptBeanDAO receiptBeanDAOService;
-    private final ReceiptDAO receiptDAOService;
-    private final DeliveryOrderBeanDAO deliveryOrderBeanDAOService;
+    private ReceiptBeanDAO receiptBeanDAOService;
+    private ReceiptDAO receiptDAOService;
+    private DeliveryOrderBeanDAO deliveryOrderBeanDAOService;
 
     public AccountService(ReceiptBeanDAO receiptBeanDAOService, ReceiptDAO receiptDAOService, DeliveryOrderBeanDAO deliveryOrderBeanDAOService) {
         this.receiptBeanDAOService = receiptBeanDAOService;
         this.receiptDAOService = receiptDAOService;
         this.deliveryOrderBeanDAOService = deliveryOrderBeanDAOService;
+    }
+
+    public AccountService(ReceiptBeanDAO receiptBeanDAOService) {
+        this.receiptBeanDAOService = receiptBeanDAOService;
+    }
+
+    public AccountService(ReceiptDAO receiptDAOService) {
+        this.receiptDAOService = receiptDAOService;
     }
 
     public void showReceipts(HttpServletRequest req) {
@@ -73,7 +77,7 @@ public class AccountService {
     }
 
     public void showReceiptPDF(HttpServletRequest req, HttpServletResponse resp) {
-        logger1.debug("Entered downloadReceipt()");
+        logger.debug("Entered downloadReceipt()");
         resp.setContentType("application/pdf");
         long id = Long.parseLong(req.getParameter("id"));
         ReceiptBean receipt = null;
@@ -81,11 +85,11 @@ public class AccountService {
 
         try {
             receipt = receiptBeanDAOService.getById(id);
-            logger1.debug(receipt);
+            logger.debug(receipt);
             deliveryOrder = deliveryOrderBeanDAOService.getById(receipt.getDeliveryOrderId());
-            logger1.debug(deliveryOrder);
+            logger.debug(deliveryOrder);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
 
         try {
@@ -93,7 +97,7 @@ public class AccountService {
             try {
                 PdfWriter.getInstance(document, resp.getOutputStream());
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
             document.open();
 
@@ -101,7 +105,7 @@ public class AccountService {
             try {
                 baseFont = BaseFont.createFont("/fonts/FreeSans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             } catch (DocumentException | IOException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
 
             Font fontCN = new Font(baseFont);
@@ -163,8 +167,8 @@ public class AccountService {
 
             document.close();
         } catch (DocumentException de) {
-            logger1.error(de);
+            logger.error(de);
         }
-        logger1.debug("finished");
+        logger.debug("finished");
     }
 }

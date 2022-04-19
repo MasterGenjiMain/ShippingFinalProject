@@ -1,6 +1,8 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.DeliveryOrderDAOImplementation;
 import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
+import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
 import com.my.deliverysystem.service.AccountService;
 import com.my.deliverysystem.service.ApproveService;
 import org.apache.log4j.Logger;
@@ -21,24 +23,25 @@ public class ApprovingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet " + getClass().getName());
+        ApproveService approveService = new ApproveService(new ReceiptBeanDAOImpl(), new ReceiptDAOImplementation(), new DeliveryOrderDAOImplementation());
 
         String action = req.getPathInfo();
         logger.debug(action);
         switch (action){
             case "/next-status":
-                ApproveService.nextStatus(req);
+                approveService.nextStatus(req);
                 resp.sendRedirect("manager/approving");
                 break;
             case "/cancel":
-                ApproveService.changeStatus(req, CANCELED_STATUS, new ReceiptDAOImplementation());
+                approveService.changeStatus(req, CANCELED_STATUS);
                 resp.sendRedirect("manager/approving");
                 break;
             case "/approve":
-                ApproveService.approve(req, APPROVED_STATUS);
+                approveService.approve(req, APPROVED_STATUS);
                 resp.sendRedirect("manager/approving");
                 break;
             default:
-                ApproveService.showReceipts(req);
+                approveService.showReceipts(req);
                 req.getRequestDispatcher("/approving.jsp").forward(req, resp);
         }
     }
