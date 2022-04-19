@@ -4,15 +4,19 @@ import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
 import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class LoginService {
-    final static Logger logger = Logger.getLogger(LoginService.class.getName());
+    final Logger logger = Logger.getLogger(LoginService.class.getName());
 
-    public static boolean userLogin(HttpServletRequest req) throws IOException, ServletException {
+    private final UserDAOImplementation service;
+
+    public LoginService(UserDAOImplementation service) {
+        this.service = service;
+    }
+
+    public boolean userLogin(HttpServletRequest req) {
         logger.debug("Entered userLogin() loginService");
         String login = req.getParameter("login");
         String userPassword = req.getParameter("password");
@@ -23,7 +27,6 @@ public class LoginService {
         LogoutService.logoutUser(req);
 
         User userFromDb = null;
-        UserDAOImplementation service = new UserDAOImplementation();
         try {
             userFromDb = service.getByUsername(login);
         } catch (SQLException e) {

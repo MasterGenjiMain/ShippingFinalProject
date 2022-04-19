@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
 import com.my.deliverysystem.service.LoginService;
 import org.apache.log4j.Logger;
 
@@ -25,7 +26,8 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doPost");
         boolean successStatus;
-        successStatus = LoginService.userLogin(req);
+        LoginService loginService = new LoginService(new UserDAOImplementation());
+        successStatus = loginService.userLogin(req);
 
         if (successStatus) {
             resp.sendRedirect("index.jsp");

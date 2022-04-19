@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.TariffDAOImplementation;
 import com.my.deliverysystem.service.DeliveryCalculatorService;
 import org.apache.log4j.Logger;
 
@@ -14,11 +15,12 @@ import java.io.IOException;
 @WebServlet("/delivery-calculator")
 public class DeliveryCalculatorServlet extends HttpServlet {
     private final Logger logger = Logger.getLogger(DeliveryCalculatorServlet.class);
+    private final DeliveryCalculatorService deliveryCalculatorService = new DeliveryCalculatorService(new TariffDAOImplementation());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet() TariffsServlet");
-        DeliveryCalculatorService.getAllTariffsToRequest(req);
+        deliveryCalculatorService.getAllTariffsToRequest(req);
         req.getRequestDispatcher("/deliveryCalculator.jsp").forward(req, resp);
     }
 
@@ -28,7 +30,7 @@ public class DeliveryCalculatorServlet extends HttpServlet {
         String appPath = File.separator + req.getContextPath()
                 .replace("/", "") + File.separator;
         boolean successStatus;
-        successStatus = DeliveryCalculatorService.calculate(req);
+        successStatus = deliveryCalculatorService.calculate(req);
 
         if (successStatus) {
             resp.sendRedirect( appPath + "delivery-calculator");

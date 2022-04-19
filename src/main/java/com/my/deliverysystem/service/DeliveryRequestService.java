@@ -1,6 +1,8 @@
 package com.my.deliverysystem.service;
 
+import com.my.deliverysystem.dao.daoInterface.*;
 import com.my.deliverysystem.dao.implementation.*;
+import com.my.deliverysystem.dao.implementation.beanImpl.LocationBeanDAOImpl;
 import com.my.deliverysystem.db.entity.*;
 import org.apache.log4j.Logger;
 
@@ -10,11 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeliveryRequestService {
-    final static Logger logger = Logger.getLogger(DeliveryRequestService.class.getName());
+    final Logger logger = Logger.getLogger(DeliveryRequestService.class.getName());
 
-    public static void getAllLocationsToRequest(HttpServletRequest req){
+    private final LocationDAO locationService;
+    private final DeliveryTypeDAO deliveryTypeService;
+    private final TariffDAO tariffService;
+    private final DeliveryOrderDAO deliveryOrderService;
+    private final ReceiptDAO receiptService;
+
+    public DeliveryRequestService(LocationDAO locationService, DeliveryTypeDAO deliveryTypeService, TariffDAO tariffService, DeliveryOrderDAO deliveryOrderService, ReceiptDAO receiptService) {
+        this.locationService = locationService;
+        this.deliveryTypeService = deliveryTypeService;
+        this.tariffService = tariffService;
+        this.deliveryOrderService = deliveryOrderService;
+        this.receiptService = receiptService;
+    }
+
+    public void getAllLocationsToRequest(HttpServletRequest req){
         logger.debug("Entered getAllLocationsToRequest-> " + DeliveryRequestService.class.getName());
-        LocationDAOImplementation locationService = new LocationDAOImplementation();
         List<Location> locations = new ArrayList<>();
         try {
             locations = locationService.getAll();
@@ -24,13 +39,13 @@ public class DeliveryRequestService {
         req.setAttribute("locations", locations);
     }
 
-    public static void getAllDeliveryTypesToRequest(HttpServletRequest req){
+    public void getAllDeliveryTypesToRequest(HttpServletRequest req){
         logger.debug("Entered getAllDeliveryTypesToRequest-> " + DeliveryRequestService.class.getName());
 
-        GeneralInfoService generalInfoService = new GeneralInfoService();
+        GeneralInfoService generalInfoService = new GeneralInfoService(new TariffDAOImplementation(),
+                new LanguageDAOImplementation(), new LocationBeanDAOImpl());
         Language currentLanguage = generalInfoService.getCurrentLanguage(req);
 
-        DeliveryTypeDAOImplementation deliveryTypeService = new DeliveryTypeDAOImplementation();
         List<DeliveryType> deliveryTypes = new ArrayList<>();
         try {
             deliveryTypes = deliveryTypeService.getByLanguageId(currentLanguage != null ? currentLanguage.getId() : 1);
@@ -40,11 +55,11 @@ public class DeliveryRequestService {
         req.setAttribute("deliveryTypes", deliveryTypes);
     }
 
-    public static void getAllTariffsToRequest(HttpServletRequest req){
-        GeneralInfoService generalInfoService = new GeneralInfoService();
+    public void getAllTariffsToRequest(HttpServletRequest req){
+        GeneralInfoService generalInfoService = new GeneralInfoService(new TariffDAOImplementation(),
+                new LanguageDAOImplementation(), new LocationBeanDAOImpl());
         Language currentLanguage = generalInfoService.getCurrentLanguage(req);
 
-        TariffDAOImplementation tariffService = new TariffDAOImplementation();
         List<Tariff> tariffs = new ArrayList<>();
         try {
             tariffs = tariffService.getByLanguageId(currentLanguage != null ? currentLanguage.getId() : 1);
@@ -54,7 +69,7 @@ public class DeliveryRequestService {
         req.setAttribute("tariffs", tariffs);
     }
 
-    public static void createNewDeliveryRequest(HttpServletRequest req) {
+    public void createNewDeliveryRequest(HttpServletRequest req) {
 
         logger.debug(req.getParameter("cargoName"));
         logger.debug(req.getParameter("cargoDescription"));
@@ -79,13 +94,10 @@ public class DeliveryRequestService {
     }
 
 
-    private static DeliveryOrder createDeliveryOrder(HttpServletRequest req) {
+    private DeliveryOrder createDeliveryOrder(HttpServletRequest req) {
         DeliveryOrder deliveryOrder = new DeliveryOrder();
-        DeliveryOrderDAOImplementation deliveryOrderService = new DeliveryOrderDAOImplementation();
         long locationFromId = 0;
         long locationToId = 0;
-
-        LocationDAOImplementation locationService = new LocationDAOImplementation();
 
         List<Location> locations = null;
         try {
@@ -116,7 +128,6 @@ public class DeliveryRequestService {
         deliveryOrder.setCargoDescription(req.getParameter("cargoDescription"));
         deliveryOrder.setAddress(req.getParameter("address"));
 
-        DeliveryTypeDAOImplementation deliveryTypeService = new DeliveryTypeDAOImplementation();
         List<DeliveryType> deliveryTypes = null;
         long deliveryTypeId = 0;
         try {
@@ -142,7 +153,6 @@ public class DeliveryRequestService {
         logger.debug("Delivery order volume -> " + (height * width * length));
         deliveryOrder.setReceivingDate(null); //9
 
-        TariffDAOImplementation tariffService = new TariffDAOImplementation();
         List<Tariff> tariffs = null;
         long tariffId = 0;
         try {
@@ -169,7 +179,7 @@ public class DeliveryRequestService {
         return deliveryOrder;
     }
 
-    private static void createReceipt(DeliveryOrder deliveryOrder ,HttpServletRequest req) {
+    private void createReceipt(DeliveryOrder deliveryOrder ,HttpServletRequest req) {
         int DEFAULT_MANAGER = 1;
         double weight = Double.parseDouble(req.getParameter("weight"));
         double height = Double.parseDouble(req.getParameter("height"));
@@ -178,7 +188,9 @@ public class DeliveryRequestService {
         double distance = Double.parseDouble(req.getParameter("distance"));
         double volume = height * width * length;
         String tariffName = req.getParameter("tariff");
-        double price = DeliveryCalculatorService.getPrice(distance, weight, volume, tariffName);
+
+        DeliveryCalculatorService deliveryCalculatorService = new DeliveryCalculatorService(new TariffDAOImplementation());
+        double price = deliveryCalculatorService.getPrice(distance, weight, volume, tariffName);
 
         User user = (User) req.getSession().getAttribute("user");
 
@@ -188,8 +200,6 @@ public class DeliveryRequestService {
         receipt.setPrice(price);
         receipt.setReceiptStatusId(1);
         receipt.setDeliveryOrderId(deliveryOrder.getId());
-
-        ReceiptDAOImplementation receiptService = new ReceiptDAOImplementation();
         try {
             receiptService.add(receipt);
             logger.debug("receipt added!");

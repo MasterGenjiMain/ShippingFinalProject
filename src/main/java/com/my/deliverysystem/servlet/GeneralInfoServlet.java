@@ -1,5 +1,8 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.LanguageDAOImplementation;
+import com.my.deliverysystem.dao.implementation.TariffDAOImplementation;
+import com.my.deliverysystem.dao.implementation.beanImpl.LocationBeanDAOImpl;
 import com.my.deliverysystem.service.GeneralInfoService;
 import org.apache.log4j.Logger;
 
@@ -18,8 +21,8 @@ public class GeneralInfoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet DeliveryRotesServlet");
-
-        GeneralInfoService.showGeneralInfo(req);
+        GeneralInfoService generalInfoService = new GeneralInfoService(new TariffDAOImplementation(), new LanguageDAOImplementation(), new LocationBeanDAOImpl());
+        generalInfoService.showGeneralInfo(req);
 
         req.getRequestDispatcher("/generalInfo.jsp").forward(req, resp);
     }

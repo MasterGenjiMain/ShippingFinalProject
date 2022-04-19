@@ -4,16 +4,20 @@ import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
 import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class RegistrationService {
 
-    final static Logger logger = Logger.getLogger(RegistrationService.class.getName());
+    final Logger logger = Logger.getLogger(RegistrationService.class.getName());
 
-    public static boolean userRegistration(HttpServletRequest req) throws IOException, ServletException {
+    UserDAOImplementation service;
+
+    public RegistrationService(UserDAOImplementation service) {
+        this.service = service;
+    }
+
+    public boolean userRegistration(HttpServletRequest req) {
         logger.debug("Entered userRegistration() RegistrationService");
         String login = req.getParameter("username");
         String email = req.getParameter("email").toLowerCase();
@@ -25,7 +29,6 @@ public class RegistrationService {
         logger.debug("password --> " + password);
 
         User newUser = new User(login, email, password);
-        UserDAOImplementation service = new UserDAOImplementation();
 
         if (login.equals("") || email.equals("") || password.equals("") || rePassword.equals("")) {
             if (login.equals("")) {

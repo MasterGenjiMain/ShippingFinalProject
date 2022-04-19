@@ -3,8 +3,8 @@ package com.my.deliverysystem.service;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
-import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
+import com.my.deliverysystem.dao.daoInterface.beanDAO.DeliveryOrderBeanDAO;
+import com.my.deliverysystem.dao.daoInterface.beanDAO.ReceiptBeanDAO;
 import com.my.deliverysystem.db.entity.User;
 import com.my.deliverysystem.db.entity.bean.DeliveryOrderBean;
 import com.my.deliverysystem.db.entity.bean.ReceiptBean;
@@ -19,10 +19,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class DeliveryOrderReportsService {
-    final static Logger logger = Logger.getLogger(DeliveryOrderReportsService.class.getName());
+    final Logger logger = Logger.getLogger(DeliveryOrderReportsService.class.getName());
 
-    public static void showDeliveryOrders(HttpServletRequest req) {
-        DeliveryOrderBeanDAOImpl deliveryOrderService = new DeliveryOrderBeanDAOImpl();
+    DeliveryOrderBeanDAO deliveryOrderService;
+    ReceiptBeanDAO receiptBeanDAOService;
+
+    public DeliveryOrderReportsService(DeliveryOrderBeanDAO deliveryOrderService, ReceiptBeanDAO receiptBeanDAOService) {
+        this.deliveryOrderService = deliveryOrderService;
+        this.receiptBeanDAOService = receiptBeanDAOService;
+    }
+
+    public void showDeliveryOrders(HttpServletRequest req) {
         List<DeliveryOrderBean> deliveryOrders = null;
         try {
             deliveryOrders = deliveryOrderService.getAll();
@@ -32,19 +39,17 @@ public class DeliveryOrderReportsService {
         req.setAttribute("deliveryOrders", deliveryOrders);
     }
 
-    public static void showReportPDF(HttpServletRequest req, HttpServletResponse resp) {
+    public void showReportPDF(HttpServletRequest req, HttpServletResponse resp) {
         logger.debug("Entered showReportPDF()");
         resp.setContentType("application/pdf");
         long id = Long.parseLong(req.getParameter("id"));
         ReceiptBean receipt = null;
         DeliveryOrderBean deliveryOrder = null;
 
-        ReceiptBeanDAOImpl receiptBeanDAOService = new ReceiptBeanDAOImpl();
-        DeliveryOrderBeanDAOImpl deliveryOrderBeanDAOService = new DeliveryOrderBeanDAOImpl();
         try {
             receipt = receiptBeanDAOService.getById(id);
             logger.debug(receipt);
-            deliveryOrder = deliveryOrderBeanDAOService.getById(receipt.getDeliveryOrderId());
+            deliveryOrder = deliveryOrderService.getById(receipt.getDeliveryOrderId());
             logger.debug(deliveryOrder);
         } catch (SQLException e) {
             e.printStackTrace();

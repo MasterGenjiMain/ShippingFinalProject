@@ -1,8 +1,8 @@
 package com.my.deliverysystem.service;
 
-import com.my.deliverysystem.dao.implementation.LanguageDAOImplementation;
-import com.my.deliverysystem.dao.implementation.TariffDAOImplementation;
-import com.my.deliverysystem.dao.implementation.beanImpl.LocationBeanDAOImpl;
+import com.my.deliverysystem.dao.daoInterface.LanguageDAO;
+import com.my.deliverysystem.dao.daoInterface.TariffDAO;
+import com.my.deliverysystem.dao.daoInterface.beanDAO.LocationBeanDAO;
 import com.my.deliverysystem.db.entity.Language;
 import com.my.deliverysystem.db.entity.Tariff;
 import com.my.deliverysystem.db.entity.bean.LocationBean;
@@ -14,20 +14,28 @@ import java.util.List;
 
 public class GeneralInfoService {
 
-    private static final Logger logger = Logger.getLogger(GeneralInfoService.class);
+    private final Logger logger = Logger.getLogger(GeneralInfoService.class);
 
-    public static void showGeneralInfo(HttpServletRequest req) {
+    TariffDAO tariffService;
+    LanguageDAO languageService ;
+    LocationBeanDAO locationService;
+
+    public GeneralInfoService(TariffDAO tariffService, LanguageDAO languageService, LocationBeanDAO locationService) {
+        this.tariffService = tariffService;
+        this.languageService = languageService;
+        this.locationService = locationService;
+    }
+
+    public void showGeneralInfo(HttpServletRequest req) {
         createLocationsTable(req);
         createTariffsTable(req);
     }
 
-    private static void createTariffsTable(HttpServletRequest req) {
-        logger.debug("Entered createTariffsTable() !!!!!!!!!!!!!!!!!!!!!!!!!!!" + GeneralInfoService.class.getName());
+    private void createTariffsTable(HttpServletRequest req) {
+        logger.debug("Entered createTariffsTable() " + GeneralInfoService.class.getName());
 
-        GeneralInfoService generalInfoService = new GeneralInfoService();
-        Language currentLanguage = generalInfoService.getCurrentLanguage(req);
+        Language currentLanguage = getCurrentLanguage(req);
 
-        TariffDAOImplementation tariffService = new TariffDAOImplementation();
         List<Tariff> tariffs = null;
         try {
             tariffs = tariffService.getByLanguageId(currentLanguage != null ? currentLanguage.getId() : 1);
@@ -39,7 +47,6 @@ public class GeneralInfoService {
 
     public Language getCurrentLanguage(HttpServletRequest req) {
         Language currentLanguage = null;
-        LanguageDAOImplementation languageService = new LanguageDAOImplementation();
         String languageName = String.valueOf(req.getSession().getAttribute("language"));
         logger.debug(languageName);
         try {
@@ -51,9 +58,8 @@ public class GeneralInfoService {
         return currentLanguage;
     }
 
-    private static void createLocationsTable(HttpServletRequest req) {
+    private void createLocationsTable(HttpServletRequest req) {
         logger.debug("Entered createLocationsTable()" + GeneralInfoService.class.getName());
-        LocationBeanDAOImpl locationService = new LocationBeanDAOImpl();
         List<LocationBean> locations = null;
         try {
             locations = locationService.getAll();

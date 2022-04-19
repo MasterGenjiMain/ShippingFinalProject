@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
 import com.my.deliverysystem.service.RegistrationService;
 import org.apache.log4j.Logger;
 
@@ -25,7 +26,8 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered registration doPost");
         boolean successStatus;
-        successStatus = RegistrationService.userRegistration(req);
+        RegistrationService registrationService = new RegistrationService(new UserDAOImplementation());
+        successStatus = registrationService.userRegistration(req);
 
         if (successStatus) {
             resp.sendRedirect("login.jsp");

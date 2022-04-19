@@ -1,5 +1,6 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.implementation.*;
 import com.my.deliverysystem.service.DeliveryRequestService;
 import org.apache.log4j.Logger;
 
@@ -14,14 +15,15 @@ import java.io.IOException;
 @WebServlet("/user/delivery-request")
 public class DeliveryRequestServlet extends HttpServlet {
     Logger logger = Logger.getLogger(DeliveryRequestServlet.class);
+    DeliveryRequestService deliveryRequestService = new DeliveryRequestService(new LocationDAOImplementation(), new DeliveryTypeDAOImplementation(), new TariffDAOImplementation(), new DeliveryOrderDAOImplementation(), new ReceiptDAOImplementation());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet " + getClass().getName());
 
-        DeliveryRequestService.getAllLocationsToRequest(req);
-        DeliveryRequestService.getAllDeliveryTypesToRequest(req);
-        DeliveryRequestService.getAllTariffsToRequest(req);
+        deliveryRequestService.getAllLocationsToRequest(req);
+        deliveryRequestService.getAllDeliveryTypesToRequest(req);
+        deliveryRequestService.getAllTariffsToRequest(req);
 
         req.getRequestDispatcher("/deliveryRequest.jsp").forward(req, resp);
     }
@@ -32,7 +34,7 @@ public class DeliveryRequestServlet extends HttpServlet {
         String appPath = File.separator + req.getContextPath()
                 .replace("/", "") + File.separator;
 
-        DeliveryRequestService.createNewDeliveryRequest(req);
+        deliveryRequestService.createNewDeliveryRequest(req);
         resp.sendRedirect( appPath + "user/delivery-request");
     }
 }

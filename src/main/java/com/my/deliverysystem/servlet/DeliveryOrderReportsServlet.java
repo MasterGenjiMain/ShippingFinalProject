@@ -1,5 +1,9 @@
 package com.my.deliverysystem.servlet;
 
+import com.my.deliverysystem.dao.daoInterface.beanDAO.DeliveryOrderBeanDAO;
+import com.my.deliverysystem.dao.daoInterface.beanDAO.ReceiptBeanDAO;
+import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
+import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
 import com.my.deliverysystem.service.DeliveryOrderReportsService;
 import org.apache.log4j.Logger;
 
@@ -17,14 +21,16 @@ public class DeliveryOrderReportsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("Entered doGet() " + getClass().getName());
+        DeliveryOrderReportsService deliveryOrderReportsService = new DeliveryOrderReportsService(new DeliveryOrderBeanDAOImpl(), new ReceiptBeanDAOImpl());
+
         String action = req.getPathInfo();
         logger.debug(action);
         switch (action){
             case "/report-download":
-                DeliveryOrderReportsService.showReportPDF(req, resp);
+                deliveryOrderReportsService.showReportPDF(req, resp);
                 break;
             default:
-                DeliveryOrderReportsService.showDeliveryOrders(req);
+                deliveryOrderReportsService.showDeliveryOrders(req);
                 req.getRequestDispatcher("/deliveryOrderReports.jsp").forward(req, resp);
         }
     }

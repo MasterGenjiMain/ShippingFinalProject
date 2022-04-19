@@ -1,6 +1,9 @@
 package com.my.deliverysystem.service;
 
+import com.my.deliverysystem.dao.daoInterface.TariffDAO;
+import com.my.deliverysystem.dao.implementation.LanguageDAOImplementation;
 import com.my.deliverysystem.dao.implementation.TariffDAOImplementation;
+import com.my.deliverysystem.dao.implementation.beanImpl.LocationBeanDAOImpl;
 import com.my.deliverysystem.db.entity.Language;
 import com.my.deliverysystem.db.entity.Tariff;
 import org.apache.log4j.Logger;
@@ -12,12 +15,18 @@ import java.util.List;
 
 public class DeliveryCalculatorService {
     private static final Logger logger = Logger.getLogger(DeliveryCalculatorService.class);
+    private final TariffDAO tariffService;
+
+    public DeliveryCalculatorService(TariffDAO tariffService) {
+        this.tariffService = tariffService;
+    }
 
     private static final int VOLUME_DIVIDER = 1000;
     private static final int VOLUME_PRICE = 2;
     private static final int WEIGHT_PRICE = 5;
 
-    public static boolean calculate(HttpServletRequest req) {
+
+    public boolean calculate(HttpServletRequest req) {
         logger.debug("Entered calculate() TariffService");
         int height, width, length;
         double distance ,weight;
@@ -54,15 +63,13 @@ public class DeliveryCalculatorService {
 
         price = getPrice(distance, weight, volume, tariffName);
 
-
-
         finalPrice = String.format("%.2f", price);
         req.getSession().setAttribute("price", finalPrice);
 
         return true;
     }
 
-    public static double getPrice(double distance, double weight, double volume, String tariffName) {
+    public double getPrice(double distance, double weight, double volume, String tariffName) {
         double volumePrice;
         double weightPrice;
         double DISTANCE_MULTIPLAYER;
@@ -81,7 +88,6 @@ public class DeliveryCalculatorService {
 
         //--------------
         Tariff tariff = null;
-        TariffDAOImplementation tariffService = new TariffDAOImplementation();
         try {
             tariff = tariffService.getByName(tariffName);
         } catch (SQLException e) {
@@ -102,7 +108,7 @@ public class DeliveryCalculatorService {
         return price;
     }
 
-    private static double getDistanceMultiplayer(double distance) {
+    private double getDistanceMultiplayer(double distance) {
         double DISTANCE_MULTIPLAYER;
         if (distance <= 100) {
             DISTANCE_MULTIPLAYER = 1;
@@ -116,11 +122,10 @@ public class DeliveryCalculatorService {
         return DISTANCE_MULTIPLAYER;
     }
 
-    public static void getAllTariffsToRequest(HttpServletRequest req){
-        GeneralInfoService generalInfoService = new GeneralInfoService();
+    public void getAllTariffsToRequest(HttpServletRequest req){
+        GeneralInfoService generalInfoService = new GeneralInfoService(new TariffDAOImplementation(), new LanguageDAOImplementation(), new LocationBeanDAOImpl());
         Language currentLanguage = generalInfoService.getCurrentLanguage(req);
 
-        TariffDAOImplementation tariffService = new TariffDAOImplementation();
         List<Tariff> tariffs = new ArrayList<>();
         try {
             tariffs = tariffService.getByLanguageId(currentLanguage != null ? currentLanguage.getId() : 1);
