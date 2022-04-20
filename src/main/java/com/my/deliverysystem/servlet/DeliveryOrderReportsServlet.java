@@ -1,7 +1,5 @@
 package com.my.deliverysystem.servlet;
 
-import com.my.deliverysystem.dao.daoInterface.beanDAO.DeliveryOrderBeanDAO;
-import com.my.deliverysystem.dao.daoInterface.beanDAO.ReceiptBeanDAO;
 import com.my.deliverysystem.dao.implementation.beanImpl.DeliveryOrderBeanDAOImpl;
 import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
 import com.my.deliverysystem.service.DeliveryOrderReportsService;

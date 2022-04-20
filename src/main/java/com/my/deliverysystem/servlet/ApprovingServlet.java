@@ -3,7 +3,6 @@ package com.my.deliverysystem.servlet;
 import com.my.deliverysystem.dao.implementation.DeliveryOrderDAOImplementation;
 import com.my.deliverysystem.dao.implementation.ReceiptDAOImplementation;
 import com.my.deliverysystem.dao.implementation.beanImpl.ReceiptBeanDAOImpl;
-import com.my.deliverysystem.service.AccountService;
 import com.my.deliverysystem.service.ApproveService;
 import org.apache.log4j.Logger;
 
