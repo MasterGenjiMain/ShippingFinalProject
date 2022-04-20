@@ -15,7 +15,8 @@ import java.io.IOException;
 @WebServlet("/user/delivery-request")
 public class DeliveryRequestServlet extends HttpServlet {
     Logger logger = Logger.getLogger(DeliveryRequestServlet.class);
-    DeliveryRequestService deliveryRequestService = new DeliveryRequestService(new LocationDAOImplementation(), new DeliveryTypeDAOImplementation(), new TariffDAOImplementation(), new DeliveryOrderDAOImplementation(), new ReceiptDAOImplementation());
+    DeliveryRequestService deliveryRequestService = new DeliveryRequestService(new LocationDAOImplementation(), new DeliveryTypeDAOImplementation(),
+            new TariffDAOImplementation(), new DeliveryOrderDAOImplementation(), new ReceiptDAOImplementation(), new LanguageDAOImplementation());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

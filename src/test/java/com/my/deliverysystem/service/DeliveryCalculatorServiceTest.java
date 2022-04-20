@@ -1,6 +1,8 @@
 package com.my.deliverysystem.service;
 
+import com.my.deliverysystem.dao.daoInterface.LanguageDAO;
 import com.my.deliverysystem.dao.daoInterface.TariffDAO;
+import com.my.deliverysystem.db.entity.Language;
 import com.my.deliverysystem.db.entity.Tariff;
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -142,6 +145,68 @@ class DeliveryCalculatorServiceTest {
         deliveryCalculatorService.calculate(req);
 
         assertThrows(NumberFormatException.class, () -> req.getParameter("weight"));
+    }
+
+    @Test
+    void getAllTariffsToRequestContainsCorrectValue() throws SQLException {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpSession session = mock(HttpSession.class);
+        LanguageDAO languageService = mock(LanguageDAO.class);
+        TariffDAO tariffService = mock(TariffDAO.class);
+        Language language = new Language("new");
+        language.setId(1);
+        List<Tariff> tariffList = List.of(
+                new Tariff("Name1",10,null, 1),
+                new Tariff("Name3",20,null, 1));
+
+        when(req.getSession()).thenReturn(session);
+        when(req.getSession().getAttribute("language")).thenReturn(language.getLanguageName());
+        when(languageService.getByName(language.getLanguageName())).thenReturn(language);
+        when(tariffService.getByLanguageId(language.getId())).thenReturn(tariffList);
+
+        DeliveryCalculatorService deliveryCalculatorService = new DeliveryCalculatorService(tariffService, languageService);
+        deliveryCalculatorService.getAllTariffsToRequest(req);
+
+        verify(req).setAttribute("tariffs",tariffList);
+    }
+
+    @Test
+    void getAllTariffsToRequestShouldReturnSQLExceptionIfLanguageNameIncorrect() throws SQLException {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpSession session = mock(HttpSession.class);
+        LanguageDAO languageService = mock(LanguageDAO.class);
+        TariffDAO tariffService = mock(TariffDAO.class);
+        Language language = new Language("new");
+        language.setId(1);
+
+        when(req.getSession()).thenReturn(session);
+        when(req.getSession().getAttribute("language")).thenReturn(language.getLanguageName());
+        when(languageService.getByName(language.getLanguageName())).thenThrow(SQLException.class);
+
+        DeliveryCalculatorService deliveryCalculatorService = new DeliveryCalculatorService(tariffService, languageService);
+        deliveryCalculatorService.getAllTariffsToRequest(req);
+
+        assertThrows(SQLException.class, () -> languageService.getByName(language.getLanguageName()));
+    }
+
+    @Test
+    void getAllTariffsToRequestShouldReturnSQLExceptionIfLanguageIdIncorrect() throws SQLException {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpSession session = mock(HttpSession.class);
+        LanguageDAO languageService = mock(LanguageDAO.class);
+        TariffDAO tariffService = mock(TariffDAO.class);
+        Language language = new Language("new");
+        language.setId(1);
+
+        when(req.getSession()).thenReturn(session);
+        when(req.getSession().getAttribute("language")).thenReturn(language.getLanguageName());
+        when(languageService.getByName(language.getLanguageName())).thenReturn(language);
+        when(tariffService.getByLanguageId(language.getId())).thenThrow(SQLException.class);
+
+        DeliveryCalculatorService deliveryCalculatorService = new DeliveryCalculatorService(tariffService, languageService);
+        deliveryCalculatorService.getAllTariffsToRequest(req);
+
+        assertThrows(SQLException.class, () -> tariffService.getByLanguageId(language.getId()));
     }
 
 }

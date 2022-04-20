@@ -24,9 +24,9 @@ public class GeneralInfoService {
 
     private final Logger logger = Logger.getLogger(GeneralInfoService.class);
 
-    TariffDAO tariffService;
-    LanguageDAO languageService ;
-    LocationBeanDAO locationService;
+    private final TariffDAO tariffService;
+    private final LanguageDAO languageService;
+    private final LocationBeanDAO locationService;
 
     public GeneralInfoService(TariffDAO tariffService, LanguageDAO languageService, LocationBeanDAO locationService) {
         this.tariffService = tariffService;

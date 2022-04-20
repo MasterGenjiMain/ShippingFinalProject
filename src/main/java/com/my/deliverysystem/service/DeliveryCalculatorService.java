@@ -1,9 +1,7 @@
 package com.my.deliverysystem.service;
 
+import com.my.deliverysystem.dao.daoInterface.LanguageDAO;
 import com.my.deliverysystem.dao.daoInterface.TariffDAO;
-import com.my.deliverysystem.dao.implementation.LanguageDAOImplementation;
-import com.my.deliverysystem.dao.implementation.TariffDAOImplementation;
-import com.my.deliverysystem.dao.implementation.beanImpl.LocationBeanDAOImpl;
 import com.my.deliverysystem.db.entity.Language;
 import com.my.deliverysystem.db.entity.Tariff;
 import org.apache.log4j.Logger;
@@ -22,8 +20,14 @@ import java.util.List;
  */
 
 public class DeliveryCalculatorService {
-    private static final Logger logger = Logger.getLogger(DeliveryCalculatorService.class);
+    private final Logger logger = Logger.getLogger(DeliveryCalculatorService.class);
     private final TariffDAO tariffService;
+    private LanguageDAO languageService;
+
+    public DeliveryCalculatorService(TariffDAO tariffService, LanguageDAO languageService) {
+        this.tariffService = tariffService;
+        this.languageService = languageService;
+    }
 
     public DeliveryCalculatorService(TariffDAO tariffService) {
         this.tariffService = tariffService;
@@ -131,8 +135,7 @@ public class DeliveryCalculatorService {
     }
 
     public void getAllTariffsToRequest(HttpServletRequest req){
-        GeneralInfoService generalInfoService = new GeneralInfoService(new TariffDAOImplementation(), new LanguageDAOImplementation(), new LocationBeanDAOImpl());
-        Language currentLanguage = generalInfoService.getCurrentLanguage(req);
+        Language currentLanguage = getCurrentLanguage(req);
 
         List<Tariff> tariffs = new ArrayList<>();
         try {
@@ -141,5 +144,18 @@ public class DeliveryCalculatorService {
             logger.error(e);
         }
         req.setAttribute("tariffs", tariffs);
+    }
+
+    private Language getCurrentLanguage(HttpServletRequest req) {
+        Language currentLanguage = null;
+        String languageName = String.valueOf(req.getSession().getAttribute("language"));
+        logger.debug(languageName);
+        try {
+            currentLanguage = languageService.getByName(languageName);
+            logger.debug(currentLanguage);
+        } catch (SQLException e) {
+            logger.debug(e);
+        }
+        return currentLanguage;
     }
 }

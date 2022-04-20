@@ -20,18 +20,36 @@ import java.util.List;
 public class DeliveryRequestService {
     final Logger logger = Logger.getLogger(DeliveryRequestService.class.getName());
 
-    private final LocationDAO locationService;
-    private final DeliveryTypeDAO deliveryTypeService;
-    private final TariffDAO tariffService;
-    private final DeliveryOrderDAO deliveryOrderService;
-    private final ReceiptDAO receiptService;
+    private LocationDAO locationService;
+    private DeliveryTypeDAO deliveryTypeService;
+    private TariffDAO tariffService;
+    private DeliveryOrderDAO deliveryOrderService;
+    private ReceiptDAO receiptService;
+    private LanguageDAO languageService;
 
-    public DeliveryRequestService(LocationDAO locationService, DeliveryTypeDAO deliveryTypeService, TariffDAO tariffService, DeliveryOrderDAO deliveryOrderService, ReceiptDAO receiptService) {
+    public DeliveryRequestService(LocationDAO locationService, DeliveryTypeDAO deliveryTypeService,
+                                  TariffDAO tariffService, DeliveryOrderDAO deliveryOrderService,
+                                  ReceiptDAO receiptService, LanguageDAO languageService) {
         this.locationService = locationService;
         this.deliveryTypeService = deliveryTypeService;
         this.tariffService = tariffService;
         this.deliveryOrderService = deliveryOrderService;
         this.receiptService = receiptService;
+        this.languageService = languageService;
+    }
+
+    public DeliveryRequestService(LocationDAO locationService) {
+        this.locationService = locationService;
+    }
+
+    public DeliveryRequestService(DeliveryTypeDAO deliveryTypeService, LanguageDAO languageService) {
+        this.deliveryTypeService = deliveryTypeService;
+        this.languageService = languageService;
+    }
+
+    public DeliveryRequestService(TariffDAO tariffService, LanguageDAO languageService) {
+        this.tariffService = tariffService;
+        this.languageService = languageService;
     }
 
     public void getAllLocationsToRequest(HttpServletRequest req){
@@ -48,10 +66,7 @@ public class DeliveryRequestService {
     public void getAllDeliveryTypesToRequest(HttpServletRequest req){
         logger.debug("Entered getAllDeliveryTypesToRequest-> " + DeliveryRequestService.class.getName());
 
-        GeneralInfoService generalInfoService = new GeneralInfoService(new TariffDAOImplementation(),
-                new LanguageDAOImplementation(), new LocationBeanDAOImpl());
-        Language currentLanguage = generalInfoService.getCurrentLanguage(req);
-
+        Language currentLanguage = getCurrentLanguage(req);
         List<DeliveryType> deliveryTypes = new ArrayList<>();
         try {
             deliveryTypes = deliveryTypeService.getByLanguageId(currentLanguage != null ? currentLanguage.getId() : 1);
@@ -62,9 +77,7 @@ public class DeliveryRequestService {
     }
 
     public void getAllTariffsToRequest(HttpServletRequest req){
-        GeneralInfoService generalInfoService = new GeneralInfoService(new TariffDAOImplementation(),
-                new LanguageDAOImplementation(), new LocationBeanDAOImpl());
-        Language currentLanguage = generalInfoService.getCurrentLanguage(req);
+        Language currentLanguage = getCurrentLanguage(req);
 
         List<Tariff> tariffs = new ArrayList<>();
         try {
@@ -195,7 +208,7 @@ public class DeliveryRequestService {
         double volume = height * width * length;
         String tariffName = req.getParameter("tariff");
 
-        DeliveryCalculatorService deliveryCalculatorService = new DeliveryCalculatorService(new TariffDAOImplementation());
+        DeliveryCalculatorService deliveryCalculatorService = new DeliveryCalculatorService(new TariffDAOImplementation(), new LanguageDAOImplementation());
         double price = deliveryCalculatorService.getPrice(distance, weight, volume, tariffName);
 
         User user = (User) req.getSession().getAttribute("user");
@@ -212,5 +225,18 @@ public class DeliveryRequestService {
         } catch (SQLException e) {
             logger.error(e);
         }
+    }
+
+    private Language getCurrentLanguage(HttpServletRequest req) {
+        Language currentLanguage = null;
+        String languageName = String.valueOf(req.getSession().getAttribute("language"));
+        logger.debug(languageName);
+        try {
+            currentLanguage = languageService.getByName(languageName);
+            logger.debug(currentLanguage);
+        } catch (SQLException e) {
+            logger.debug(e);
+        }
+        return currentLanguage;
     }
 }
