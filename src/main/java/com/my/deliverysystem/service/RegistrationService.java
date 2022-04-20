@@ -7,6 +7,11 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
+/**
+ * A class works with RegistrationServlet and realizes all it's main functions
+ * -userRegistration
+ */
+
 public class RegistrationService {
 
     final Logger logger = Logger.getLogger(RegistrationService.class.getName());

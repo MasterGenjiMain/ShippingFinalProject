@@ -5,6 +5,11 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * A class works with LogoutServlet and realizes all it's main functions
+ * -logoutUser
+ */
+
 public class LogoutService {
     final static Logger logger = Logger.getLogger(LogoutService.class.getName());
 

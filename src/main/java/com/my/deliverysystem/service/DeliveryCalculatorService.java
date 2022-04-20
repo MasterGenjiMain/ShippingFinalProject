@@ -13,6 +13,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class works with DeliveryCalculatorServlet and realizes all it's main functions
+ * -calculate
+ * -getPrice
+ * -getDistanceMultiplayer
+ * -getAllTariffsToRequest
+ */
+
 public class DeliveryCalculatorService {
     private static final Logger logger = Logger.getLogger(DeliveryCalculatorService.class);
     private final TariffDAO tariffService;

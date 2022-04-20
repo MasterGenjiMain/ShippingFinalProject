@@ -12,6 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * A class works with GeneralInfoServlet and realizes all it's main functions
+ * -showGeneralInfo
+ * -createTariffsTable (private)
+ * -getCurrentLanguage
+ * -createLocationsTable (private)
+ */
+
 public class GeneralInfoService {
 
     private final Logger logger = Logger.getLogger(GeneralInfoService.class);

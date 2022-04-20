@@ -11,6 +11,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class works with DeliveryRequestServlet and realizes all it's main functions
+ * -showDeliveryOrders
+ * -showReportPDF
+ */
+
 public class DeliveryRequestService {
     final Logger logger = Logger.getLogger(DeliveryRequestService.class.getName());
 

@@ -7,6 +7,11 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
+/**
+ * A class works with LoginServlet and realizes all it's main functions
+ * -userLogin
+ */
+
 public class LoginService {
     final Logger logger = Logger.getLogger(LoginService.class.getName());
 

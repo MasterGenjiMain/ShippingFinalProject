@@ -18,6 +18,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * A class works with DeliveryOrderReportsServlet and realizes all it's main functions
+ * -showDeliveryOrders
+ * -showReportPDF
+ */
+
 public class DeliveryOrderReportsService {
     final Logger logger = Logger.getLogger(DeliveryOrderReportsService.class.getName());
 
