@@ -8,7 +8,8 @@ public class DeliveryType {
     public DeliveryType() {
     }
 
-    public DeliveryType(String typeName, long languageId) {
+    public DeliveryType(long id, String typeName, long languageId) {
+        this.id = id;
         this.typeName = typeName;
         this.languageId = languageId;
     }

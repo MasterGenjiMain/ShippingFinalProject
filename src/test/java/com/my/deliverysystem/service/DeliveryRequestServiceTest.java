@@ -1,13 +1,7 @@
 package com.my.deliverysystem.service;
 
-import com.my.deliverysystem.dao.daoInterface.DeliveryTypeDAO;
-import com.my.deliverysystem.dao.daoInterface.LanguageDAO;
-import com.my.deliverysystem.dao.daoInterface.LocationDAO;
-import com.my.deliverysystem.dao.daoInterface.TariffDAO;
-import com.my.deliverysystem.db.entity.DeliveryType;
-import com.my.deliverysystem.db.entity.Language;
-import com.my.deliverysystem.db.entity.Location;
-import com.my.deliverysystem.db.entity.Tariff;
+import com.my.deliverysystem.dao.daoInterface.*;
+import com.my.deliverysystem.db.entity.*;
 import org.junit.jupiter.api.Test;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,8 +52,8 @@ class DeliveryRequestServiceTest {
         Language language = new Language("new");
         language.setId(1);
         List<DeliveryType> deliveryTypes = List.of(
-                new DeliveryType("fist", 1),
-                new DeliveryType("second", 1));
+                new DeliveryType(1,"fist", 1),
+                new DeliveryType(1,"second", 1));
         when(req.getSession()).thenReturn(session);
         when(req.getSession().getAttribute("language")).thenReturn(language.getLanguageName());
         when(languageService.getByName(language.getLanguageName())).thenReturn(language);
@@ -146,6 +140,61 @@ class DeliveryRequestServiceTest {
         deliveryRequestService.getAllTariffsToRequest(req);
 
         assertThrows(SQLException.class, () -> tariffService.getByLanguageId(language.getId()));
+    }
+
+    @Test
+    void createNewDeliveryRequestShouldReturnCreatedSuccessfullySessionMessage() throws SQLException {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpSession session = mock(HttpSession.class);
+        TariffDAO tariffService = mock(TariffDAO.class);
+        LanguageDAO languageService = mock(LanguageDAO.class);
+        LocationDAO locationService = mock(LocationDAO.class);
+        DeliveryTypeDAO deliveryTypeService = mock(DeliveryTypeDAO.class);
+        DeliveryOrderDAO deliveryOrderService = mock(DeliveryOrderDAO.class);
+        ReceiptDAO receiptService = mock(ReceiptDAO.class);
+
+        List<Location> locations = List.of(
+                new Location("firstLocation", 1, 1),
+                new Location("SecondLocation", 2, 1));
+
+        List<DeliveryType> deliveryTypes = List.of(
+                new DeliveryType(1,"type1",1),
+                new DeliveryType(1,"type2",1));
+
+        List<Tariff> tariffs = List.of(
+                new Tariff("tariff1Name", 10, null, 1),
+                new Tariff("tariff2Name", 20, null, 2));
+
+        DeliveryOrder deliveryOrder = new DeliveryOrder(1,2,
+                "cargoName", "cargoDescription", "address", 1, 10, 10, null, 1);
+
+        User user = new User(1L, "name", "mail", "pass");
+
+        when(locationService.getAll()).thenReturn(locations);
+        when(req.getParameter("locationFrom")).thenReturn("firstLocation");
+        when(req.getParameter("locationTo")).thenReturn("SecondLocation");
+        when(req.getParameter("cargoName")).thenReturn(deliveryOrder.getCargoName());
+        when(req.getParameter("cargoDescription")).thenReturn(deliveryOrder.getCargoDescription());
+        when(req.getParameter("address")).thenReturn(deliveryOrder.getAddress());
+        when(deliveryTypeService.getAll()).thenReturn(deliveryTypes);
+        when(req.getParameter("deliveryType")).thenReturn("type1");
+        when(req.getParameter("weight")).thenReturn(String.valueOf(10));
+        when(req.getParameter("height")).thenReturn(String.valueOf(10));
+        when(req.getParameter("width")).thenReturn(String.valueOf(10));
+        when(req.getParameter("length")).thenReturn(String.valueOf(10));
+        when(tariffService.getAll()).thenReturn(tariffs);
+        when(req.getParameter("tariff")).thenReturn("tariff1Name");
+
+        when(req.getParameter("distance")).thenReturn(String.valueOf(1000));
+        when(req.getSession()).thenReturn(session);
+        when(req.getSession().getAttribute("user")).thenReturn(user);
+
+
+        DeliveryRequestService deliveryRequestService = new DeliveryRequestService(locationService, deliveryTypeService,
+                tariffService, deliveryOrderService, receiptService, languageService);
+        deliveryRequestService.createNewDeliveryRequest(req);
+
+        verify(session).setAttribute("message", "Created successfully!");
     }
 
 }

@@ -38,6 +38,17 @@ class DeliveryOrderReportsServiceTest {
     }
 
     @Test
+    void showDeliveryOrdersShouldReturnSQLExceptionIfGetAllWorkedWrong() throws SQLException {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        DeliveryOrderBeanDAO deliveryOrderService = mock(DeliveryOrderBeanDAO.class);
+
+        when(deliveryOrderService.getAll()).thenThrow(SQLException.class);
+        DeliveryOrderReportsService deliveryOrderReportsService = new DeliveryOrderReportsService(deliveryOrderService, null);
+        deliveryOrderReportsService.showDeliveryOrders(req);
+        assertThrows(SQLException.class, deliveryOrderService::getAll);
+    }
+
+    @Test
     void showReceiptPDFTest() throws SQLException, IOException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);

@@ -208,8 +208,7 @@ public class DeliveryRequestService {
         double volume = height * width * length;
         String tariffName = req.getParameter("tariff");
 
-        DeliveryCalculatorService deliveryCalculatorService = new DeliveryCalculatorService(new TariffDAOImplementation(), new LanguageDAOImplementation());
-        double price = deliveryCalculatorService.getPrice(distance, weight, volume, tariffName);
+        double price = getPrice(distance, weight, volume, tariffName);
 
         User user = (User) req.getSession().getAttribute("user");
 
@@ -238,5 +237,62 @@ public class DeliveryRequestService {
             logger.debug(e);
         }
         return currentLanguage;
+    }
+
+    public double getPrice(double distance, double weight, double volume, String tariffName) {
+        final int VOLUME_DIVIDER = 1000;
+        final int VOLUME_PRICE = 2;
+        final int WEIGHT_PRICE = 5;
+
+        double volumePrice;
+        double weightPrice;
+        double DISTANCE_MULTIPLAYER;
+        double price;
+        double MINIMAL_PRICE = 0;
+        DISTANCE_MULTIPLAYER = getDistanceMultiplayer(distance);
+
+        logger.debug("DISTANCE_MULTIPLAYER -> " + DISTANCE_MULTIPLAYER);
+
+        volumePrice = ((volume / VOLUME_DIVIDER) * VOLUME_PRICE) * DISTANCE_MULTIPLAYER;
+        weightPrice = (weight * WEIGHT_PRICE) * DISTANCE_MULTIPLAYER;
+        logger.debug("volumePrice -> " + volumePrice);
+        logger.debug("weightPrice -> " + weightPrice);
+
+        price = Math.max(volumePrice, weightPrice);
+
+        //--------------
+        Tariff tariff = null;
+        try {
+            tariff = tariffService.getByName(tariffName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (tariff != null) {
+            MINIMAL_PRICE = tariff.getTariffPrice();
+        }
+        //-------------
+
+        logger.debug("before min -> " + price);
+        if (price < MINIMAL_PRICE) {
+            price = MINIMAL_PRICE;
+        }
+
+        logger.debug("after min -> " + price);
+
+        return price;
+    }
+
+    private double getDistanceMultiplayer(double distance) {
+        double DISTANCE_MULTIPLAYER;
+        if (distance <= 100) {
+            DISTANCE_MULTIPLAYER = 1;
+        } else if (distance <= 500) {
+            DISTANCE_MULTIPLAYER = 1.1;
+        } else if (distance <= 1000) {
+            DISTANCE_MULTIPLAYER = 1.3;
+        } else {
+            DISTANCE_MULTIPLAYER = 1.5;
+        }
+        return DISTANCE_MULTIPLAYER;
     }
 }
