@@ -1,5 +1,6 @@
 package com.my.deliverysystem.service;
 
+import com.my.deliverysystem.dao.daoInterface.UserDAO;
 import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
 import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
@@ -15,9 +16,9 @@ import java.sql.SQLException;
 public class LoginService {
     final Logger logger = Logger.getLogger(LoginService.class.getName());
 
-    private final UserDAOImplementation service;
+    private final UserDAO service;
 
-    public LoginService(UserDAOImplementation service) {
+    public LoginService(UserDAO service) {
         this.service = service;
     }
 

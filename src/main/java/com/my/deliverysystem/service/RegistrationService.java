@@ -1,5 +1,6 @@
 package com.my.deliverysystem.service;
 
+import com.my.deliverysystem.dao.daoInterface.UserDAO;
 import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
 import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
@@ -16,9 +17,9 @@ public class RegistrationService {
 
     final Logger logger = Logger.getLogger(RegistrationService.class.getName());
 
-    UserDAOImplementation service;
+    UserDAO service;
 
-    public RegistrationService(UserDAOImplementation service) {
+    public RegistrationService(UserDAO service) {
         this.service = service;
     }
 

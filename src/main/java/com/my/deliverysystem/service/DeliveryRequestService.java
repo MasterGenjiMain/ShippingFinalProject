@@ -38,16 +38,16 @@ public class DeliveryRequestService {
         this.languageService = languageService;
     }
 
-    public DeliveryRequestService(LocationDAO locationService) {
+    protected DeliveryRequestService(LocationDAO locationService) {
         this.locationService = locationService;
     }
 
-    public DeliveryRequestService(DeliveryTypeDAO deliveryTypeService, LanguageDAO languageService) {
+    protected DeliveryRequestService(DeliveryTypeDAO deliveryTypeService, LanguageDAO languageService) {
         this.deliveryTypeService = deliveryTypeService;
         this.languageService = languageService;
     }
 
-    public DeliveryRequestService(TariffDAO tariffService, LanguageDAO languageService) {
+    protected DeliveryRequestService(TariffDAO tariffService, LanguageDAO languageService) {
         this.tariffService = tariffService;
         this.languageService = languageService;
     }
@@ -245,7 +245,7 @@ public class DeliveryRequestService {
         double DISTANCE_MULTIPLAYER;
         double price;
         double MINIMAL_PRICE = 0;
-        DISTANCE_MULTIPLAYER = getDistanceMultiplayer(distance);
+        DISTANCE_MULTIPLAYER = DeliveryCalculatorService.getDistanceMultiplayer(distance);
 
         logger.debug("DISTANCE_MULTIPLAYER -> " + DISTANCE_MULTIPLAYER);
 
@@ -276,19 +276,5 @@ public class DeliveryRequestService {
         logger.debug("after min -> " + price);
 
         return price;
-    }
-
-    private double getDistanceMultiplayer(double distance) {
-        double DISTANCE_MULTIPLAYER;
-        if (distance <= 100) {
-            DISTANCE_MULTIPLAYER = 1;
-        } else if (distance <= 500) {
-            DISTANCE_MULTIPLAYER = 1.1;
-        } else if (distance <= 1000) {
-            DISTANCE_MULTIPLAYER = 1.3;
-        } else {
-            DISTANCE_MULTIPLAYER = 1.5;
-        }
-        return DISTANCE_MULTIPLAYER;
     }
 }

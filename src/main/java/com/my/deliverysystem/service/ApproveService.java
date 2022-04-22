@@ -35,11 +35,11 @@ public class ApproveService {
         this.orderService = orderService;
     }
 
-    public ApproveService(ReceiptBeanDAO receiptService) {
+    protected ApproveService(ReceiptBeanDAO receiptService) {
         this.receiptService = receiptService;
     }
 
-    public ApproveService(ReceiptDAO service) {
+    protected ApproveService(ReceiptDAO service) {
         this.service = service;
     }
 

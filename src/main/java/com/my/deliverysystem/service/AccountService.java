@@ -39,11 +39,11 @@ public class AccountService {
         this.deliveryOrderBeanDAOService = deliveryOrderBeanDAOService;
     }
 
-    public AccountService(ReceiptBeanDAO receiptBeanDAOService) {
+    protected AccountService(ReceiptBeanDAO receiptBeanDAOService) {
         this.receiptBeanDAOService = receiptBeanDAOService;
     }
 
-    public AccountService(ReceiptDAO receiptDAOService) {
+    protected AccountService(ReceiptDAO receiptDAOService) {
         this.receiptDAOService = receiptDAOService;
     }
 

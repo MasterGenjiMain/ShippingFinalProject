@@ -29,7 +29,7 @@ public class DeliveryCalculatorService {
         this.languageService = languageService;
     }
 
-    public DeliveryCalculatorService(TariffDAO tariffService) {
+    protected DeliveryCalculatorService(TariffDAO tariffService) {
         this.tariffService = tariffService;
     }
 
@@ -120,7 +120,7 @@ public class DeliveryCalculatorService {
         return price;
     }
 
-    private double getDistanceMultiplayer(double distance) {
+    protected static double getDistanceMultiplayer(double distance) {
         double DISTANCE_MULTIPLAYER;
         if (distance <= 100) {
             DISTANCE_MULTIPLAYER = 1;

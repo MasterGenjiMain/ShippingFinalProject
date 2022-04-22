@@ -6,6 +6,16 @@ public class LocationBean {
     private String cityName;
     private String activeStatus;
 
+    public LocationBean() {
+    }
+
+    public LocationBean(long id, String locationName, String cityName, String activeStatus) {
+        this.id = id;
+        this.locationName = locationName;
+        this.cityName = cityName;
+        this.activeStatus = activeStatus;
+    }
+
     public long getId() {
         return id;
     }
