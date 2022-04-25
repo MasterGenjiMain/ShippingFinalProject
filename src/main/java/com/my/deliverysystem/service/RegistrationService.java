@@ -6,6 +6,7 @@ import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 /**
@@ -34,7 +35,6 @@ public class RegistrationService {
         logger.debug("email --> " + email);
         logger.debug("password --> " + password);
 
-        User newUser = new User(login, email, password);
 
         if (login.equals("") || email.equals("") || password.equals("") || rePassword.equals("")) {
             if (login.equals("")) {
@@ -55,6 +55,13 @@ public class RegistrationService {
             return false;
         }
 
+        try {
+            password = PasswordEncryption.toHexString(PasswordEncryption.getSHA(password));
+        } catch (NoSuchAlgorithmException e) {
+            logger.error(e);
+        }
+
+        User newUser = new User(login, email, password);
         logger.debug(newUser);
         try {
             service.add(newUser);

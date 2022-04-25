@@ -6,6 +6,7 @@ import com.my.deliverysystem.db.entity.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 /**
@@ -38,6 +39,13 @@ public class LoginService {
         } catch (SQLException e) {
             logger.error(e);
         }
+
+        try {
+            userPassword = PasswordEncryption.toHexString(PasswordEncryption.getSHA(userPassword));
+        } catch (NoSuchAlgorithmException e) {
+            logger.error(e);
+        }
+
         if (userFromDb != null) {
             if (userFromDb.getUsername().equals(login) && userFromDb.getPassword().equals(userPassword)) {
                 logger.info("Logging successful!");
