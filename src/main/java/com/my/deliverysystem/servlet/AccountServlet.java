@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/user/account/*")
-public class AccountServlet extends HttpServlet {
+public class  AccountServlet extends HttpServlet {
 
     private final Logger logger = Logger.getLogger(AccountServlet.class);
     private static final long CANCELED_STATUS = 8;

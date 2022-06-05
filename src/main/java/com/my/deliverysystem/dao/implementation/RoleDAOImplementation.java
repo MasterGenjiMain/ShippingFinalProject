@@ -107,7 +107,7 @@ public class RoleDAOImplementation implements RoleDAO {
     }
 
     @Override
-    public Role getById(Long id) throws SQLException {
+    public Role getById(long id) throws SQLException {
         logger.debug("Entered getById() roleImpl");
         Connection conn = null;
         Role role;

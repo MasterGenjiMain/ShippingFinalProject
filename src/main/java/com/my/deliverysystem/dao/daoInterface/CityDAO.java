@@ -12,7 +12,7 @@ public interface CityDAO {
 
     //read
     List<City> getAll() throws SQLException;
-    City getById(Long id) throws SQLException;
+    City getById(long id) throws SQLException;
     City getByName(String pattern) throws SQLException;
 
     //update

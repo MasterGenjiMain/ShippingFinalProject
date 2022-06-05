@@ -11,7 +11,7 @@ public interface RoleDAO {
 
     //read
     List<Role> getAll() throws SQLException;
-    Role getById(Long id) throws SQLException;
+    Role getById(long id) throws SQLException;
     Role getByName(String pattern) throws SQLException;
 
     //update

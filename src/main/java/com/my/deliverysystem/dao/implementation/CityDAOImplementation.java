@@ -99,7 +99,7 @@ public class CityDAOImplementation implements CityDAO {
     }
 
     @Override
-    public City getById(Long id) throws SQLException {
+    public City getById(long id) throws SQLException {
         logger.debug("Entered getById() cityImpl");
         Connection conn = null;
         City city;
