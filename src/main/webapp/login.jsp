@@ -10,8 +10,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <%@include file="parts/style.jspf"%>
     <title>Login</title>
+    <%@include file="parts/style.jspf"%>
 </head>
 <body>
 <%@include file="parts/navigation.jspf"%>

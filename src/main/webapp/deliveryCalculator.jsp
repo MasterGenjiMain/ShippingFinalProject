@@ -9,8 +9,8 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <title>Calculator</title>
     <%@include file="parts/style.jspf"%>
-    <title>Tariffs</title>
 
 </head>
 <body>

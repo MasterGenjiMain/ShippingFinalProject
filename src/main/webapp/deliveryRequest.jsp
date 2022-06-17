@@ -10,8 +10,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <%@include file="parts/style.jspf"%>
     <title>Delivery Request</title>
+    <%@include file="parts/style.jspf"%>
 </head>
 <body>
 <%@include file="parts/navigation.jspf" %>

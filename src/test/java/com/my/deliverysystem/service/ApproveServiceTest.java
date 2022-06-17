@@ -112,13 +112,14 @@ class ApproveServiceTest {
     }
 
     @Test
-    void nextStatusSetsCorrectWhenStatusClosedNextStatus() throws SQLException {
+    void nextStatusSetsReceivingDateWhenStatusClosed() throws SQLException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         ReceiptDAO service = mock(ReceiptDAO.class);
         DeliveryOrderDAO orderService = mock(DeliveryOrderDAO.class);
         Receipt receiptFirst = new Receipt(1, 0, 0, 0, 6, 1);
         long expectedStatus = receiptFirst.getReceiptStatusId() + 1;
-        DeliveryOrder deliveryOrder = new DeliveryOrder(1, 1, null, null, null, 1, 0, 0, null, 1);
+        DeliveryOrder deliveryOrder = new DeliveryOrder(1, 1, null,
+                null, null, 1, 0, 0, null, 1);
 
         when(req.getParameter("id")).thenReturn(String.valueOf(receiptFirst.getId()));
         when(service.getByReceiptId(1)).thenReturn(receiptFirst);
