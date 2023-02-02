@@ -1,13 +1,11 @@
 package com.my.deliverysystem.service;
 
 import com.my.deliverysystem.dao.daoInterface.UserDAO;
-import com.my.deliverysystem.dao.implementation.UserDAOImplementation;
 import com.my.deliverysystem.db.entity.User;
-import org.apache.log4j.Logger;
-
-import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.log4j.Logger;
 
 /**
  * A class works with LoginServlet and realizes all it's main functions

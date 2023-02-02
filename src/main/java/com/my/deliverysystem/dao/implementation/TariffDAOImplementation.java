@@ -1,16 +1,24 @@
 package com.my.deliverysystem.dao.implementation;
 
-import com.my.deliverysystem.db.DbManager;
-import com.my.deliverysystem.dao.daoInterface.TariffDAO;
-import com.my.deliverysystem.db.entity.DeliveryType;
-import com.my.deliverysystem.db.entity.Tariff;
-import org.apache.log4j.Logger;
+import static com.my.deliverysystem.db.DbConstants.DELETE_TARIFF;
+import static com.my.deliverysystem.db.DbConstants.GET_ALL_TARIFFS;
+import static com.my.deliverysystem.db.DbConstants.GET_TARIFFS_BY_LANGUAGE_ID;
+import static com.my.deliverysystem.db.DbConstants.GET_TARIFF_BY_ID;
+import static com.my.deliverysystem.db.DbConstants.GET_TARIFF_BY_NAME;
+import static com.my.deliverysystem.db.DbConstants.INSERT_INTO_TARIFF;
+import static com.my.deliverysystem.db.DbConstants.UPDATE_TARIFF;
 
-import java.sql.*;
+import com.my.deliverysystem.dao.daoInterface.TariffDAO;
+import com.my.deliverysystem.db.DbManager;
+import com.my.deliverysystem.db.entity.Tariff;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.my.deliverysystem.db.DbConstants.*;
+import org.apache.log4j.Logger;
 
 public class TariffDAOImplementation implements TariffDAO {
 

@@ -5,7 +5,7 @@
               driverClassName="com.mysql.cj.jdbc.Driver"
               url="jdbc:mysql://localhost:3306/cargo_delivery_db"
               username="root"
-              password="380982605721NaZob"
+              password="root"
               maxTotal="100"
               maxIdle="30"
               maxWaitMillis="10000"/>

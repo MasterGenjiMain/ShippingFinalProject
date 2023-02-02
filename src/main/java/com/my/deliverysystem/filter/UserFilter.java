@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 
-
 @WebFilter("/user/*")
 public class UserFilter implements Filter {
     private final Logger logger = Logger.getLogger(UserFilter.class);

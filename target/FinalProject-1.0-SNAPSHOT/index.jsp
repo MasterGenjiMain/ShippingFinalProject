@@ -4,8 +4,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <%@include file="parts/style.jspf"%>
     <title>CDS</title>
+    <%@include file="parts/style.jspf"%>
 </head>
 <body>
 

@@ -4,13 +4,11 @@ import com.my.deliverysystem.dao.daoInterface.LanguageDAO;
 import com.my.deliverysystem.db.DbConstants;
 import com.my.deliverysystem.db.DbManager;
 import com.my.deliverysystem.db.entity.Language;
-import com.my.deliverysystem.db.entity.Role;
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.apache.log4j.Logger;
 
 public class LanguageDAOImplementation implements LanguageDAO {
     Logger logger = Logger.getLogger(LanguageDAOImplementation.class);

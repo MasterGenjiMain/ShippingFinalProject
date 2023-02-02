@@ -1,15 +1,23 @@
 package com.my.deliverysystem.service;
 
-import com.my.deliverysystem.dao.daoInterface.*;
-import com.my.deliverysystem.dao.implementation.*;
-import com.my.deliverysystem.dao.implementation.beanImpl.LocationBeanDAOImpl;
-import com.my.deliverysystem.db.entity.*;
-import org.apache.log4j.Logger;
-
-import javax.servlet.http.HttpServletRequest;
+import com.my.deliverysystem.dao.daoInterface.DeliveryOrderDAO;
+import com.my.deliverysystem.dao.daoInterface.DeliveryTypeDAO;
+import com.my.deliverysystem.dao.daoInterface.LanguageDAO;
+import com.my.deliverysystem.dao.daoInterface.LocationDAO;
+import com.my.deliverysystem.dao.daoInterface.ReceiptDAO;
+import com.my.deliverysystem.dao.daoInterface.TariffDAO;
+import com.my.deliverysystem.db.entity.DeliveryOrder;
+import com.my.deliverysystem.db.entity.DeliveryType;
+import com.my.deliverysystem.db.entity.Language;
+import com.my.deliverysystem.db.entity.Location;
+import com.my.deliverysystem.db.entity.Receipt;
+import com.my.deliverysystem.db.entity.Tariff;
+import com.my.deliverysystem.db.entity.User;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.log4j.Logger;
 
 /**
  * A class works with DeliveryRequestServlet and realizes all it's main functions
