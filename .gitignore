@@ -29,5 +29,6 @@ replay_pid*
 
 # sql files to orig db
 *.sql
+*.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/java
